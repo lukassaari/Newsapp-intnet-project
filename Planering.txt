@@ -1,0 +1,20 @@
+Att göra:
+ - Skapa basic utkast till initiala sidor:
+    - Inlogg
+    - Nyhetsflöde
+    - Artikelsida
+ - Fixa navigation mellan skärmar m.h.a. routing (MVC)
+ - Sätta upp databasanslutning och tabeller
+ - Hämta information från databasen och visa på skärmarna
+
+ - Skapa återstående sidor:
+    - Registrering
+    - Användarprofil
+    - Källstatistik
+ - Fixa registrering och inlogg med grundläggande säkerhet
+ - Logik för samtliga skärmar:
+    - Kan kommentera
+    - Kan upvotea
+    - Källstatistik samlar allt
+ - Läsa in RSS för nyheter
+ - Snygga till sidor

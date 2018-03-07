@@ -9,13 +9,14 @@ app = Flask(__name__)
 # Login screen
 @app.route("/")
 def index():
-    return render_template("index.html")
+    return render_template("Login.js")
 
 # Start page display all news
 @app.route("/news")
 def news():
-    return render_template("news.html")
+    return render_template("News.js")
 
+'''
 # Profile page
 @app.route("/profile")
 def profile():
@@ -25,3 +26,4 @@ def profile():
 @app.route("/news/<article>")
 def show_article(article):
     return render_template("news " + article)
+'''

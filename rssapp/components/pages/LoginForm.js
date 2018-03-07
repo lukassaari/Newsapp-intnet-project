@@ -11,35 +11,62 @@ const onButtonPress = () => {
 
 // create a component
 class LoginForm extends Component {
-  //constructor(props){
-  //  super(props);
-  //}
-  static navigationOptions = {
-    title: 'Welcome',
-  };
+  constructor(props){
+    super(props);
+    this.state = {username: "", password: ""};
+  }
+  //static navigationOptions = {
+  //  title: 'Welcome',
+  //};
   render() {
     //const { navigate } =this.props.navigation;
     return (
         <View style={styles.container}>
             <StatusBar barStyle="light-content"/>
             <TextInput style = {styles.input}
-                        autoCapitalize="none"
-                        onSubmitEditing={() => this.passwordInput.focus()}
-                        autoCorrect={false}
-                        keyboardType='email-address'
-                        returnKeyType="next"
-                        placeholder='Email or Mobile Num'
-                        placeholderTextColor='rgba(225,225,225,0.7)'/>
+                // Saves the user input
+                ref= {(el) => { this.username = el; }}
+                onChangeText={(username) => this.setState({username})}
+                value={this.state.username}
+
+                autoCapitalize="none"
+                onSubmitEditing={() => this.passwordInput.focus()}
+                autoCorrect={false}
+                keyboardType='email-address'
+                returnKeyType="next"
+                placeholder='Email or Mobile Num'
+                placeholderTextColor='rgba(225,225,225,0.7)'/>
 
             <TextInput style = {styles.input}
-                       returnKeyType="go" ref={(input)=> this.passwordInput = input}
-                       placeholder='Password'
-                       placeholderTextColor='rgba(225,225,225,0.7)'
-                       secureTextEntry/>
-             {/*   <Button onPress={onButtonPress} title = 'Login' style={styles.loginButton} /> */}
-          <TouchableOpacity style={styles.buttonContainer} onPress={() => this.props.navigate('News', {screen: 'News'})}>
+                // Saves the user input
+                ref= {(el) => { this.password = el; }}
+                onChangeText={(password) => this.setState({password})}
+                value={this.state.password}
+
+                returnKeyType="go" ref={(input)=> this.passwordInput = input}
+                placeholder='Password'
+                placeholderTextColor='rgba(225,225,225,0.7)'
+                secureTextEntry/>
+             //{/*   <Button onPress={onButtonPress} title = 'Login' style={styles.loginButton} /> */}
+          /*<TouchableOpacity style={styles.buttonContainer} onPress={() async() => {
+            res = await fetch("http://localhost:5000/login", {
+              method: "POST",
+              body: JSON.stringify({
+                name: this.state.username,
+                password: this.state.password,
+              }),
+            });
+            if (res != NULL){
+              fetch('http://localhost:5000/news', {
+                method: "GET"
+              })
+            } else {
+              Alert.alert('Wrong username/password');
+            }
+            //this.props.navigate('News', {screen: 'News'})}
+          }>
                 <Text  style={styles.buttonText}>LOGIN</Text>
-            </TouchableOpacity>
+            </TouchableOpacity>*/
         </View>
     );
   }

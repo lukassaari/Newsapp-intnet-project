@@ -16,7 +16,7 @@ class Login extends Component {
 
                   </View>
              <View style={styles.formContainer}>
-                 <LoginForm navigation={this.props.navigation}/>
+                 <LoginForm /> // navigation={this.props.navigation}/>
              </View>
           </KeyboardAvoidingView>
       );

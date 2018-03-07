@@ -1,53 +1,54 @@
 use emilmar; # Byt till eget användarnamn
 
-drop table if exists kallor; # Om det finns en tidigare databas
-drop table if exists anvandare;
-drop table if exists kommentarer;
-drop table if exists nyhetsartiklar;
+# Om det finns en tidigare databas
+drop table if exists comments cascade;
+drop table if exists articles cascade;
+drop table if exists sources cascade;
+drop table if exists users cascade;
 
-create table kallor (
-id int PRIMARY KEY,
-rubrik varchar(255),
-antal_last int,
-antal_kom int,
-antal_gillad int,
-publicerad date
+create table sources (
+id int auto_increment PRIMARY KEY,
+title varchar(255),
+readCount int,
+commentCount int,
+upvoteCount int,
+publicizedCount date
 )
 CHARACTER SET utf8 
 COLLATE utf8_general_ci;
 
-create table anvandare (
-id int PRIMARY KEY,
-namn varchar(64),
+create table users (
+id int auto_increment PRIMARY KEY,
+username varchar(64),
 email varchar(255),
-antal_kom int,
-antal_gillad int,
-losenord char(128)
+commentCount int,
+upvoteCount int,
+passw char(128)
 )
 CHARACTER SET utf8 
 COLLATE utf8_general_ci;
 
-create table nyhetsartiklar (
-id int PRIMARY KEY,
-antal_kom int,
-antal_gillad int,
-antal_artiklar int,
-namn varchar(255),
-kalla int NOT NULL,
-FOREIGN KEY (kalla) REFERENCES kallor(id)
+create table articles (
+id int auto_increment Primary KEY,
+commentCount int,
+upvoteCount int,
+readCount int,
+title varchar(255),
+sourcee int NOT NULL,
+FOREIGN KEY (sourcee) REFERENCES sources(id)
 )
 CHARACTER SET utf8 
 COLLATE utf8_general_ci;
 
-create table kommentarer (
-id int PRIMARY key,
-publicerad datetime,
-antal_gillad int,
-kommentar text,
-anvandare int NOT NULL,
-artikel int NOT NULL,
-FOREIGN KEY (anvandare) references anvandare(id),
-FOREIGN KEY (artikel) references nyhetsartiklar(id)
+create table comments (
+id int auto_increment PRIMARY key,
+pubTime datetime,
+upvoteCount int,
+content text,
+username int NOT NULL,
+article int NOT NULL,
+FOREIGN KEY (username) references users(id),
+FOREIGN KEY (article) references articles(id)
 ) 
 CHARACTER SET utf8 
 COLLATE utf8_general_ci;

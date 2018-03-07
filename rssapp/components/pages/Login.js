@@ -13,8 +13,7 @@ class Login extends Component {
 
               <View style={styles.loginContainer}>
                   <Image resizeMode="contain" style={styles.logo} source={require('../images/logo-dark-bg.png')} />
-
-                  </View>
+              </View>
              <View style={styles.formContainer}>
                  <LoginForm /> // navigation={this.props.navigation}/>
              </View>

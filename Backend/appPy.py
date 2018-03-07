@@ -1,9 +1,11 @@
 from flask import Flask, request, render_template
 import sqlalchemy
+import json
 from sqlalchemy.ext.automap import automap_base
 from sqlalchemy.orm import Session
 import pymysql #DBAPI connector
 import requests
+
 
 app = Flask(__name__)
 
@@ -32,10 +34,10 @@ session = Session(engine)  # Used for db-queries
 # Routes to start page
 @app.route("/")
 def index():
-    return "Hello world!"
-    #return render_template("../rssapp/components/pages/Login.js")
-    #r = requests.post("http://localhost:5000/login", data={"name": "emil", "password": "test"})
-    #print(r)
+    response = {}
+    response["ok"] = "no"
+    json_response = json.dumps(response)
+    return json_response
 
 # Attemps to perform a login
 @app.route("/login", methods=["POST"])
@@ -54,5 +56,6 @@ def news():
     return render_template("News.js")
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    context = ('localhost.crt', 'rssapp.key')
+    app.run(debug=True, ssl_context=context)
 

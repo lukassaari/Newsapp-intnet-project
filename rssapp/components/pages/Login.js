@@ -7,6 +7,11 @@ import { NavigationActions } from 'react-navigation';
 // create a component
 class Login extends Component {
 
+  static navigationOptions = {
+    // This gets added at the top of the page
+    title: 'Login'
+  };
+
   // Jump to target route without ability to go back (resets navigation stack)
   resetNavigation(targetRoute) {
     const resetAction = NavigationActions.reset({
@@ -18,10 +23,32 @@ class Login extends Component {
     this.props.navigation.dispatch(resetAction);
   }
 
-  static navigationOptions = {
-    // This gets added at the top of the page
-    title: 'Login'
-  };
+  fetchUser = () => {
+    const {user} = this.state;
+    const {pass} = this.state;
+    console.log(user);
+    console.log(pass);
+
+    fetch("https://77.109.166.236:5000/", { // This should work if you just set the correct https address
+        method: "post",
+        header:{
+          'Accept': 'text/html, application/json',
+          'Content-type': 'application/json'
+        },
+        // Serialize the body
+        body: JSON.stringify({
+            user: user,
+            pass: pass
+        })
+    })
+    .then((response) => response.json()) // Notice we try to parse the input to JSON
+      .then((responseJson) => {
+        alert(responseJson);
+      })
+      .catch((error) => {
+        console.error(error)
+      })
+  }
 
   constructor(props) {
     super(props);
@@ -53,17 +80,7 @@ class Login extends Component {
                          placeholder='Password'
                          placeholderTextColor='rgba(225,225,225,0.7)'
                          secureTextEntry/>
-            <TouchableOpacity style={styles.buttonContainer} onPress={() => this.resetNavigation('News')}>{/*fetch("http://localhost:5000/", {
-              method: "post",
-              // Serialize the body
-              body: JSON.stringify({
-                user: this.state.user,
-                pass: this.state.pass
-              })
-            })
-            .then( (response) => { 
-               navigate('News', { name: 'Jane' })
-            });}>*/}
+            <TouchableOpacity style={styles.buttonContainer} onPress={this.fetchUser}>
             <Text  style={styles.buttonText}>LOGIN</Text>
           </TouchableOpacity>
             </View>

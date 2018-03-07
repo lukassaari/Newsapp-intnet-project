@@ -2,11 +2,27 @@
 //import libraries
 import React, { Component } from 'react';
 import { View, Text, Image, StyleSheet,KeyboardAvoidingView, StatusBar, TouchableOpacity, Button, TextInput } from 'react-native';
-import LoginForm from './LoginForm';
-import News from './News';
+import { NavigationActions } from 'react-navigation';
 
 // create a component
 class Login extends Component {
+
+  // Jump to target route without ability to go back (resets navigation stack)
+  resetNavigation(targetRoute) {
+    const resetAction = NavigationActions.reset({
+      index: 0,
+      actions: [
+        NavigationActions.navigate({routeName: targetRoute }),
+      ],
+    });
+    this.props.navigation.dispatch(resetAction);
+  }
+
+  static navigationOptions = {
+    // This gets added at the top of the page
+    title: 'Login'
+  };
+
   constructor(props) {
     super(props);
     this.state = {user: '', pass: ''}; // State that gets updated on user input
@@ -37,7 +53,7 @@ class Login extends Component {
                          placeholder='Password'
                          placeholderTextColor='rgba(225,225,225,0.7)'
                          secureTextEntry/>
-            <TouchableOpacity style={styles.buttonContainer} onPress={() => this.props.navigation.navigate('News', { name: 'Jane' })}>{/*fetch("http://localhost:5000/", {
+            <TouchableOpacity style={styles.buttonContainer} onPress={() => this.resetNavigation('News')}>{/*fetch("http://localhost:5000/", {
               method: "post",
               // Serialize the body
               body: JSON.stringify({

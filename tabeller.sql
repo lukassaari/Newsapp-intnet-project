@@ -5,6 +5,11 @@ drop table if exists comments cascade;
 drop table if exists articles cascade;
 drop table if exists sources cascade;
 drop table if exists users cascade;
+drop table if exists kommentarer cascade;
+drop table if exists nyhetsartiklar cascade;
+drop table if exists anvandare cascade;
+drop table if exists kallor cascade;
+
 
 create table sources (
 id int auto_increment PRIMARY KEY,

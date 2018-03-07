@@ -34,7 +34,7 @@ class LoginForm extends Component {
                        placeholder='Password'
                        placeholderTextColor='rgba(225,225,225,0.7)'
                        secureTextEntry/>
-          <TouchableOpacity style={styles.buttonContainer} onPress={() => navigate('News', { name: 'Jane' })}>{/*fetch("http://localhost:5000/", {
+          <TouchableOpacity style={styles.buttonContainer} onPress={() => navigate('Profile', { name: 'Jane' })}>{/*fetch("http://localhost:5000/", {
               method: "post",
               // Serialize the body
               body: JSON.stringify({

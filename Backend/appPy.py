@@ -55,5 +55,4 @@ def news():
 
 if __name__ == "__main__":
     app.run(debug=True)
-    #r = requests.post("http://localhost:5000/login", data = {"name": "emil", "password": "test"})
 

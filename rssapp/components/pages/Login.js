@@ -26,14 +26,12 @@ class Login extends Component {
   fetchUser = () => {
     const {user} = this.state;
     const {pass} = this.state;
-    console.log(user);
-    console.log(pass);
 
-    fetch("https://77.109.166.236:5000/", { // This should work if you just set the correct https address
+    fetch("http://10.0.3.2:5000/login", { // This should work if you just set the correct https address
         method: "post",
-        header:{
+        headers:{
           'Accept': 'text/html, application/json',
-          'Content-type': 'application/json'
+          'Content-Type': 'application/json',
         },
         // Serialize the body
         body: JSON.stringify({
@@ -41,13 +39,14 @@ class Login extends Component {
             pass: pass
         })
     })
-    .then((response) => response.json()) // Notice we try to parse the input to JSON
+    .then((response) => console.log(response)) // Notice we try to parse the input to JSON
       .then((responseJson) => {
-        alert(responseJson);
+        // alert(responseJson);
+        // console.log(responseJson);
       })
       .catch((error) => {
         console.error(error)
-      })
+      });
   }
 
   constructor(props) {
@@ -80,7 +79,7 @@ class Login extends Component {
                          placeholder='Password'
                          placeholderTextColor='rgba(225,225,225,0.7)'
                          secureTextEntry/>
-            <TouchableOpacity style={styles.buttonContainer} onPress={this.fetchUser}>
+            <TouchableOpacity style={styles.buttonContainer} onPress = {this.fetchUser} >
             <Text  style={styles.buttonText}>LOGIN</Text>
           </TouchableOpacity>
             </View>
@@ -90,6 +89,7 @@ class Login extends Component {
       );
     }
 }
+// onPress = {() => this.props.navigation.navigate('News')}
 // define your styles
 const styles = StyleSheet.create({
     container: {

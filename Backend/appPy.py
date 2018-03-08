@@ -32,7 +32,7 @@ session = Session(engine)  # Used for db-queries
 #    print(row)
 
 # Routes to start page
-@app.route("/")
+@app.route("/", methods = ['GET', 'POST'])
 def index():
     response = {}
     response["ok"] = "no"
@@ -40,15 +40,19 @@ def index():
     return json_response
 
 # Attemps to perform a login
-@app.route("/login", methods=["POST"])
+@app.route("/login", methods=['GET', 'POST'])
 def login():
-    print(request.form)
-    name = request.form["name"]
-    password = request.form["password"]
+    payload = request.get_json()
+    print(payload)
+    name = payload["user"]
+    password = payload["pass"]
     query = session.query(Users).filter(Users.username == name, Users.passw == password)
     print(query)
-    print("Något händer i login()")
-    return "login screen"
+    return "ok"
+    if query != '': 
+        return "very ok"
+    else:
+        return "boi messed up"
 
 # Routes to the news page
 @app.route("/news", methods=["GET"])
@@ -56,6 +60,6 @@ def news():
     return render_template("News.js")
 
 if __name__ == "__main__":
-    context = ('localhost.crt', 'rssapp.key')
-    app.run(debug=True, ssl_context=context)
-
+    #context = ('localhost.crt', 'rssapp.key')
+    #app.run(debug=True, ssl_context=context)
+    app.run(debug=True)

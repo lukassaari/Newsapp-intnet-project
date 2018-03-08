@@ -30,8 +30,8 @@ class Login extends Component {
     fetch("http://10.0.3.2:5000/login", { // This should work if you just set the correct https address
         method: "post",
         headers:{
-          'Accept': 'text/html, application/json',
-          'Content-Type': 'application/json',
+            'Accept': 'text/html, application/json',
+            'Content-Type': 'application/json',
         },
         // Serialize the body
         body: JSON.stringify({
@@ -39,14 +39,16 @@ class Login extends Component {
             pass: pass
         })
     })
-    .then((response) => console.log(response)) // Notice we try to parse the input to JSON
-      .then((responseJson) => {
-        // alert(responseJson);
-        // console.log(responseJson);
-      })
-      .catch((error) => {
+    .then((response) => { // Parse the response and then move to next page
+        if (response.status === 200) {
+          this.resetNavigation('News')
+        } else {
+          alert("Wrong login details") // Better signal could be used
+        }
+    })
+    .catch((error) => {
         console.error(error)
-      });
+    });
   }
 
   constructor(props) {

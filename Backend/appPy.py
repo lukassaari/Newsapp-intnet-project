@@ -1,10 +1,11 @@
-from flask import Flask, request, render_template
+from flask import Flask, request, render_template, abort
 import sqlalchemy
 import json
 from sqlalchemy.ext.automap import automap_base
 from sqlalchemy.orm import Session
 import pymysql #DBAPI connector
 import requests
+from werkzeug.security import generate_password_hash
 
 
 app = Flask(__name__)
@@ -42,17 +43,27 @@ def index():
 # Attemps to perform a login
 @app.route("/login", methods=['GET', 'POST'])
 def login():
-    payload = request.get_json()
-    print(payload)
+    payload = request.get_json() # convert to JSON (only works with application/json header set)
     name = payload["user"]
     password = payload["pass"]
+    hash_pass = generate_password_hash(password) # SHA256 hashing (not used)
     query = session.query(Users).filter(Users.username == name, Users.passw == password)
-    print(query)
-    return "ok"
-    if query != '': 
-        return "very ok"
-    else:
-        return "boi messed up"
+    try:
+        results = query.one() # Make call to DB
+        userID = results.id # Raises AttributeError if not found
+        return "ok"
+        """
+        Till Lukas:
+        När du kallar på resultatet till en query, kör query.all() för flera rader.
+        För att accessa det: query.all returnerar en lista (om det är flera objekt ,annars bara 1 tror jag)
+        Det returnerar varje element som en instans av det table man queriat, i.e. för att få all data
+        måste du accessa attribut för varje kolumn. E.g. results.id ger dig id kolumnen, et c
+        """
+    except AttributeError:
+        abort(401) # Unauthorized if user data was not found
+    except Exception: # Unable to import correct exception, so catch all is used for sqlalchemy errors
+        abort(401) # Unauthorized if 
+
 
 # Routes to the news page
 @app.route("/news", methods=["GET"])

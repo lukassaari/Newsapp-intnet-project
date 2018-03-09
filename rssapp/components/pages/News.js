@@ -24,10 +24,9 @@ class News extends Component {
             subtitle={"Publicerad: " + article.pubTime + "\nUpvotes: " + article.upvoteCount
                       + " Kommentarer: " + article.commentCount}
             subtitleNumberOfLines = {2}  // Subtitle is given two lines of space
-            //onPress = {()=> {NavigationActions.navigate({routeName: 'Article'})}}  // När man klickar på knappen skrivs titeln ut, FUNKAR!!!
+
+            // When the article is pressed, move the user to the article specific page and display the article
             onPress={() => navigate("Article", {title: article.title, content: article.content})}
-            //onPress={()=>this._onPressSingleRequest(console.log(article.title))}
-            // on press single request https://github.com/facebook/react-native/issues/3619
           />
         ))
         /*

@@ -8,21 +8,10 @@ class Article extends Component {
     // This gets added at the top of the page
     title: 'Article'
   };
-  /*
-  constructor(props) {
-    super(props);
-    this.state = {
-      titleText: "Title",
-      contentText: 'Conent'
-    };
-  }
-  */
 
   render(){
-    //console.log(JSON.parse(this.props.navigation.state.params))
     titleText = this.props.navigation.state.params.title
     contentText = this.props.navigation.state.params.content
-    console.log(titleText)
 
     return(
       <Text style={{fontSize: 30}}>
@@ -31,7 +20,6 @@ class Article extends Component {
           {"\n"}{contentText}
         </Text>
       </Text>
-
     );
   }
 }

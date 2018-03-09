@@ -6,14 +6,23 @@ from sqlalchemy.orm import Session
 import pymysql #DBAPI connector
 import requests
 from werkzeug.security import generate_password_hash
-
+import RssReader
 
 app = Flask(__name__)
 
 # Connects to database
-conn_string = "mysql+pymysql://test:pass@localhost:3306/emilmar"
+conn_string = "mysql+pymysql://test:pass@localhost:3306/emilmar?charset=utf8"
 engine = sqlalchemy.create_engine(conn_string)
 #conn = engine.connect()
+
+'''
+# Changes encoding to utf-8
+engine.set_character_set('utf8')
+dbc = engine.cursor()
+dbc.execute('SET NAMES utf8;')
+dbc.execute('SET CHARACTER SET utf8;')
+dbc.execute('SET character_set_connection=utf8;')
+'''
 
 # Creates models from the database
 Base = automap_base()
@@ -24,8 +33,25 @@ Comments = Base.classes.comments
 Articles = Base.classes.articles
 session = Session(engine)  # Used for db-queries
 
+# Creates the RSS-reader
+#lastId = session.query(Articles())
+lastArticle = session.query(Articles).order_by(Articles.pubTime.desc()).first()  # Gets the last published article in the database
+if lastArticle != None:
+    lastId = lastArticle.id  # The id of the latest article
+else:  # If database is empty a value needs to be assigned to prevent errors
+    lastId = 0
+rssReader = RssReader.RssReader("Cision", "http://news.cision.com/se/ListItems?format=rss", lastId)
+news = rssReader.getNews()  # Fetches news
+if news:  # If not empty
+    for id in news:  # Adds news to the database
+        print("Adding ", id)
+        print(news[id])
+        session.add(Articles(id=id, commentCount=0, upvoteCount=0, readCount=0, title=news[id]["title"],
+                             content=news[id]["content"], sourcee=rssReader.source, pubTime=news[id]["published"]))
+    session.commit()  # Commit adds to the database
+
 # Adds users for testing
-#session.add(Users("emil", "emilmar@kth.se", 0, 0, "test"))
+#session.add(Users("lukas", "lsaari@kth.se", 0, 0, "123"))
 #session.commit()
 
 #res = conn.execute("select * from kallor")

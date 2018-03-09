@@ -5,15 +5,10 @@ drop table if exists comments cascade;
 drop table if exists articles cascade;
 drop table if exists sources cascade;
 drop table if exists users cascade;
-drop table if exists kommentarer cascade;
-drop table if exists nyhetsartiklar cascade;
-drop table if exists anvandare cascade;
-drop table if exists kallor cascade;
 
 
 create table sources (
-id int auto_increment PRIMARY KEY,
-title varchar(255),
+title varchar(255) PRIMARY KEY,
 readCount int,
 commentCount int,
 upvoteCount int,
@@ -34,13 +29,15 @@ CHARACTER SET utf8
 COLLATE utf8_general_ci;
 
 create table articles (
-id int auto_increment Primary KEY,
+id varchar(255) Primary KEY,
 commentCount int,
 upvoteCount int,
 readCount int,
 title varchar(255),
-sourcee int NOT NULL,
-FOREIGN KEY (sourcee) REFERENCES sources(id)
+content text,
+sourcee varchar(255) NOT NULL,
+pubTime datetime,
+FOREIGN KEY (sourcee) REFERENCES sources(title)
 )
 CHARACTER SET utf8 
 COLLATE utf8_general_ci;
@@ -51,7 +48,7 @@ pubTime datetime,
 upvoteCount int,
 content text,
 username int NOT NULL,
-article int NOT NULL,
+article varchar(255) NOT NULL,
 FOREIGN KEY (username) references users(id),
 FOREIGN KEY (article) references articles(id)
 ) 

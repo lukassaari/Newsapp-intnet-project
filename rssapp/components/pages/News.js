@@ -12,11 +12,11 @@ class News extends Component {
 
   render(){
     const{navigate} = this.props.navigation;
-    //console.log(JSON.parse(this.props.navigation.state.params.news._bodyInit)["articles"])
     articles = JSON.parse(this.props.navigation.state.params.news._bodyInit)["articles"]  // Array of articles stored in dicts
     return(
       <List containerStyle={{marginBottom: 20}}>
       {
+        // Iterates over the articles and displays them
         articles.map((article, i) => (
           <ListItem
             key={i}
@@ -29,41 +29,10 @@ class News extends Component {
             onPress={() => navigate("Article", {title: article.title, content: article.content})}
           />
         ))
-        /*
-        // GAMMAL KOD
-        list.map((l, i) => (
-          <ListItem
-            //roundAvatar
-            //avatar={{uri:l.avatar_url}}
-            key={i}
-            title={l.name}
-            subtitle={l.subtitle}
-          />
-        ))*/
       }
       </List>
     );
   }
 }
-/*
-// GAMMAL KOD
-const list = [
-  {
-    name: 'Ericsson Kvartalsrapport Q1',
-    //avatar_url: 'https://s3.amazonaws.com/uifaces/faces/twitter/ladylexy/128.jpg',
-    subtitle: 'Tillagd för 36min sedan || 18 upvotes || 4 kommentarer'
-  },
-  {
-    name: 'Fingerprint vinstvarnar igen!',
-    //avatar_url: 'https://s3.amazonaws.com/uifaces/faces/twitter/adhamdannaway/128.jpg',
-    subtitle: 'Tillagd för 2h sedan || 54 upvotes || 511 kommentarer'
-  },
-  {
-    name: 'Bitcoin RAAASAR',
-    //avatar_url: 'https://s3.amazonaws.com/uifaces/faces/twitter/adhamdannaway/128.jpg',
-    subtitle: 'Tillagd för 3h sedan || 32 upvotes || 312 kommentarer'
-  },
-]
-*/
 
 export default News;

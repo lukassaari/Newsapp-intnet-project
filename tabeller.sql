@@ -14,7 +14,7 @@ commentCount int,
 upvoteCount int,
 publicizedCount date
 )
-CHARACTER SET utf8 
+CHARACTER SET utf8
 COLLATE utf8_general_ci;
 
 create table users (
@@ -25,7 +25,7 @@ commentCount int,
 upvoteCount int,
 passw char(128)
 )
-CHARACTER SET utf8 
+CHARACTER SET utf8
 COLLATE utf8_general_ci;
 
 create table articles (
@@ -39,7 +39,7 @@ sourcee varchar(255) NOT NULL,
 pubTime datetime,
 FOREIGN KEY (sourcee) REFERENCES sources(title)
 )
-CHARACTER SET utf8 
+CHARACTER SET utf8
 COLLATE utf8_general_ci;
 
 create table comments (
@@ -51,6 +51,6 @@ username int NOT NULL,
 article varchar(255) NOT NULL,
 FOREIGN KEY (username) references users(id),
 FOREIGN KEY (article) references articles(id)
-) 
-CHARACTER SET utf8 
+)
+CHARACTER SET utf8
 COLLATE utf8_general_ci;

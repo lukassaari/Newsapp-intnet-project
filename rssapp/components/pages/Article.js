@@ -10,6 +10,7 @@ class Article extends Component {
   };
 
   render(){
+    // Gets the title and content that are sent as parameters
     titleText = this.props.navigation.state.params.title
     contentText = this.props.navigation.state.params.content
 

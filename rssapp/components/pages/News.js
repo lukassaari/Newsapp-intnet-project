@@ -11,6 +11,7 @@ class News extends Component {
   };
 
   render(){
+    const{navigate} = this.props.navigation;
     //console.log(JSON.parse(this.props.navigation.state.params.news._bodyInit)["articles"])
     articles = JSON.parse(this.props.navigation.state.params.news._bodyInit)["articles"]  // Array of articles stored in dicts
     return(
@@ -23,7 +24,8 @@ class News extends Component {
             subtitle={"Publicerad: " + article.pubTime + "\nUpvotes: " + article.upvoteCount
                       + " Kommentarer: " + article.commentCount}
             subtitleNumberOfLines = {2}  // Subtitle is given two lines of space
-            onPress = {()=> {console.log(article.title)}}  // När man klickar på knappen skrivs titeln ut, FUNKAR!!!
+            //onPress = {()=> {NavigationActions.navigate({routeName: 'Article'})}}  // När man klickar på knappen skrivs titeln ut, FUNKAR!!!
+            onPress={() => navigate("Article", {title: article.title, content: article.content})}
             //onPress={()=>this._onPressSingleRequest(console.log(article.title))}
             // on press single request https://github.com/facebook/react-native/issues/3619
           />

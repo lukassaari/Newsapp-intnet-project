@@ -15,10 +15,12 @@ import {
 
 import Login from './components/pages/Login';
 import News from './components/pages/News';
+import Article from './components/pages/Article';
 
 const App = StackNavigator({
   Login: {screen: Login},
-  News: {screen: News}
+  News: {screen: News},
+  Article: {screen: Article}
 })
 
 export default App;

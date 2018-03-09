@@ -1,12 +1,26 @@
 // Template from https://react-native-training.github.io/react-native-elements/docs/0.19.0/lists.html#listitem-implemented-with-custom-view-for-subtitle
 import React, { Component } from 'react';
 import { List, ListItem } from 'react-native-elements';
+import { NavigationActions } from 'react-navigation';
 
 class News extends Component {
   render(){
+    //console.log(JSON.parse(this.props.navigation.state.params.news._bodyInit)["articles"])
+    articles = JSON.parse(this.props.navigation.state.params.news._bodyInit)["articles"]  // Array of articles stored in dicts
+
     return(
       <List containerStyle={{marginBottom: 20}}>
       {
+        articles.map((article, i) => (
+          <ListItem
+            key={i}
+            title={article.title}
+            subtitle={"Publicerad: " + article.pubTime + "\nUpvotes: " + article.upvoteCount
+                      + " Kommentarer: " + article.commentCount}
+            subtitleNumberOfLines = {2}  // Subtitle is given two lines of space
+          />
+        ))
+        /*
         list.map((l, i) => (
           <ListItem
             //roundAvatar
@@ -15,13 +29,14 @@ class News extends Component {
             title={l.name}
             subtitle={l.subtitle}
           />
-        ))
+        ))*/
       }
       </List>
     );
   }
 }
-
+/*
+// GAMMAL KOD
 const list = [
   {
     name: 'Ericsson Kvartalsrapport Q1',
@@ -39,5 +54,6 @@ const list = [
     subtitle: 'Tillagd för 3h sedan || 32 upvotes || 312 kommentarer'
   },
 ]
+*/
 
 export default News;

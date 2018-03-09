@@ -14,20 +14,33 @@ class Login extends Component {
 
   // Jump to target route without ability to go back (resets navigation stack)
   resetNavigation(targetRoute) {
-    const resetAction = NavigationActions.reset({
-      index: 0,
-      actions: [
-        NavigationActions.navigate({routeName: targetRoute }),
-      ],
-    });
-    this.props.navigation.dispatch(resetAction);
+
+    // Fetches news info from the backend to pass to the news-page
+    fetch("http://10.0.3.2:5000/news", {
+        method: "get",
+        headers:{
+            'Accept': 'text/html, application/json',
+            'Content-Type': 'application/json',
+        },
+    })
+    .then((response) => { // Parse the response and then move to next page
+      // console.log(response)
+      const resetAction = NavigationActions.reset({
+        index: 0,
+        //news: response,
+        actions: [
+          NavigationActions.navigate({routeName: targetRoute, params: {news: response}}),
+        ],
+      });
+      this.props.navigation.dispatch(resetAction);
+    })
   }
 
   fetchUser = () => {
     const {user} = this.state;
     const {pass} = this.state;
 
-    fetch("http://10.0.3.2:5000/login", { // This should work if you just set the correct https address
+    fetch("http://10.0.3.2:5000/login", {
         method: "post",
         headers:{
             'Accept': 'text/html, application/json',

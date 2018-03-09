@@ -1,4 +1,4 @@
-from flask import Flask, request, render_template, abort
+from flask import Flask, request, render_template, abort, jsonify
 import sqlalchemy
 import json
 from sqlalchemy.ext.automap import automap_base
@@ -14,15 +14,6 @@ app = Flask(__name__)
 conn_string = "mysql+pymysql://test:pass@localhost:3306/emilmar?charset=utf8"
 engine = sqlalchemy.create_engine(conn_string)
 #conn = engine.connect()
-
-'''
-# Changes encoding to utf-8
-engine.set_character_set('utf8')
-dbc = engine.cursor()
-dbc.execute('SET NAMES utf8;')
-dbc.execute('SET CHARACTER SET utf8;')
-dbc.execute('SET character_set_connection=utf8;')
-'''
 
 # Creates models from the database
 Base = automap_base()
@@ -94,7 +85,18 @@ def login():
 # Routes to the news page
 @app.route("/news", methods=["GET"])
 def news():
-    return render_template("News.js")
+    newsList = []  # List of news articles to pass to the news page
+    query = session.query(Articles)
+    news = query.all()
+    for article in news:
+        newsList.append({"commentCount": article.commentCount, "upvoteCount": article.upvoteCount,
+                         "readCount": article.readCount, "title": article.title, "content": article.content,
+                         "source": article.sourcee, "pubTime": article.pubTime})
+    print(newsList)
+    newsListJson = jsonify({'articles': newsList})
+    print(newsListJson)
+    return newsListJson
+    #return render_template("News.js", news=news.query.all())
 
 if __name__ == "__main__":
     #context = ('localhost.crt', 'rssapp.key')

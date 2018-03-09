@@ -24,10 +24,8 @@ class Login extends Component {
         },
     })
     .then((response) => { // Parse the response and then move to next page
-      // console.log(response)
       const resetAction = NavigationActions.reset({
         index: 0,
-        //news: response,
         actions: [
           NavigationActions.navigate({routeName: targetRoute, params: {news: response}}),
         ],
@@ -36,6 +34,7 @@ class Login extends Component {
     })
   }
 
+  // Checks if the login information is valid, if it is the user is logged in and navigated to the newsfeed
   fetchUser = () => {
     const {user} = this.state;
     const {pass} = this.state;
@@ -69,40 +68,39 @@ class Login extends Component {
     this.state = {user: '', pass: ''}; // State that gets updated on user input
   }
 
-    render() {
-      return (
-      <KeyboardAvoidingView behavior="padding" style={styles.container}>
+  render() {
+    return (
+    <KeyboardAvoidingView behavior="padding" style={styles.container}>
 
-              <View style={styles.loginContainer}>
-                  <Image resizeMode="contain" style={styles.logo} source={require('../images/logo-dark-bg.png')} />
-              </View>
-             <View style={styles.formContainer}>
-              <View style={styles.containerInner}>
-              <StatusBar barStyle="light-content"/>
-              <TextInput style = {styles.input}
-                          autoCapitalize="none"
-                          onSubmitEditing={() => this.passwordInput.focus()}
-                          onChangeText={(user) => this.setState({user})}
-                          autoCorrect={false}
-                          keyboardType='email-address'
-                          returnKeyType="next"
-                          placeholder='Email or Mobile Num'
-                          placeholderTextColor='rgba(225,225,225,0.7)'/>
-              <TextInput style = {styles.input}
-                         returnKeyType="go" ref={(input)=> this.passwordInput = input}
-                         onChangeText={(pass) => this.setState({pass})}
-                         placeholder='Password'
-                         placeholderTextColor='rgba(225,225,225,0.7)'
-                         secureTextEntry/>
-            <TouchableOpacity style={styles.buttonContainer} onPress = {this.fetchUser} >
-            <Text  style={styles.buttonText}>LOGIN</Text>
-          </TouchableOpacity>
+            <View style={styles.loginContainer}>
+                <Image resizeMode="contain" style={styles.logo} source={require('../images/logo-dark-bg.png')} />
             </View>
-
-             </View>
-          </KeyboardAvoidingView>
-      );
-    }
+           <View style={styles.formContainer}>
+            <View style={styles.containerInner}>
+            <StatusBar barStyle="light-content"/>
+            <TextInput style = {styles.input}
+                        autoCapitalize="none"
+                        onSubmitEditing={() => this.passwordInput.focus()}
+                        onChangeText={(user) => this.setState({user})}
+                        autoCorrect={false}
+                        keyboardType='email-address'
+                        returnKeyType="next"
+                        placeholder='Email or Mobile Num'
+                        placeholderTextColor='rgba(225,225,225,0.7)'/>
+            <TextInput style = {styles.input}
+                       returnKeyType="go" ref={(input)=> this.passwordInput = input}
+                       onChangeText={(pass) => this.setState({pass})}
+                       placeholder='Password'
+                       placeholderTextColor='rgba(225,225,225,0.7)'
+                       secureTextEntry/>
+          <TouchableOpacity style={styles.buttonContainer} onPress = {this.fetchUser} >
+          <Text  style={styles.buttonText}>LOGIN</Text>
+        </TouchableOpacity>
+          </View>
+           </View>
+        </KeyboardAvoidingView>
+    );
+  }
 }
 // onPress = {() => this.props.navigation.navigate('News')}
 // define your styles

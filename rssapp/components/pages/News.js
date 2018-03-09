@@ -4,10 +4,15 @@ import { List, ListItem } from 'react-native-elements';
 import { NavigationActions } from 'react-navigation';
 
 class News extends Component {
+
+  static navigationOptions = {
+    // This gets added at the top of the page
+    title: 'Newsfeed'
+  };
+
   render(){
     //console.log(JSON.parse(this.props.navigation.state.params.news._bodyInit)["articles"])
     articles = JSON.parse(this.props.navigation.state.params.news._bodyInit)["articles"]  // Array of articles stored in dicts
-
     return(
       <List containerStyle={{marginBottom: 20}}>
       {
@@ -18,9 +23,13 @@ class News extends Component {
             subtitle={"Publicerad: " + article.pubTime + "\nUpvotes: " + article.upvoteCount
                       + " Kommentarer: " + article.commentCount}
             subtitleNumberOfLines = {2}  // Subtitle is given two lines of space
+            onPress = {()=> {console.log(article.title)}}  // När man klickar på knappen skrivs titeln ut, FUNKAR!!!
+            //onPress={()=>this._onPressSingleRequest(console.log(article.title))}
+            // on press single request https://github.com/facebook/react-native/issues/3619
           />
         ))
         /*
+        // GAMMAL KOD
         list.map((l, i) => (
           <ListItem
             //roundAvatar

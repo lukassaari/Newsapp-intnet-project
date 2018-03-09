@@ -81,22 +81,18 @@ def login():
     except Exception: # Unable to import correct exception, so catch all is used for sqlalchemy errors
         abort(401) # Unauthorized if 
 
-
 # Routes to the news page
 @app.route("/news", methods=["GET"])
 def news():
     newsList = []  # List of news articles to pass to the news page
     query = session.query(Articles)
     news = query.all()
-    for article in news:
+    for article in news:  # Adds all news articles to the list
         newsList.append({"commentCount": article.commentCount, "upvoteCount": article.upvoteCount,
                          "readCount": article.readCount, "title": article.title, "content": article.content,
                          "source": article.sourcee, "pubTime": article.pubTime})
-    print(newsList)
     newsListJson = jsonify({'articles': newsList})
-    print(newsListJson)
     return newsListJson
-    #return render_template("News.js", news=news.query.all())
 
 if __name__ == "__main__":
     #context = ('localhost.crt', 'rssapp.key')

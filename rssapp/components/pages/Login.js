@@ -89,7 +89,7 @@ class Login extends Component {
                        autoCorrect={false}
                        keyboardType='email-address'
                        returnKeyType="next"
-                       placeholder='Email or Mobile Num'
+                       placeholder='Email or Mobile Num'/>
             <TextInput style = {styles.input}
                        returnKeyType="go" ref={(input)=> this.passwordInput = input} // prolly removable
                        onChangeText={(pass) => this.setState({pass})}

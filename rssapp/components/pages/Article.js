@@ -46,11 +46,12 @@ class Article extends Component {
             <Text style={styles.buttonText}>Upvote</Text>
           </TouchableOpacity>
         </View>
-        <TextInput
+        <TextInput style = {styles.textInput}
           editable = {true}
           maxLength = {200}
           multiline = {true}
           numberOfLines = {4}
+          placeholder = "Your comment here..."
         />
       </ScrollView>
     );
@@ -95,6 +96,12 @@ const styles = StyleSheet.create({
       color: '#fff',
       textAlign: 'center',
       fontWeight: '700'
+  },
+
+  textInput:{
+      backgroundColor: 'white',
+      borderRadius: 10,
+      margin: 10
   }
 });
 

@@ -12,7 +12,7 @@ title varchar(255) PRIMARY KEY,
 readCount int,
 commentCount int,
 upvoteCount int,
-publicizedCount date
+publicizedCount int
 )
 CHARACTER SET utf8
 COLLATE utf8_general_ci;
@@ -54,3 +54,7 @@ FOREIGN KEY (article) references articles(id)
 )
 CHARACTER SET utf8
 COLLATE utf8_general_ci;
+
+insert into users values (null, 'e', 'emilmar@kth.se', 0, 0, 'e');
+insert into users values (null, 'lukas', 'lsaari@kth.se', 0, 0, '123');
+insert into sources values ('Cision', 0, 0, 0, 0);

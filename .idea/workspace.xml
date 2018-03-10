@@ -3,11 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="737ceeed-575f-4d93-8035-c18ff299d4c5" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/rssapp/react-native-elements-app" afterPath="$PROJECT_DIR$/rssapp/react-native-elements-app" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/rssapp/App.js" afterPath="$PROJECT_DIR$/rssapp/App.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/rssapp/components/pages/Article.js" afterPath="$PROJECT_DIR$/rssapp/components/pages/Article.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/rssapp/components/pages/News.js" afterPath="$PROJECT_DIR$/rssapp/components/pages/News.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/tabeller.sql" afterPath="$PROJECT_DIR$/tabeller.sql" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Backend/appPy.py" afterPath="$PROJECT_DIR$/Backend/appPy.py" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -21,7 +17,7 @@
   </component>
   <component name="ExecutionTargetManager" SELECTED_TARGET="default_target" />
   <component name="FileEditorManager">
-    <splitter split-orientation="horizontal" split-proportion="0.50736195">
+    <splitter split-orientation="horizontal" split-proportion="0.6202454">
       <split-first>
         <leaf>
           <file leaf-file-name="App.test.js" pinned="false" current-in-tab="false">
@@ -59,8 +55,8 @@
           <file leaf-file-name="appPy.py" pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/Backend/appPy.py">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="380">
-                  <caret line="84" column="36" lean-forward="true" selection-start-line="84" selection-start-column="36" selection-end-line="84" selection-end-column="36" />
+                <state relative-caret-position="216">
+                  <caret line="87" column="105" lean-forward="false" selection-start-line="87" selection-start-column="105" selection-end-line="87" selection-end-column="105" />
                   <folding>
                     <element signature="e#0#65#0" expanded="true" />
                   </folding>
@@ -103,6 +99,7 @@
       <find>published</find>
       <find>p</find>
       <find>cision2842229</find>
+      <find>pubtime</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -488,7 +485,7 @@
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32936978" sideWeight="0.5" order="-1" side_tool="true" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
       <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.3079667" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.42687276" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="true" content_ui="tabs" />
@@ -617,8 +614,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/Backend/appPy.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="380">
-          <caret line="84" column="36" lean-forward="true" selection-start-line="84" selection-start-column="36" selection-end-line="84" selection-end-column="36" />
+        <state relative-caret-position="216">
+          <caret line="87" column="105" lean-forward="false" selection-start-line="87" selection-start-column="105" selection-end-line="87" selection-end-column="105" />
           <folding>
             <element signature="e#0#65#0" expanded="true" />
           </folding>

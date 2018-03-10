@@ -85,7 +85,7 @@ def login():
 @app.route("/news", methods=["GET"])
 def news():
     newsList = []  # List of news articles to pass to the news page
-    query = session.query(Articles)
+    query = session.query(Articles).order_by(Articles.pubTime.desc()).limit(20)  # 20 latest news stories
     news = query.all()
     for article in news:  # Adds all news articles to the list
         newsList.append({"commentCount": article.commentCount, "upvoteCount": article.upvoteCount,

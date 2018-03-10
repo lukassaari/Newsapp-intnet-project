@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Text } from "react-native";
+import { Text, ScrollView } from "react-native";
 import { NavigationActions } from 'react-navigation';
 
 class Article extends Component {
@@ -15,12 +15,14 @@ class Article extends Component {
     contentText = this.props.navigation.state.params.content
 
     return(
-      <Text style={{fontSize: 30}}>
-        {titleText}
-        <Text style={{fontSize: 18}}>
-          {"\n"}{contentText}
+      <ScrollView contentContainerStyle={{paddingVertical: 20}}>
+        <Text style={{fontSize: 22}}>
+          {titleText}
+          <Text style={{fontSize: 14}}>
+            {"\n\n"}{contentText}
+          </Text>
         </Text>
-      </Text>
+      </ScrollView>
     );
   }
 }

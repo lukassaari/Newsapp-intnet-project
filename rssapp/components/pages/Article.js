@@ -15,12 +15,11 @@ class Article extends Component {
 
     fetch("http://10.0.3.2:5000/upvote", {
         method: "post",
-        headers:{ //
+        headers:{
             'Accept': 'text/html, application/json',
             'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          test: "test",
           articleId: id
         })
     })
@@ -30,9 +29,6 @@ class Article extends Component {
     // Gets the title and content that are sent as parameters
     titleText = this.props.navigation.state.params.title
     contentText = this.props.navigation.state.params.content
-    //articleId = this.props.navigation.state.params.id
-    //console.log(articleId)
-    //console.log(this.props.navigation.state.params)
 
     return(
       <ScrollView style={styles.container}>

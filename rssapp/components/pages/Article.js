@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Text, ScrollView, StyleSheet, TouchableOpacity, View } from "react-native";
+import { Text, ScrollView, StyleSheet, TouchableOpacity, View, TextInput } from "react-native";
 import { NavigationActions } from 'react-navigation';
 
 class Article extends Component {
@@ -46,6 +46,12 @@ class Article extends Component {
             <Text style={styles.buttonText}>Upvote</Text>
           </TouchableOpacity>
         </View>
+        <TextInput
+          editable = {true}
+          maxLength = {200}
+          multiline = {true}
+          numberOfLines = {4}
+        />
       </ScrollView>
     );
   }

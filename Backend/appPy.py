@@ -7,7 +7,11 @@ import pymysql #DBAPI connector
 import requests
 from werkzeug.security import generate_password_hash
 import RssReader
-
+'''
+class appPy:
+    def __init__(self):
+        self.app = Flask(__name__)
+'''
 app = Flask(__name__)
 
 # Connects to database
@@ -23,6 +27,9 @@ Sources = Base.classes.sources
 Comments = Base.classes.comments
 Articles = Base.classes.articles
 session = Session(engine)  # Used for db-queries
+
+# Variables for keeping track
+currUserId = 9999
 
 # Creates the RSS-reader
 #lastId = session.query(Articles())
@@ -49,6 +56,9 @@ if news:  # If not empty
 #for row in res:
 #    print(row)
 
+def setUserId(userId):
+    currUserId = userId
+
 # Routes to start page
 @app.route("/", methods = ['GET', 'POST'])
 def index():
@@ -67,7 +77,7 @@ def login():
     query = session.query(Users).filter(Users.username == name, Users.passw == password)
     try:
         results = query.one() # Make call to DB
-        userID = results.id # Raises AttributeError if not found
+        currUserId = results.id # Raises AttributeError if not found
         return "ok"
         """
         Till Lukas:
@@ -90,9 +100,17 @@ def news():
     for article in news:  # Adds all news articles to the list
         newsList.append({"commentCount": article.commentCount, "upvoteCount": article.upvoteCount,
                          "readCount": article.readCount, "title": article.title, "content": article.content,
-                         "source": article.sourcee, "pubTime": article.pubTime})
+                         "source": article.sourcee, "pubTime": article.pubTime, "id": article.id})
     newsListJson = jsonify({'articles': newsList})
     return newsListJson
+
+# Upvotes a specified article
+@app.route("/upvote", methods=["POST"])
+def upvote():
+    payload = request.get_json()  # convert to JSON (only works with application/json header set)
+    articleId = payload["articleId"]
+    #userId = payload["userId"]
+
 
 if __name__ == "__main__":
     #context = ('localhost.crt', 'rssapp.key')

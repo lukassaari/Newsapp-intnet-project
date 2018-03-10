@@ -28,7 +28,7 @@ class News extends Component {
               subtitleNumberOfLines = {2}  // Subtitle is given two lines of space
 
               // When the article is pressed, move the user to the article specific page and display the article
-              onPress={() => navigate("Article", {title: article.title, content: article.content})}
+              onPress={() => navigate("Article", {title: article.title, content: article.content, id: article.id})}
             />
           ))
         }

@@ -16,11 +16,13 @@ import {
 import Login from './components/pages/Login';
 import News from './components/pages/News';
 import Article from './components/pages/Article';
+import CreateAccount from './components/pages/CreateAccount';
 
 const App = StackNavigator({
   Login: {screen: Login},
   News: {screen: News},
-  Article: {screen: Article}
+  Article: {screen: Article},
+  CreateAccount: {screen: CreateAccount}
 })
 
 export default App;

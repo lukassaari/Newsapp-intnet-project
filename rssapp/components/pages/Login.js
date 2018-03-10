@@ -71,34 +71,36 @@ class Login extends Component {
   render() {
     return (
     <KeyboardAvoidingView behavior="padding" style={styles.container}>
-
-            <View style={styles.loginContainer}>
-                <Image resizeMode="contain" style={styles.logo} source={require('../images/logo-dark-bg.png')} />
-            </View>
-           <View style={styles.formContainer}>
-            <View style={styles.containerInner}>
-            <StatusBar barStyle="light-content"/>
+      <View style={styles.loginContainer}>
+        <Image resizeMode="contain" style={styles.logo} source={require('../images/logo-dark-bg.png')} />
+      </View>
+      <View>
+        <View style={styles.containerInner}>
+          <Text style={styles.regAccountText}> {'Welcome, please login or '}
+          <Text style={styles.regAccountHyperlinkText}
+                onPress={() => this.props.navigation.navigate('CreateAccount')}>
+                 register a new account</Text>
+          </Text>
+          <StatusBar barStyle="light-content"/>
             <TextInput style = {styles.input}
-                        autoCapitalize="none"
-                        onSubmitEditing={() => this.passwordInput.focus()}
-                        onChangeText={(user) => this.setState({user})}
-                        autoCorrect={false}
-                        keyboardType='email-address'
-                        returnKeyType="next"
-                        placeholder='Email or Mobile Num'
-                        placeholderTextColor='rgba(225,225,225,0.7)'/>
+                       autoCapitalize="none"
+                       onSubmitEditing={() => this.passwordInput.focus()} // probably removable
+                       onChangeText={(user) => this.setState({user})}
+                       autoCorrect={false}
+                       keyboardType='email-address'
+                       returnKeyType="next"
+                       placeholder='Email or Mobile Num'
             <TextInput style = {styles.input}
-                       returnKeyType="go" ref={(input)=> this.passwordInput = input}
+                       returnKeyType="go" ref={(input)=> this.passwordInput = input} // prolly removable
                        onChangeText={(pass) => this.setState({pass})}
                        placeholder='Password'
-                       placeholderTextColor='rgba(225,225,225,0.7)'
                        secureTextEntry/>
-          <TouchableOpacity style={styles.buttonContainer} onPress = {this.fetchUser} >
-          <Text  style={styles.buttonText}>LOGIN</Text>
-        </TouchableOpacity>
+            <TouchableOpacity style={styles.buttonContainer} onPress = {this.fetchUser} >
+              <Text  style={styles.buttonText}>LOGIN</Text>
+            </TouchableOpacity>
           </View>
-           </View>
-        </KeyboardAvoidingView>
+        </View>
+      </KeyboardAvoidingView>
     );
   }
 }
@@ -110,7 +112,7 @@ const styles = StyleSheet.create({
         backgroundColor: '#2c3e50',
     },
     containerInner: {
-     padding: 20
+        padding: 20
     },
     loginContainer:{
         alignItems: 'center',
@@ -146,8 +148,15 @@ const styles = StyleSheet.create({
         fontWeight: '700'
     },
     loginButton:{
-      backgroundColor:  '#2980b6',
-       color: '#fff'
+        backgroundColor:  '#2980b6',
+        color: '#fff'
+    },
+    regAccountText:{
+        paddingVertical: 10
+    },
+    regAccountHyperlinkText: {
+        color: 'red',
+        textDecorationLine: 'underline'
     }
 });
 

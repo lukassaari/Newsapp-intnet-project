@@ -11,12 +11,11 @@ class Article extends Component {
 
   // Calls the backend to perform the logic associated with upvoting an article
   upvote = () => {
-    const {id} = this.props.navigation.state.params
-    console.log(id)
+    const {id} = this.props.navigation.state.params  // The id of the article
 
     fetch("http://10.0.3.2:5000/upvote", {
         method: "post",
-        headers:{
+        headers:{ //
             'Accept': 'text/html, application/json',
             'Content-Type': 'application/json',
         },
@@ -31,8 +30,8 @@ class Article extends Component {
     // Gets the title and content that are sent as parameters
     titleText = this.props.navigation.state.params.title
     contentText = this.props.navigation.state.params.content
-    articleId = this.props.navigation.state.params.id
-    console.log(articleId)
+    //articleId = this.props.navigation.state.params.id
+    //console.log(articleId)
     //console.log(this.props.navigation.state.params)
 
     return(

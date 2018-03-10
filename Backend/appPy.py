@@ -7,11 +7,7 @@ import pymysql #DBAPI connector
 import requests
 from werkzeug.security import generate_password_hash
 import RssReader
-'''
-class appPy:
-    def __init__(self):
-        self.app = Flask(__name__)
-'''
+
 app = Flask(__name__)
 
 # Connects to database
@@ -29,7 +25,7 @@ Articles = Base.classes.articles
 session = Session(engine)  # Used for db-queries
 
 # Variables for keeping track
-currUserId = 9999
+app.currUserId = 9999
 
 # Creates the RSS-reader
 #lastId = session.query(Articles())
@@ -56,8 +52,9 @@ if news:  # If not empty
 #for row in res:
 #    print(row)
 
+# Sets the curr user id
 def setUserId(userId):
-    currUserId = userId
+    app.currUserId = userId
 
 # Routes to start page
 @app.route("/", methods = ['GET', 'POST'])
@@ -77,7 +74,7 @@ def login():
     query = session.query(Users).filter(Users.username == name, Users.passw == password)
     try:
         results = query.one() # Make call to DB
-        currUserId = results.id # Raises AttributeError if not found
+        setUserId(results.id)  # Raises AttributeError if not found. Updates user id
         return "ok"
         """
         Till Lukas:
@@ -107,9 +104,19 @@ def news():
 # Upvotes a specified article
 @app.route("/upvote", methods=["POST"])
 def upvote():
-    payload = request.get_json()  # convert to JSON (only works with application/json header set)
-    articleId = payload["articleId"]
-    #userId = payload["userId"]
+    try:
+        payload = request.get_json()  # convert to JSON (only works with application/json header set)
+        articleId = payload["articleId"]
+
+        # Increments the upvote count of the article and the user by 1
+        session.query(Articles).filter(Articles.id == articleId).update({"upvoteCount" : Articles.upvoteCount + 1})
+        session.query(Users).filter(Users.id == app.currUserId).update({"upvoteCount" : Users.upvoteCount + 1})
+        session.commit()
+
+        return "ok"
+    except Exception as e:
+        print("Fel i /upvote: ", e)
+        abort(401)
 
 
 if __name__ == "__main__":

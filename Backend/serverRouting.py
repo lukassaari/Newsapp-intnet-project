@@ -116,7 +116,7 @@ def comment():
         articleId = payload["articleId"]
 
         # Inserts the comment into the database
-        session.add(Comments(pubTime=datetime.datetime.now(), upvoteCount=0, content=commentText, username=app.currUserId,
+        session.add(Comments(uid=app.currUserId, pubTime=datetime.datetime.now(), upvoteCount=0, content=commentText, username=app.currUserId,
                              article=articleId))
 
         # Increments the comment count of the article and the user
@@ -129,7 +129,7 @@ def comment():
         print("Fel i /comment: ", e)
         abort(401)
 
-'''
+
 # Fetches historical comments for a specific article
 @app.route("/getComments", methods=["GET"])
 def getComments():
@@ -147,7 +147,15 @@ def getComments():
                                 "username": comment.username, "id": comment.id})
     commentListJson = jsonify({"comments": commentList})
     return commentListJson
-'''
+
+# Get user info for the user profile page
+@app.route("/getUserInfo", methods=["GET"])
+def getUserInfo():
+    query = session.query(Users).filter(Users.id == app.currUserId)
+    userInfo = query.one()
+    print(userInfo)
+    userInfoJson = jsonify({"userInfo": userInfo})
+    return userInfoJson
 
 if __name__ == "__main__":
     app.run(debug=True)

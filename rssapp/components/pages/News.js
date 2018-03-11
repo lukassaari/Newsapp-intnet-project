@@ -37,16 +37,6 @@ class News extends Component {
     })
   }*/
 
-  /*
-  newsNavigation() {
-    console.log(this.article)
-    const{test} = this.props;
-    console.log(test)
-    console.log(article)
-    NavigationActions.navigate({routeName: "Article", params: {title: article.title, content: article.content, id: article.id}})
-  }
-  */
-
   render(){
     const{navigate} = this.props.navigation;
     articles = JSON.parse(this.props.navigation.state.params.news._bodyInit)["articles"]  // Array of articles stored in dicts

@@ -9,6 +9,24 @@ class Article extends Component {
     title: 'Article'
   };
 
+  // // Fetches comments for the article
+  // getComments = () => {
+  //   fetch("http://10.0.3.2:5000/getComments", {
+  //       method: "get",
+  //       headers:{
+  //           'Accept': 'text/html, application/json',
+  //           'Content-Type': 'application/json',
+  //       },
+  //       body:JSON.stringify({
+  //         articleId: "artikel id test"
+  //       })
+  //   })
+  //   .then((response) => {
+  //     console.log(response)
+  //     //return response
+  //   })
+  // }
+
   // Submits comment to database and updates page through websocket
   comment = () => {
     const {id} = this.props.navigation.state.params  // The id of the article
@@ -27,7 +45,6 @@ class Article extends Component {
         })
     })
     this._textInput.setNativeProps({text: ""});  // Clears the textInput field
-
   }
 
   // Calls the backend to perform the logic associated with upvoting an article
@@ -49,14 +66,13 @@ class Article extends Component {
   constructor(props) {
     super(props);
     this.state = {commentText: ''};  // State that gets updated on user input
+    //comments = this.getComments;
   }
 
   render(){
     // Gets the title and content that are sent as parameters
-    //comments = this.getComments;
     titleText = this.props.navigation.state.params.title
     contentText = this.props.navigation.state.params.content
-    //comments = JSON.parse(this.props.navigation.state.params)
 
     return(
       <ScrollView style={styles.container}>
@@ -81,10 +97,10 @@ class Article extends Component {
           multiline = {true}
           numberOfLines = {4}
           underlineColorAndroid = {"transparent"}
-          //onSubmitEditing={() => this.passwordInput.focus()}
           onChangeText={(commentText) => this.setState({commentText})}  // Updates the commentText variable
           placeholder = "Write your comment here..."
         />
+      </ScrollView>
 
         // <List style={styles.listContainer}>
         // {
@@ -98,14 +114,10 @@ class Article extends Component {
         //       titleStyle={{color: 'white'}}
         //       subtitleStyle={{color: 'white'}}
         //       containerStyle={{backgroundColor: '#2c3e50'}}
-        //
-        //       // When the article is pressed, move the user to the article specific page and display the article
-        //       //onPress={() => navigate("Article", {title: article.title, content: article.content, id: article.id})}
         //     />
         //   ))
         // }
         // </List>
-      </ScrollView>
     );
   }
 }

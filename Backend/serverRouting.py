@@ -7,6 +7,7 @@ import pymysql #DBAPI connector
 import requests
 from werkzeug.security import generate_password_hash
 import RssReader
+import datetime
 
 app = Flask(__name__)
 
@@ -24,7 +25,8 @@ Articles = Base.classes.articles
 session = Session(engine)  # Used for db-queries
 
 # Variables for keeping track of user
-app.currUserId = 9999
+app.currUserId = 1
+app.username = "l"
 
 # Creates the RSS-reader
 #lastId = session.query(Articles())
@@ -44,8 +46,9 @@ if news:  # If not empty
     session.commit()  # Commit adds to the database
 
 # Sets the curr user id
-def setUserId(userId):
+def setUser(userId, username):
     app.currUserId = userId
+    app.username = username
 
 # Routes to start page
 @app.route("/", methods = ['GET', 'POST'])
@@ -65,12 +68,14 @@ def login():
     query = session.query(Users).filter(Users.username == name, Users.passw == password)
     try:
         results = query.one() # Make call to DB
-        setUserId(results.id)  # Raises AttributeError if not found. Updates user id
+        setUser(results.id, name)  # Raises AttributeError if not found. Updates user id
         return "ok"
-    except AttributeError:
+    except AttributeError as e:
+        print("AttributeError i /login: ", e)
         abort(401) # Unauthorized if user data was not found
-    except Exception: # Unable to import correct exception, so catch all is used for sqlalchemy errors
-        abort(401) # Unauthorized if 
+    except Exception as e: # Unable to import correct exception, so catch all is used for sqlalchemy errors
+        print("Fel i /login: ", e)
+        abort(401) # Unauthorized if
 
 # Routes to the news page
 @app.route("/news", methods=["GET"])
@@ -102,6 +107,47 @@ def upvote():
         print("Fel i /upvote: ", e)
         abort(401)
 
+# Submits a comment
+@app.route("/comment", methods=["POST"])
+def comment():
+    try:
+        payload = request.get_json()
+        commentText = payload["commentText"]
+        articleId = payload["articleId"]
+
+        # Inserts the comment into the database
+        session.add(Comments(pubTime=datetime.datetime.now(), upvoteCount=0, content=commentText, username=app.currUserId,
+                             article=articleId))
+
+        # Increments the comment count of the article and the user
+        session.query(Articles).filter(Articles.id == articleId).update({"commentCount" : Articles.commentCount + 1})
+        session.query(Users).filter(Users.id == app.currUserId).update({"commentCount" : Users.commentCount + 1})
+        session.commit()
+
+        return "ok"
+    except Exception as e:
+        print("Fel i /comment: ", e)
+        abort(401)
+
+'''
+# Fetches historical comments for a specific article
+@app.route("/getComments", methods=["GET"])
+def getComments():
+    print("test")
+    payload = request.get_json()
+    print(payload)
+    articleId = payload["articleId"]
+    query = session.query(Comments).filter(Comments.article == articleId) # .order_by(Comments.pubTime.desc())
+    print(query)
+    comments = query.all()
+    commentList = []
+    if comments != None:  # Only wants to do this if any comments exist
+        for comment in comments:
+            commentList.append({"commentText": comment.content, "upvoteCount": comment.upvoteCount, "pubTime": comment.pubTime,
+                                "username": comment.username, "id": comment.id})
+    commentListJson = jsonify({"comments": commentList})
+    return commentListJson
+'''
 
 if __name__ == "__main__":
     app.run(debug=True)

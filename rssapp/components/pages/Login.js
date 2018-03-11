@@ -96,7 +96,7 @@ class Login extends Component {
                        placeholder='Password'
                        secureTextEntry/>
             <TouchableOpacity style={styles.buttonContainer} onPress = {this.fetchUser} >
-              <Text  style={styles.buttonText}>LOGIN</Text>
+              <Text style={styles.buttonText}>LOGIN</Text>
             </TouchableOpacity>
           </View>
         </View>
@@ -152,10 +152,11 @@ const styles = StyleSheet.create({
         color: '#fff'
     },
     regAccountText:{
-        paddingVertical: 10
+        paddingVertical: 10,
+        color: "white"
     },
     regAccountHyperlinkText: {
-        color: 'red',
+        color: 'white',
         textDecorationLine: 'underline'
     }
 });

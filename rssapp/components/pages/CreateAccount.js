@@ -12,18 +12,18 @@ class CreateAccount extends Component {
 
 	constructor(props) {
 		super(props);
-		// State that gets updated on user input		
+		// State that gets updated on user input
  		this.state = {
  			user: '',
  			pass: '',
  			email: ''
-    	};
+  	};
 
     	this.socket = io('http://10.0.3.2:5001', { // According to some SO thread.
-			transports: ['websocket'],
-			pingTimeout: 30000,
-			pingInterval: 10000,
-    	})		
+  			transports: ['websocket'],
+  			pingTimeout: 30000,
+  			pingInterval: 10000
+    	})
 
     	// Listener that fires on connect
 		this.socket.on('connect', () => {
@@ -45,9 +45,9 @@ class CreateAccount extends Component {
 
 		})
 
-	    this.socket.on('connect_error', (err) => {
-	      	console.log(err)
-	    })
+    this.socket.on('connect_error', (err) => {
+      	console.log(err)
+    })
 	}
 
 	// Add a user
@@ -57,8 +57,8 @@ class CreateAccount extends Component {
 		const {email} = this.state;
 		payload = {
 			user: user,
-            pass: pass,
-            email: email
+      pass: pass,
+      email: email
 		}
 		this.socket.emit('create_account', payload);
 	}
@@ -88,7 +88,7 @@ class CreateAccount extends Component {
 	                       // TODO: make sure same password is retyped
 	                       secureTextEntry/>
 		        <TouchableOpacity style={styles.buttonContainer} onPress = {this.addUser} >
-		          <Text  style={styles.buttonText}>LOGIN</Text>
+		          <Text  style={styles.buttonText}>CREATE ACCOUNT</Text>
 		        </TouchableOpacity>
 		    </View>
     	</KeyboardAvoidingView>

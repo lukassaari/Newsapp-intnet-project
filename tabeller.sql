@@ -47,14 +47,15 @@ id int auto_increment PRIMARY key,
 pubTime datetime,
 upvoteCount int,
 content text,
-username int NOT NULL,
+uid int NOT NULL,
+username varchar(255),
 article varchar(255) NOT NULL,
-FOREIGN KEY (username) references users(id),
+FOREIGN KEY (uid) references users(id),
 FOREIGN KEY (article) references articles(id)
 )
 CHARACTER SET utf8
 COLLATE utf8_general_ci;
 
 insert into users values (null, 'e', 'emilmar@kth.se', 0, 0, 'e');
-insert into users values (null, 'lukas', 'lsaari@kth.se', 0, 0, '123');
+insert into users values (null, '1', 'lsaari@kth.se', 0, 0, '2');
 insert into sources values ('Cision', 0, 0, 0, 0);

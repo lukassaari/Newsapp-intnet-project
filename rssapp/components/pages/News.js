@@ -11,6 +11,42 @@ class News extends Component {
     title: 'Newsfeed'
   };
 
+  /*
+  constructor(props){
+    super(props);
+    //this.state = {articleId: 9999};
+    //this.newsNavigation = this.newsNavigation.bind(this);
+  }*/
+
+  /*
+  // Fetches comments for the article
+  getComments = () => {
+    fetch("http://10.0.3.2:5000/getComments", {
+        method: "get",
+        headers:{
+            'Accept': 'text/html, application/json',
+            'Content-Type': 'application/json',
+        },
+        body:JSON.stringify({
+          articleId: "artikel id test"
+        })
+    })
+    .then((response) => {
+      console.log(response)
+      //return response
+    })
+  }*/
+
+  /*
+  newsNavigation() {
+    console.log(this.article)
+    const{test} = this.props;
+    console.log(test)
+    console.log(article)
+    NavigationActions.navigate({routeName: "Article", params: {title: article.title, content: article.content, id: article.id}})
+  }
+  */
+
   render(){
     const{navigate} = this.props.navigation;
     articles = JSON.parse(this.props.navigation.state.params.news._bodyInit)["articles"]  // Array of articles stored in dicts
@@ -32,6 +68,10 @@ class News extends Component {
 
               // When the article is pressed, move the user to the article specific page and display the article
               onPress={() => navigate("Article", {title: article.title, content: article.content, id: article.id})}
+              //onPress = {
+                //article.id => this.setState(articleId)
+              //  this.getComments
+              //}
             />
           ))
         }

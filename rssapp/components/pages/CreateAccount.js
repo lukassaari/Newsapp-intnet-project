@@ -10,8 +10,6 @@ class CreateAccount extends Component {
    		title: 'Create Account'
   	};
 
-
-
 	constructor(props) {
 		super(props);
 		// State that gets updated on user input		
@@ -21,37 +19,59 @@ class CreateAccount extends Component {
  			email: ''
     	};
 
-    const socket = io('http://10.0.3.2:5001', { // According to some SO thread.
-      transports: ['websocket'],
-      pingTimeout: 30000,
-      pingInterval: 10000,
-    })		
+    	this.socket = io('http://10.0.3.2:5001', { // According to some SO thread.
+			transports: ['websocket'],
+			pingTimeout: 30000,
+			pingInterval: 10000,
+    	})		
 
+    	// Listener that fires on connect
+		this.socket.on('connect', () => {
+			console.log("Connected to socket");
+		})
 
-	    socket.on('connect', () => {
-	      console.log("socket connected")
-	      socket.emit('YOUR EVENT TO SERVER', {stuff: 'is on'})
-	      socket.on('EVENT YOU WANNA LISTEN', (r) => {
-	      	console.log("event:", r);
-	      })
+		this.socket.on('message', (response) => {
+			let status = response['status']; // Extract response payload
+			if (status == true) {
+				// Add warning label
+			} else {
+				// Add nice label
+			}
+		})
+
+		this.socket.on('add_user', (response) => {
+			// Handle response as positive or negative
+			console.log(response);
+
+		})
+
+	    this.socket.on('connect_error', (err) => {
+	      	console.log(err)
 	    })
-
-    socket.on('connect_error', (err) => {
-      console.log(err)
-    })
-
 	}
 
-
-
-
+	// Add a user
+	addUser = () => {
+		const {user} = this.state;
+		const {pass} = this.state;
+		const {email} = this.state;
+		payload = {
+			user: user,
+            pass: pass,
+            email: email
+		}
+		this.socket.emit('create_account', payload);
+	}
 
   render() {
     return (
     	<KeyboardAvoidingView behavior="padding" style={styles.container}>
 	    	<View style={styles.containerInner}>
 		        <TextInput style = {styles.input}
-	                       onChangeText={(user) => this.setState({user})}
+	                       onChangeText={(user) => {
+	                       		this.setState({user});
+	                       		this.socket.emit('check_db', {user});}
+	                       	}
 	                       autoCorrect={false}
 	                       placeholder='Username'/>
 		        <TextInput style = {styles.input}
@@ -60,11 +80,14 @@ class CreateAccount extends Component {
 	                       placeholder='Email address'/>
 	         	<TextInput style = {styles.input}
 	                       onChangeText={(pass) => this.setState({pass})}
-	                       placeholder='Password'/>
+	                       placeholder='Password'
+	                       secureTextEntry/>
 	            <TextInput style = {styles.input}
 	                       onChangeText={(pass) => this.setState({pass})}
-	                       placeholder='Retype password'/>
-		        <TouchableOpacity style={styles.buttonContainer} onPress = {this.fetchUser} >
+	                       placeholder='Retype password'
+	                       // TODO: make sure same password is retyped
+	                       secureTextEntry/>
+		        <TouchableOpacity style={styles.buttonContainer} onPress = {this.addUser} >
 		          <Text  style={styles.buttonText}>LOGIN</Text>
 		        </TouchableOpacity>
 		    </View>

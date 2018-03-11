@@ -13,7 +13,6 @@ app = Flask(__name__)
 # Connects to database
 conn_string = "mysql+pymysql://test:pass@localhost:3306/emilmar?charset=utf8"
 engine = sqlalchemy.create_engine(conn_string)
-#conn = engine.connect()
 
 # Creates models from the database
 Base = automap_base()

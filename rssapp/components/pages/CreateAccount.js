@@ -98,10 +98,10 @@ class CreateAccount extends Component {
 		const pass_two = this.state.pass;
 		if (pass_one.length === pass_two.length) {
 			if (pass_one === pass_two) {
-				// Green 
+				// Ok, pref change colour
 				this.state.passready = true;
 			} else {
-				// Warning
+				// Warning, pref change colour
 				this.state.passready = false;
 			}
 		}

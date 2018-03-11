@@ -168,38 +168,6 @@ class Article extends Component {
   }
 }
 
-
-        // {
-        //   this.state.comments.map((article, i) => (
-        //     <ListItem
-        //       key={i}
-        //       title={article.username}
-        //       subtitle={"Publicerad: " + article.pubTime + "\nUpvotes: " + article.upvoteCount
-        //                 + " Kommentarer: " + article.username}
-        //       subtitleNumberOfLines = {2}  // Subtitle is given two lines of space
-        //       titleStyle={{color: 'white'}}
-        //       subtitleStyle={{color: 'white'}}
-        //       containerStyle={{backgroundColor: '#2c3e50'}}
-        //     />
-        //   ))
-        // }
-
-        // <List style={styles.listContainer}>{
-          // Iterates over the comments and displays them
-          //this.state.comments.map((comment, i) => (
-            // <ListItem
-              // key='1'
-              // title={this.state.comments[0].username + ": " + this.state.comments[0].content}
-              // subtitle={"Vid" + this.state.comments[0].pubTime + "\nUpvotes: " + this.state.comments[0].upvoteCount}
-              // subtitleNumberOfLines = {2}  // Subtitle is given two lines of space
-              // titleStyle={{color: 'white'}}
-              // subtitleStyle={{color: 'white'}}
-              // containerStyle={{backgroundColor: '#2c3e50'}}
-            // />
-          //))
-        // }
-        // </List>
-
 const styles = StyleSheet.create({
   titleText:{
     fontSize: 22,

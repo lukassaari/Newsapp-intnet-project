@@ -18,13 +18,15 @@ import News from './components/pages/News';
 import Article from './components/pages/Article';
 import CreateAccount from './components/pages/CreateAccount';
 import UserProfile from './components/pages/UserProfile';
+import SourcesInfo from './components/pages/SourcesInfo';
 
 const App = StackNavigator({
   Login: {screen: Login},
   News: {screen: News},
   Article: {screen: Article},
   CreateAccount: {screen: CreateAccount},
-  UserProfile: {screen: UserProfile}
+  UserProfile: {screen: UserProfile},
+  SourcesInfo: {screen: SourcesInfo}
 })
 
 export default App;

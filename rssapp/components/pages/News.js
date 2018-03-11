@@ -1,6 +1,6 @@
 // Template from https://react-native-training.github.io/react-native-elements/docs/0.19.0/lists.html#listitem-implemented-with-custom-view-for-subtitle
 import React, { Component } from 'react';
-import { ScrollView, StyleSheet, TouchableOpacity, Text } from "react-native";
+import { ScrollView, StyleSheet, TouchableOpacity, Text, View } from "react-native";
 import { List, ListItem } from 'react-native-elements';
 import { NavigationActions } from 'react-navigation';
 
@@ -55,10 +55,27 @@ class News extends Component {
         commentCount = userInfo.commentCount
         upvoteCount = userInfo.upvoteCount
 
-
         this.props.navigation.navigate("UserProfile", {"username": username,
-        "email": email, "upvoteCount": upvoteCount, "commentCount": commentCount}
+          "email": email, "upvoteCount": upvoteCount, "commentCount": commentCount}
         )
+    })
+  }
+
+  // Fetches source info and goes to the source info page
+  sources = () => {
+
+    // Calls the backend to get source info
+    fetch("http://10.0.3.2:5000/getSourcesInfo", {
+        method: "get",
+        headers:{
+            'Accept': 'text/html, application/json',
+            'Content-Type': 'application/json',
+        }
+    })
+    .then((response) => { // Parse the response and then move to next page
+        sources = JSON.parse(response._bodyText)["sourcesInfo"]
+        console.log(sources)
+        this.props.navigation.navigate("SourcesInfo", {"sources": sources})
     })
   }
 
@@ -67,9 +84,14 @@ class News extends Component {
     articles = JSON.parse(this.props.navigation.state.params.news._bodyInit)["articles"]  // Array of articles stored in dicts
     return(
       <ScrollView style={styles.scrollContainer}>
+        <View style={styles.buttonView}>
           <TouchableOpacity style={styles.profileButton} onPress = {this.profile}>
-            <Text style={styles.buttonText}>Profile</Text>
+            <Text style={styles.buttonText}>Profil</Text>
           </TouchableOpacity>
+          <TouchableOpacity style={styles.profileButton} onPress = {this.sources}>
+            <Text style={styles.buttonText}>Källstatistik</Text>
+          </TouchableOpacity>
+        </View>
         <List style={styles.listContainer}>
         {
           // Iterates over the articles and displays them
@@ -115,11 +137,17 @@ const styles = StyleSheet.create({
   },
   profileButton:{
       backgroundColor: '#2980b6',
-      //padding: 20,
+      //padding: 5,
       //paddingVertical: 15,
-      //marginRight: 5,
-      width: 60,
-      height: 60
+      marginLeft: 5,
+      marginRight: 5,
+      width: 100
+      //height: 60,
+
+  },
+  buttonView:{
+    flexDirection: "row",
+    width: 150
   }
 });
 

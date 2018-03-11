@@ -159,5 +159,19 @@ def getUserInfo():
 
     return userInfoJson
 
+# Get info about all sources
+@app.route("/getSourcesInfo", methods=["GET"])
+def getSourcesInfo():
+    query = session.query(Sources)
+    sourcesInfo = query.all()
+    sourcesInfoList = []
+    if sourcesInfo != None:
+        for source in sourcesInfo:
+            sourcesInfoList.append({"title": source.title, "readCount": source.readCount, "commentCount": source.commentCount,
+                                    "upvoteCount": source.upvoteCount, "publicizedCount": source.publicizedCount})
+    sourcesInfoJson = jsonify({"sourcesInfo": sourcesInfoList})
+
+    return sourcesInfoJson
+
 if __name__ == "__main__":
     app.run(debug=True)

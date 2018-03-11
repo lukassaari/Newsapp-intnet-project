@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import { Text, ScrollView, StyleSheet, TouchableOpacity, View, TextInput, List, ListItem } from "react-native";
+import { Text, ScrollView, StyleSheet, TouchableOpacity, View, TextInput, List, ListItem, FlatList } from "react-native";
 import { NavigationActions } from 'react-navigation';
-
+import io from 'socket.io-client';
 /*
 *   Describes the view for a single article
 *   An article has a text and comments that can be read
@@ -9,59 +9,65 @@ import { NavigationActions } from 'react-navigation';
 */
 class Article extends Component {
 
-  static navigationOptions = {
-    // This gets added at the top of the page
-    title: 'Article'
-  };
+    static navigationOptions = {
+      // This gets added at the top of the page
+      title: 'Article'
+    };
 
-  // Submits comment to database and updates page through websocket
-  comment = () => {
-    const {id} = this.props.navigation.state.params  // The id of the article
-    const {commentText} = this.state;  // The text of the comment
+    // Submits comment to database and updates page through websocket
+    comment = () => {
+      const {id} = this.props.navigation.state.params  // The id of the article
+      const {commentText} = this.state;  // The text of the comment
 
-    // Calls the backend to submit comment to database
-    fetch("http://10.0.3.2:5000/comment", {
-        method: "post",
-        headers:{
-            'Accept': 'text/html, application/json',
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          articleId: id,
-          commentText: commentText
-        })
-    })
-    this._textInput.setNativeProps({text: ""});  // Clears the textInput field
-  }
+      // Calls the backend to submit comment to database
+      fetch("http://10.0.3.2:5000/comment", {
+          method: "post",
+          headers:{
+              'Accept': 'text/html, application/json',
+              'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            articleId: id,
+            commentText: commentText
+          })
+      })
+      this._textInput.setNativeProps({text: ""});  // Clears the textInput field
+    }
 
-  // Calls the backend to perform the logic associated with upvoting an article
-  upvote = () => {
-    const {id} = this.props.navigation.state.params  // The id of the article
+    // Calls the backend to perform the logic associated with upvoting an article
+    upvote = () => {
+      const {id} = this.props.navigation.state.params  // The id of the article
 
-    fetch("http://10.0.3.2:5000/upvote", {
-        method: "post",
-        headers:{
-            'Accept': 'text/html, application/json',
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          articleId: id
-        })
-    })
-  }
+      fetch("http://10.0.3.2:5000/upvote", {
+          method: "post",
+          headers:{
+              'Accept': 'text/html, application/json',
+              'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            articleId: id
+          })
+      })
+    }
 
   refreshComments = () => {
-    // Fetch comments for this article id. 
-    // Update the view
+    this.socket.emit('get_comments', this.id);
+  }
 
+  refreshView = (response) => {
+    this.state.comments = response; // Add comments to the state
   }
 
   constructor(props) {
     super(props);
-    this.state = {commentText: ''};  // State that gets updated on user input
-    this.id = this.props.navigation.state.params.id  // The id of the article
-
-    this.socket = io('http://10.0.3.2:5001', { // According to some SO thread.
+    this.state = {
+      commentText: '', // New comment text box
+      comments: [{username: 'placeholder', content: 'pass', pubTime: '33', upvoteCount: 5}] // Will hold all comments on this article
+    };  
+    this.id = this.props.navigation.state.params.id;  // The id of the article
+    console.log(this.state.comments);
+    // Create a new persistant socket connection with the server
+    this.socket = io('http://10.0.3.2:5001', {
         transports: ['websocket'],
         pingTimeout: 30000,
         pingInterval: 10000
@@ -70,23 +76,38 @@ class Article extends Component {
       // Listener that fires on connect
     this.socket.on('connect', () => {
       console.log("Connected to socket");
+      {this.refreshComments()};
     })
 
-    // // Listener if new comments for this article id are discovered for this article
+    // Listener if new comments for this article id are discovered
     let commentEvent = "new_comments_" + this.id;
-    this.socket.on(commentEvent, () => {
-    //   // Refresh comments
+    this.socket.on(commentEvent, (response) => {
+      // Update the view
+      console.log("New comments have been outputted!");
+      console.log(response);
+    })
+
+    // Server sends comments for the first time
+    this.socket.on('comments', (response) => {
+        {this.refreshView(response)};
     })
 
     // On connect error
     this.socket.on('connect_error', (err) => {
-        console.log(err)
+        console.log('Error happened');
+        console.log(err);
     })
 
       // Disconnect socket when leaving screen
     const didBlurSubscription = this.props.navigation.addListener(
       'didBlur', payload => {
         this.socket.disconnect()
+      }
+    );
+
+    // Eventhandler for focus
+    const willFocusSubscription = this.props.navigation.addListener(
+      'willFocus', payload => {
       }
     );    
   }
@@ -122,27 +143,27 @@ class Article extends Component {
           onChangeText={(commentText) => this.setState({commentText})}  // Updates the commentText variable
           placeholder = "Write your comment here..."
         />
-      </ScrollView>
 
-        // <List style={styles.listContainer}>
-        // {
-        //   // Iterates over the comments and displays them
-        //   comments.map((comment, i) => (
-        //     <ListItem
-        //       key={i}
-        //       title={comment.username + ": " + comment.content}
-        //       subtitle={"Vid" + comment.pubTime + "\nUpvotes: " + comment.upvoteCount}
-        //       subtitleNumberOfLines = {2}  // Subtitle is given two lines of space
-        //       titleStyle={{color: 'white'}}
-        //       subtitleStyle={{color: 'white'}}
-        //       containerStyle={{backgroundColor: '#2c3e50'}}
-        //     />
-        //   ))
-        // }
-        // </List>
+      </ScrollView>
     );
   }
 }
+
+        // <List style={styles.listContainer}>{
+          // Iterates over the comments and displays them
+          //this.state.comments.map((comment, i) => (
+            // <ListItem
+              // key='1'
+              // title={this.state.comments[0].username + ": " + this.state.comments[0].content}
+              // subtitle={"Vid" + this.state.comments[0].pubTime + "\nUpvotes: " + this.state.comments[0].upvoteCount}
+              // subtitleNumberOfLines = {2}  // Subtitle is given two lines of space
+              // titleStyle={{color: 'white'}}
+              // subtitleStyle={{color: 'white'}}
+              // containerStyle={{backgroundColor: '#2c3e50'}}
+            // />
+          //))
+        // }
+        // </List>
 
 const styles = StyleSheet.create({
   titleText:{

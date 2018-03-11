@@ -1,4 +1,4 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, jsonify
 from flask_socketio import SocketIO # pip install flask-socketio
 from flask_socketio import send, emit # pip install eventlet
 from sqlalchemy.ext.automap import automap_base
@@ -19,6 +19,9 @@ engine = sqlalchemy.create_engine(conn_string)
 Base = automap_base()
 Base.prepare(engine, reflect=True)
 Users = Base.classes.users
+Sources = Base.classes.sources
+Comments = Base.classes.comments
+Articles = Base.classes.articles
 session = Session(engine)  # Used for db-queries
 
 # Handle a connect
@@ -31,10 +34,24 @@ def handle_connect():
 def handle_disconnect():
 	print('Client disconnected')
 
+# Client requests comments for a specific id
+@socketio.on('get_comments')
+def handle_get_comments(message):
+	article_id = message # The message is simply an ID
+	query = session.query(Comments).filter(Comments.article == article_id).order_by(Comments.pubTime.desc())
+	comments = query.all()
+	commentList = []
+	if comments != None:  # Only wants to do this if any comments exist
+		for comment in comments:
+			commentList.append({"commentText": comment.content, "upvoteCount": comment.upvoteCount, "pubTime": comment.pubTime.__str__(),
+                                "username": comment.username, "id": comment.id})
+	session.commit()
+	emit('comments', commentList)
+
 # Check if user is in database
 # Returns true if user exists
 @socketio.on('check_db')
-def handle_my_custom_event(message):
+def handle_check_db(message):
 	if check_db(message['user']):
 		send({'status': True})
 	else:
@@ -53,6 +70,12 @@ def handle_create_account(message):
 		emit('add_user', "success")
 	except Exception:
 		emit('add_user', "error occurred")
+
+# Handle general messages
+@socketio.on('message')
+def handle_message(message):
+	print("this is a general message")
+	print(message)
 
 # Check if a username already exists in the database
 def check_db(user):

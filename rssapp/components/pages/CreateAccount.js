@@ -6,8 +6,6 @@ import io from 'socket.io-client';
 // create a component
 class CreateAccount extends Component {
 
-
-
   	static navigationOptions = {
    		title: 'Create Account'
   	};

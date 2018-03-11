@@ -2,30 +2,17 @@ import React, { Component } from 'react';
 import { Text, ScrollView, StyleSheet, TouchableOpacity, View, TextInput, List, ListItem } from "react-native";
 import { NavigationActions } from 'react-navigation';
 
+/*
+*   Describes the view for a single article
+*   An article has a text and comments that can be read
+*   Comments may be added and are dynamically updated via Sockets
+*/
 class Article extends Component {
 
   static navigationOptions = {
     // This gets added at the top of the page
     title: 'Article'
   };
-
-  // // Fetches comments for the article
-  // getComments = () => {
-  //   fetch("http://10.0.3.2:5000/getComments", {
-  //       method: "get",
-  //       headers:{
-  //           'Accept': 'text/html, application/json',
-  //           'Content-Type': 'application/json',
-  //       },
-  //       body:JSON.stringify({
-  //         articleId: "artikel id test"
-  //       })
-  //   })
-  //   .then((response) => {
-  //     console.log(response)
-  //     //return response
-  //   })
-  // }
 
   // Submits comment to database and updates page through websocket
   comment = () => {
@@ -63,10 +50,45 @@ class Article extends Component {
     })
   }
 
+  refreshComments = () => {
+    // Fetch comments for this article id. 
+    // Update the view
+
+  }
+
   constructor(props) {
     super(props);
     this.state = {commentText: ''};  // State that gets updated on user input
-    //comments = this.getComments;
+    this.id = this.props.navigation.state.params.id  // The id of the article
+
+    this.socket = io('http://10.0.3.2:5001', { // According to some SO thread.
+        transports: ['websocket'],
+        pingTimeout: 30000,
+        pingInterval: 10000
+    });
+
+      // Listener that fires on connect
+    this.socket.on('connect', () => {
+      console.log("Connected to socket");
+    })
+
+    // // Listener if new comments for this article id are discovered for this article
+    let commentEvent = "new_comments_" + this.id;
+    this.socket.on(commentEvent, () => {
+    //   // Refresh comments
+    })
+
+    // On connect error
+    this.socket.on('connect_error', (err) => {
+        console.log(err)
+    })
+
+      // Disconnect socket when leaving screen
+    const didBlurSubscription = this.props.navigation.addListener(
+      'didBlur', payload => {
+        this.socket.disconnect()
+      }
+    );    
   }
 
   render(){
@@ -104,7 +126,7 @@ class Article extends Component {
 
         // <List style={styles.listContainer}>
         // {
-        //   // Iterates over the articles and displays them
+        //   // Iterates over the comments and displays them
         //   comments.map((comment, i) => (
         //     <ListItem
         //       key={i}

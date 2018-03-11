@@ -35,6 +35,15 @@ class Article extends Component {
       this._textInput.setNativeProps({text: ""});  // Clears the textInput field
     }
 
+    // Calls to the backend (USING SOCKETS) to comment to database
+    commentSocket = () => {
+      const {id} = this.props.navigation.state.params  // The id of the article
+      const {commentText} = this.state;  // The text of the comment
+      this.socket.emit('add_comment', {articleId: id, commentText: commentText});
+      this._textInput.setNativeProps({text: ""});  // Clears the textInput field
+    }
+
+
     // Calls the backend to perform the logic associated with upvoting an article
     upvote = () => {
       const {id} = this.props.navigation.state.params  // The id of the article
@@ -51,23 +60,25 @@ class Article extends Component {
       })
     }
 
+  // Function call to get comments for article from server
   refreshComments = () => {
     this.socket.emit('get_comments', this.id);
   }
 
+  // Routine to update state property with latest comments (this also updates the listview)
   refreshView = (response) => {
     let comments = response;
     this.setState({comments}); // Add comments to the state
-    console.log(this.state.comments);
   }
 
   constructor(props) {
     super(props);
     this.state = {
       commentText: '', // New comment text box
-      comments: [{username: 'placeholder', content: 'pass', pubTime: '33', upvoteCount: '5'}] // Will hold all comments on this article
+      comments: [{username: 'placeholder', commenText: 'pass', pubTime: '33', upvoteCount: '5'}] // Will hold all comments on this article
     };  
     this.id = this.props.navigation.state.params.id;  // The id of the article
+
     // Create a new persistant socket connection with the server
     this.socket = io('http://10.0.3.2:5001', {
         transports: ['websocket'],
@@ -81,15 +92,7 @@ class Article extends Component {
       {this.refreshComments()};
     })
 
-    // Listener if new comments for this article id are discovered
-    let commentEvent = "new_comments_" + this.id;
-    this.socket.on(commentEvent, (response) => {
-      // Update the view
-      console.log("New comments have been outputted!");
-      console.log(response);
-    })
-
-    // Server sends comments for the first time
+    // Server sends a list of comments
     this.socket.on('comments', (response) => {
         {this.refreshView(response)};
     })
@@ -100,18 +103,12 @@ class Article extends Component {
         console.log(err);
     })
 
-      // Disconnect socket when leaving screen
+    // Disconnect socket when leaving screen
     const didBlurSubscription = this.props.navigation.addListener(
       'didBlur', payload => {
         this.socket.disconnect()
       }
-    );
-
-    // Eventhandler for focus
-    const willFocusSubscription = this.props.navigation.addListener(
-      'willFocus', payload => {
-      }
-    );    
+    ); 
   }
 
   render(){
@@ -128,7 +125,7 @@ class Article extends Component {
           </Text>
         </Text>
         <View style={styles.buttonView}>
-          <TouchableOpacity style={styles.commentButton} onPress = {this.comment}>
+          <TouchableOpacity style={styles.commentButton} onPress = {this.commentSocket}>
             <Text style={styles.buttonText}>Submit Comment</Text>
           </TouchableOpacity>
           <TouchableOpacity style={styles.upvoteButton} onPress = {this.upvote}>
@@ -152,7 +149,7 @@ class Article extends Component {
             keyExtractor={item => item.pubTime}
             renderItem={({item }) => (
               <ListItem
-                title={item.username + ": " + item.content}
+                title={item.username + ": " + item.commentText}
                 subtitle={"Vid tid: " + item.pubTime + "\nUpvotes: " + item.upvoteCount}
                 subtitleNumberOfLines = {2}  // Subtitle is given two lines of space
                 titleStyle={{color: 'white'}}

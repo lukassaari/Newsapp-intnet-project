@@ -5,6 +5,7 @@ from sqlalchemy.ext.automap import automap_base
 from sqlalchemy.orm import Session
 import sqlalchemy
 import json
+import datetime
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'secret!'
@@ -24,6 +25,10 @@ Comments = Base.classes.comments
 Articles = Base.classes.articles
 session = Session(engine)  # Used for db-queries
 
+# Variables for keeping track of user
+app.currUserId = 1
+app.username = "l"
+
 # Handle a connect
 @socketio.on('connect')
 def handle_connect():
@@ -38,15 +43,26 @@ def handle_disconnect():
 @socketio.on('get_comments')
 def handle_get_comments(message):
 	article_id = message # The message is simply an ID
-	query = session.query(Comments).filter(Comments.article == article_id).order_by(Comments.pubTime.desc())
-	comments = query.all()
-	commentList = []
-	if comments != None:  # Only wants to do this if any comments exist
-		for comment in comments:
-			commentList.append({"commentText": comment.content, "upvoteCount": comment.upvoteCount, "pubTime": comment.pubTime.__str__(),
-                                "username": comment.username, "id": comment.id})
-	session.commit()
+	commentList = retrieve_comments(article_id) # Call subroutine to fetch comments
 	emit('comments', commentList)
+
+# Client wants to add a comment
+@socketio.on('add_comment')
+def handle_add_comment(message):
+	commentText = message["commentText"]
+	articleId = message["articleId"]
+
+	# Inserts the comment into the database
+	session.add(Comments(uid=app.currUserId, pubTime=datetime.datetime.now(), upvoteCount=0, content=commentText, username=app.currUserId,
+                         article=articleId))
+
+	# Increments the comment count of the article and the user
+	session.query(Articles).filter(Articles.id == articleId).update({"commentCount" : Articles.commentCount + 1})
+	session.query(Users).filter(Users.id == app.currUserId).update({"commentCount" : Users.commentCount + 1})
+	session.commit()
+	commentList = retrieve_comments(articleId)
+	emit('comments', commentList, broadcast=True) # Tell all users to update their commentview
+
 
 # Check if user is in database
 # Returns true if user exists
@@ -83,6 +99,18 @@ def check_db(user):
 	if not query.all(): # If list is empty, return false because no user was found
 		return False
 	return True
+
+# Retrieve comments for a specific article in the database
+def retrieve_comments(article_id):
+	query = session.query(Comments).filter(Comments.article == article_id).order_by(Comments.pubTime.desc())
+	comments = query.all()
+	commentList = []
+	if comments != None:  # Only wants to do this if any comments exist
+		for comment in comments:
+			commentList.append({"commentText": comment.content, "upvoteCount": comment.upvoteCount, "pubTime": comment.pubTime.__str__(),
+                                "username": comment.username, "id": comment.id})
+	session.commit() # Commit to get the latest
+	return commentList
 
 if __name__ == '__main__':
     socketio.run(app, port=5001)

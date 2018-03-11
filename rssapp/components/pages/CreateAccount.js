@@ -6,6 +6,8 @@ import io from 'socket.io-client';
 // create a component
 class CreateAccount extends Component {
 
+
+
   	static navigationOptions = {
    		title: 'Create Account'
   	};
@@ -16,38 +18,56 @@ class CreateAccount extends Component {
  		this.state = {
  			user: '',
  			pass: '',
- 			email: ''
-  	};
+ 			email: '',
+ 			passready: false, // Bool for password equality
+ 			userready: false // Bool for username originality
+  		};
 
     	this.socket = io('http://10.0.3.2:5001', { // According to some SO thread.
   			transports: ['websocket'],
   			pingTimeout: 30000,
   			pingInterval: 10000
-    	})
+		});
 
     	// Listener that fires on connect
 		this.socket.on('connect', () => {
 			console.log("Connected to socket");
 		})
 
+		// Message if user is in database or not
+		// True means user is in database
 		this.socket.on('message', (response) => {
 			let status = response['status']; // Extract response payload
-			if (status == true) {
+			if (status == true) { // User exists in database
 				// Add warning label
-			} else {
+				this.state.userready = false;
+			} else { // User does not exist in database
 				// Add nice label
+				this.state.userready = true;
 			}
 		})
 
 		this.socket.on('add_user', (response) => {
 			// Handle response as positive or negative
 			console.log(response);
-
 		})
 
-    this.socket.on('connect_error', (err) => {
-      	console.log(err)
-    })
+		// On connect error
+	    this.socket.on('connect_error', (err) => {
+	      	console.log(err)
+	    })
+
+	    // If server disconnects socket
+	    this.socket.on('disconnect', () => {
+	    	console.log('Disconnected from server');
+	    })
+
+	    // Disconnect socket when leaving screen
+		const didBlurSubscription = this.props.navigation.addListener(
+			'didBlur', payload => {
+				this.socket.disconnect()
+			}
+		);
 	}
 
 	// Add a user
@@ -55,12 +75,36 @@ class CreateAccount extends Component {
 		const {user} = this.state;
 		const {pass} = this.state;
 		const {email} = this.state;
+		
+		if (!this.state.passready || pass.length === 0) {
+			alert('Passwords dont match or is empty');
+			return;
+		} 
+		if (!this.state.userready || user.length === 0) {
+			alert('Username is taken or unvalid');
+			return;
+		}
+
 		payload = {
 			user: user,
-      pass: pass,
-      email: email
+			pass: pass,
+			email: email
 		}
 		this.socket.emit('create_account', payload);
+	}
+
+	// Validate if passwords are equal
+	validatePasswordInput(pass_one) {
+		const pass_two = this.state.pass;
+		if (pass_one.length === pass_two.length) {
+			if (pass_one === pass_two) {
+				// Green 
+				this.state.passready = true;
+			} else {
+				// Warning
+				this.state.passready = false;
+			}
+		}
 	}
 
   render() {
@@ -81,12 +125,13 @@ class CreateAccount extends Component {
 	         	<TextInput style = {styles.input}
 	                       onChangeText={(pass) => this.setState({pass})}
 	                       placeholder='Password'
-	                       secureTextEntry/>
+	                       secureTextEntry
+	                       id='pass1'/>
 	            <TextInput style = {styles.input}
-	                       onChangeText={(pass) => this.setState({pass})}
+	                       onChangeText={(pass) => this.validatePasswordInput(pass)}
 	                       placeholder='Retype password'
-	                       // TODO: make sure same password is retyped
-	                       secureTextEntry/>
+	                       secureTextEntry
+	                       id='pass2'/>
 		        <TouchableOpacity style={styles.buttonContainer} onPress = {this.addUser} >
 		          <Text  style={styles.buttonText}>CREATE ACCOUNT</Text>
 		        </TouchableOpacity>

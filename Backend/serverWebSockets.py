@@ -21,12 +21,18 @@ Base.prepare(engine, reflect=True)
 Users = Base.classes.users
 session = Session(engine)  # Used for db-queries
 
-# Handle a general message
+# Handle a connect
 @socketio.on('connect')
-def handle_message():
+def handle_connect():
     print('Client connected to server')
 
+# Handle disconnect
+@socketio.on('disconnect')
+def handle_disconnect():
+	print('Client disconnected')
+
 # Check if user is in database
+# Returns true if user exists
 @socketio.on('check_db')
 def handle_my_custom_event(message):
 	if check_db(message['user']):
@@ -51,9 +57,9 @@ def handle_create_account(message):
 # Check if a username already exists in the database
 def check_db(user):
 	query = session.query(Users).filter(Users.username == user)
-	if not query.all(): # if list is empty, username is not taken
-		return True
-	return False
+	if not query.all(): # If list is empty, return false because no user was found
+		return False
+	return True
 
 if __name__ == '__main__':
     socketio.run(app, port=5001)

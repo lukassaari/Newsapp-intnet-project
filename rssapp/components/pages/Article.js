@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
-import { Text, ScrollView, StyleSheet, TouchableOpacity, View, TextInput, List, ListItem, FlatList } from "react-native";
+import { Text, ScrollView, StyleSheet, TouchableOpacity, View, TextInput, FlatList } from "react-native";
 import { NavigationActions } from 'react-navigation';
 import io from 'socket.io-client';
+import { List, ListItem } from 'react-native-elements';
 /*
 *   Describes the view for a single article
 *   An article has a text and comments that can be read
@@ -55,17 +56,18 @@ class Article extends Component {
   }
 
   refreshView = (response) => {
-    this.state.comments = response; // Add comments to the state
+    let comments = response;
+    this.setState({comments}); // Add comments to the state
+    console.log(this.state.comments);
   }
 
   constructor(props) {
     super(props);
     this.state = {
       commentText: '', // New comment text box
-      comments: [{username: 'placeholder', content: 'pass', pubTime: '33', upvoteCount: 5}] // Will hold all comments on this article
+      comments: [{username: 'placeholder', content: 'pass', pubTime: '33', upvoteCount: '5'}] // Will hold all comments on this article
     };  
     this.id = this.props.navigation.state.params.id;  // The id of the article
-    console.log(this.state.comments);
     // Create a new persistant socket connection with the server
     this.socket = io('http://10.0.3.2:5001', {
         transports: ['websocket'],
@@ -143,11 +145,44 @@ class Article extends Component {
           onChangeText={(commentText) => this.setState({commentText})}  // Updates the commentText variable
           placeholder = "Write your comment here..."
         />
-
+       <List style={styles.listContainer}>{
+          <FlatList
+            extraData={this.state.comments} // This is the object it watches, if it is recognized as changed the listview will update
+            data={this.state.comments} 
+            keyExtractor={item => item.pubTime}
+            renderItem={({item }) => (
+              <ListItem
+                title={item.username + ": " + item.content}
+                subtitle={"Vid tid: " + item.pubTime + "\nUpvotes: " + item.upvoteCount}
+                subtitleNumberOfLines = {2}  // Subtitle is given two lines of space
+                titleStyle={{color: 'white'}}
+                subtitleStyle={{color: 'white'}}
+                containerStyle={{backgroundColor: '#2c3e50'}}
+              />
+            )}
+          />
+        }
+        </List>
       </ScrollView>
     );
   }
 }
+
+
+        // {
+        //   this.state.comments.map((article, i) => (
+        //     <ListItem
+        //       key={i}
+        //       title={article.username}
+        //       subtitle={"Publicerad: " + article.pubTime + "\nUpvotes: " + article.upvoteCount
+        //                 + " Kommentarer: " + article.username}
+        //       subtitleNumberOfLines = {2}  // Subtitle is given two lines of space
+        //       titleStyle={{color: 'white'}}
+        //       subtitleStyle={{color: 'white'}}
+        //       containerStyle={{backgroundColor: '#2c3e50'}}
+        //     />
+        //   ))
+        // }
 
         // <List style={styles.listContainer}>{
           // Iterates over the comments and displays them

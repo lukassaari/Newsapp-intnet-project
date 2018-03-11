@@ -81,7 +81,7 @@ class News extends Component {
 
   render(){
     const{navigate} = this.props.navigation;
-    articles = JSON.parse(this.props.navigation.state.params.news._bodyInit)["articles"]  // Array of articles stored in dicts
+    articles = JSON.parse(this.props.navigation.state.params.news._bodyInit)["articles"];  // Array of articles stored in dicts
     return(
       <ScrollView style={styles.scrollContainer}>
         <View style={styles.buttonView}>

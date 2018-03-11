@@ -37,6 +37,31 @@ class News extends Component {
     })
   }*/
 
+  // Fetches user profile data and goes to the user profile page
+  profile = () => {
+
+    // Calls the backend to get user profile data
+    fetch("http://10.0.3.2:5000/getUserInfo", {
+        method: "get",
+        headers:{
+            'Accept': 'text/html, application/json',
+            'Content-Type': 'application/json',
+        }
+    })
+    .then((response) => { // Parse the response and then move to next page
+        userInfo = JSON.parse(response._bodyText)["userInfo"]
+        username = userInfo.username
+        email = userInfo.email
+        commentCount = userInfo.commentCount
+        upvoteCount = userInfo.upvoteCount
+
+
+        this.props.navigation.navigate("UserProfile", {"username": username,
+        "email": email, "upvoteCount": upvoteCount, "commentCount": commentCount}
+        )
+    })
+  }
+
   render(){
     const{navigate} = this.props.navigation;
     articles = JSON.parse(this.props.navigation.state.params.news._bodyInit)["articles"]  // Array of articles stored in dicts
@@ -93,7 +118,8 @@ const styles = StyleSheet.create({
       //padding: 20,
       //paddingVertical: 15,
       //marginRight: 5,
-      width: 60
+      width: 60,
+      height: 60
   }
 });
 

@@ -9,14 +9,20 @@ class UserProfile extends Component {
   };
 
   render(){
+    console.log(this.props.navigation.state.params)
+    username = this.props.navigation.state.params.username
+    email = this.props.navigation.state.params.email
+    upvoteCount = this.props.navigation.state.params.upvoteCount
+    commentCount = this.props.navigation.state.params.commentCount
+
     return(
       <View style={styles.container}>
         <Text style={styles.titleText}>
-          Lukas Saari
+          {username}
           <Text style={styles.contentText}>
-            {"\n\n"}Email: lsaari@kth.se
-            {"\n"}Upvotes: 10
-            {"\n"}Kommentarer: 2
+            {"\n\n"}Email: {email}
+            {"\n\n"}Kommentarer: {commentCount}
+            {"\n\n"}Upvotes: {upvoteCount}
           </Text>
         </Text>
       </View>
@@ -26,18 +32,22 @@ class UserProfile extends Component {
 
 const styles = StyleSheet.create({
   titleText:{
-    fontSize: 22,
+    fontSize: 24,
     color: "white",
-    padding: 10
+    padding: 10,
+    textAlign: "center",
+    fontWeight: "bold"
   },
   contentText:{
-    fontSize: 14,
+    fontSize: 16,
     color: "white",
-    padding: 10
+    padding: 10,
+    textAlign: "center"
   },
   container:{
     paddingVertical: 20,
-    backgroundColor: '#2c3e50'
+    backgroundColor: '#2c3e50',
+    flex: 1
   }
 });
 

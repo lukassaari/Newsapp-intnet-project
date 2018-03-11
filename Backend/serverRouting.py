@@ -153,8 +153,10 @@ def getComments():
 def getUserInfo():
     query = session.query(Users).filter(Users.id == app.currUserId)
     userInfo = query.one()
-    print(userInfo)
-    userInfoJson = jsonify({"userInfo": userInfo})
+    userInfoDict = {"id": userInfo.id, "username": userInfo.username, "email": userInfo.email,
+                    "commentCount": userInfo.commentCount, "upvoteCount": userInfo.upvoteCount}
+    userInfoJson = jsonify({"userInfo": userInfoDict})
+
     return userInfoJson
 
 if __name__ == "__main__":

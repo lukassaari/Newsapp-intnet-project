@@ -1,6 +1,6 @@
 // Template from https://react-native-training.github.io/react-native-elements/docs/0.19.0/lists.html#listitem-implemented-with-custom-view-for-subtitle
 import React, { Component } from 'react';
-import { ScrollView, StyleSheet } from "react-native";
+import { ScrollView, StyleSheet, TouchableOpacity, Text } from "react-native";
 import { List, ListItem } from 'react-native-elements';
 import { NavigationActions } from 'react-navigation';
 
@@ -42,6 +42,9 @@ class News extends Component {
     articles = JSON.parse(this.props.navigation.state.params.news._bodyInit)["articles"]  // Array of articles stored in dicts
     return(
       <ScrollView style={styles.scrollContainer}>
+          <TouchableOpacity style={styles.profileButton} onPress = {this.profile}>
+            <Text style={styles.buttonText}>Profile</Text>
+          </TouchableOpacity>
         <List style={styles.listContainer}>
         {
           // Iterates over the articles and displays them
@@ -79,6 +82,18 @@ const styles = StyleSheet.create({
   listContainer:{
     //backgroundColor: '#2c3e50',
     marginBottom: 20
+  },
+  buttonText:{
+      color: '#fff',
+      textAlign: 'center',
+      fontWeight: '700'
+  },
+  profileButton:{
+      backgroundColor: '#2980b6',
+      //padding: 20,
+      //paddingVertical: 15,
+      //marginRight: 5,
+      width: 60
   }
 });
 

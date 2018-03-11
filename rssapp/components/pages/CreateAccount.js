@@ -75,11 +75,11 @@ class CreateAccount extends Component {
 		const {user} = this.state;
 		const {pass} = this.state;
 		const {email} = this.state;
-		
+
 		if (!this.state.passready || pass.length === 0) {
 			alert('Passwords dont match or is empty');
 			return;
-		} 
+		}
 		if (!this.state.userready || user.length === 0) {
 			alert('Username is taken or unvalid');
 			return;
@@ -98,7 +98,7 @@ class CreateAccount extends Component {
 		const pass_two = this.state.pass;
 		if (pass_one.length === pass_two.length) {
 			if (pass_one === pass_two) {
-				// Green 
+				// Green
 				this.state.passready = true;
 			} else {
 				// Warning

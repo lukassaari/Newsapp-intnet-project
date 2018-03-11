@@ -3,9 +3,8 @@
   <component name="ChangeListManager">
     <list default="true" id="737ceeed-575f-4d93-8035-c18ff299d4c5" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/rssapp/react-native-elements-app" afterPath="$PROJECT_DIR$/rssapp/react-native-elements-app" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Backend/serverRouting.py" afterPath="$PROJECT_DIR$/Backend/serverRouting.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/rssapp/components/pages/Article.js" afterPath="$PROJECT_DIR$/rssapp/components/pages/Article.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/rssapp/components/pages/News.js" afterPath="$PROJECT_DIR$/rssapp/components/pages/News.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/rssapp/components/pages/CreateAccount.js" afterPath="$PROJECT_DIR$/rssapp/components/pages/CreateAccount.js" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -35,8 +34,8 @@
           <file leaf-file-name="serverRouting.py" pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/Backend/serverRouting.py">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="343">
-                  <caret line="156" column="50" lean-forward="true" selection-start-line="156" selection-start-column="50" selection-end-line="156" selection-end-column="50" />
+                <state relative-caret-position="364">
+                  <caret line="157" column="23" lean-forward="true" selection-start-line="157" selection-start-column="23" selection-end-line="157" selection-end-column="23" />
                   <folding>
                     <element signature="e#0#65#0" expanded="true" />
                   </folding>
@@ -47,8 +46,8 @@
           <file leaf-file-name="serverWebSockets.py" pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/Backend/serverWebSockets.py">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="-441">
-                  <caret line="6" column="11" lean-forward="true" selection-start-line="6" selection-start-column="11" selection-end-line="6" selection-end-column="11" />
+                <state relative-caret-position="-665">
+                  <caret line="6" column="11" lean-forward="false" selection-start-line="6" selection-start-column="11" selection-end-line="6" selection-end-column="11" />
                   <folding>
                     <element signature="e#0#40#0" expanded="true" />
                   </folding>
@@ -225,24 +224,7 @@
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="settings.editor.selected.configurable" value="preferences.editor" />
   </component>
-  <component name="RunManager" selected="Python.serverRouting">
-    <configuration default="false" name="dbconn" type="PythonConfigurationType" factoryName="Python" temporary="true">
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <module name="emilmar-project" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/dbconn.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <method />
-    </configuration>
+  <component name="RunManager" selected="Python.serverWebSockets">
     <configuration default="false" name="appPy" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -307,6 +289,23 @@
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <module name="emilmar-project" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/Backend/serverRouting.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <method />
+    </configuration>
+    <configuration default="false" name="serverWebSockets" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/Backend" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <module name="emilmar-project" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/Backend/serverWebSockets.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <method />
@@ -446,19 +445,19 @@
       <method />
     </configuration>
     <list size="5">
-      <item index="0" class="java.lang.String" itemvalue="Python.dbconn" />
-      <item index="1" class="java.lang.String" itemvalue="Python.appPy" />
-      <item index="2" class="java.lang.String" itemvalue="Python.appPy (1)" />
-      <item index="3" class="java.lang.String" itemvalue="Python.RssReader" />
-      <item index="4" class="java.lang.String" itemvalue="Python.serverRouting" />
+      <item index="0" class="java.lang.String" itemvalue="Python.appPy" />
+      <item index="1" class="java.lang.String" itemvalue="Python.appPy (1)" />
+      <item index="2" class="java.lang.String" itemvalue="Python.RssReader" />
+      <item index="3" class="java.lang.String" itemvalue="Python.serverRouting" />
+      <item index="4" class="java.lang.String" itemvalue="Python.serverWebSockets" />
     </list>
     <recent_temporary>
       <list size="5">
-        <item index="0" class="java.lang.String" itemvalue="Python.serverRouting" />
-        <item index="1" class="java.lang.String" itemvalue="Python.appPy (1)" />
-        <item index="2" class="java.lang.String" itemvalue="Python.RssReader" />
-        <item index="3" class="java.lang.String" itemvalue="Python.appPy" />
-        <item index="4" class="java.lang.String" itemvalue="Python.dbconn" />
+        <item index="0" class="java.lang.String" itemvalue="Python.serverWebSockets" />
+        <item index="1" class="java.lang.String" itemvalue="Python.serverRouting" />
+        <item index="2" class="java.lang.String" itemvalue="Python.appPy (1)" />
+        <item index="3" class="java.lang.String" itemvalue="Python.RssReader" />
+        <item index="4" class="java.lang.String" itemvalue="Python.appPy" />
       </list>
     </recent_temporary>
   </component>
@@ -644,8 +643,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/Backend/serverWebSockets.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-441">
-          <caret line="6" column="11" lean-forward="true" selection-start-line="6" selection-start-column="11" selection-end-line="6" selection-end-column="11" />
+        <state relative-caret-position="-665">
+          <caret line="6" column="11" lean-forward="false" selection-start-line="6" selection-start-column="11" selection-end-line="6" selection-end-column="11" />
           <folding>
             <element signature="e#0#40#0" expanded="true" />
           </folding>
@@ -654,8 +653,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/Backend/serverRouting.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="343">
-          <caret line="156" column="50" lean-forward="true" selection-start-line="156" selection-start-column="50" selection-end-line="156" selection-end-column="50" />
+        <state relative-caret-position="364">
+          <caret line="157" column="23" lean-forward="true" selection-start-line="157" selection-start-column="23" selection-end-line="157" selection-end-column="23" />
           <folding>
             <element signature="e#0#65#0" expanded="true" />
           </folding>

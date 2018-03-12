@@ -76,7 +76,7 @@ class Article extends Component {
     this.state = {
       commentText: '', // New comment text box
       comments: [{username: 'placeholder', commenText: 'pass', pubTime: '33', upvoteCount: '5'}] // Will hold all comments on this article
-    };  
+    };
     this.id = this.props.navigation.state.params.id;  // The id of the article
 
     // Create a new persistant socket connection with the server
@@ -108,7 +108,7 @@ class Article extends Component {
       'didBlur', payload => {
         this.socket.disconnect()
       }
-    ); 
+    );
   }
 
   render(){
@@ -145,7 +145,7 @@ class Article extends Component {
        <List style={styles.listContainer}>{
           <FlatList
             extraData={this.state.comments} // This is the object it watches, if it is recognized as changed the listview will update
-            data={this.state.comments} 
+            data={this.state.comments}
             keyExtractor={item => item.pubTime}
             renderItem={({item }) => (
               <ListItem
@@ -177,7 +177,7 @@ const styles = StyleSheet.create({
     padding: 10
   },
   container:{
-    paddingVertical: 20,
+    //paddingVertical: 20,
     backgroundColor: '#2c3e50'
   },
   buttonView:{

@@ -11,32 +11,6 @@ class News extends Component {
     title: 'Newsfeed'
   };
 
-  /*
-  constructor(props){
-    super(props);
-    //this.state = {articleId: 9999};
-    //this.newsNavigation = this.newsNavigation.bind(this);
-  }*/
-
-  /*
-  // Fetches comments for the article
-  getComments = () => {
-    fetch("http://10.0.3.2:5000/getComments", {
-        method: "get",
-        headers:{
-            'Accept': 'text/html, application/json',
-            'Content-Type': 'application/json',
-        },
-        body:JSON.stringify({
-          articleId: "artikel id test"
-        })
-    })
-    .then((response) => {
-      console.log(response)
-      //return response
-    })
-  }*/
-
   // Fetches user profile data and goes to the user profile page
   profile = () => {
 
@@ -84,13 +58,29 @@ class News extends Component {
     articles = JSON.parse(this.props.navigation.state.params.news._bodyInit)["articles"];  // Array of articles stored in dicts
     return(
       <ScrollView style={styles.scrollContainer}>
-        <View style={styles.buttonView}>
-          <TouchableOpacity style={styles.profileButton} onPress = {this.profile}>
-            <Text style={styles.buttonText}>Profil</Text>
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.profileButton} onPress = {this.sources}>
-            <Text style={styles.buttonText}>Källstatistik</Text>
-          </TouchableOpacity>
+        <View style={styles.topMenuView}>
+          <View style={styles.buttonView}>
+            <TouchableOpacity style={styles.profileButton} onPress = {this.profile}>
+              <Text style={styles.buttonText}>Profil</Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.profileButton} onPress = {this.sources}>
+              <Text style={styles.buttonText}>Källstatistik</Text>
+            </TouchableOpacity>
+          </View>
+          <View style={styles.sortView}>
+            <Text style={styles.buttonText}>Sortera efter:</Text>
+            <View style={styles.sortAltView}>
+              <TouchableOpacity style={styles.sortButton}>
+                <Text style={styles.buttonText}>Senast</Text>
+              </TouchableOpacity>
+              <TouchableOpacity style={styles.sortButton}>
+                <Text style={styles.buttonText}>Upvotes</Text>
+              </TouchableOpacity>
+              <TouchableOpacity style={styles.sortButton}>
+                <Text style={styles.buttonText}>Kommentarer</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
         </View>
         <List style={styles.listContainer}>
         {
@@ -108,10 +98,6 @@ class News extends Component {
 
               // When the article is pressed, move the user to the article specific page and display the article
               onPress={() => navigate("Article", {title: article.title, content: article.content, id: article.id})}
-              //onPress = {
-                //article.id => this.setState(articleId)
-              //  this.getComments
-              //}
             />
           ))
         }
@@ -123,12 +109,13 @@ class News extends Component {
 
 const styles = StyleSheet.create({
   scrollContainer:{
-    paddingVertical: 20,
+    //paddingVertical: 20,
     backgroundColor: '#2c3e50'
   },
   listContainer:{
     //backgroundColor: '#2c3e50',
-    marginBottom: 20
+    //marginBottom: 100,
+    //marginTop: 100
   },
   buttonText:{
       color: '#fff',
@@ -139,15 +126,41 @@ const styles = StyleSheet.create({
       backgroundColor: '#2980b6',
       //padding: 5,
       //paddingVertical: 15,
-      marginLeft: 5,
+      //marginLeft: 5,
       marginRight: 5,
-      width: 100
-      //height: 60,
-
+      width: 90,
+      marginBottom: 5,
+      height: 20
+  },
+  sortButton:{
+      backgroundColor: '#2980b6',
+      //padding: 5,
+      //paddingVertical: 15,
+      marginLeft: 5,
+      //marginRight: 5,
+      width: 80,
+      marginBottom: 5,
+      height: 20
+  },
+  topMenuView:{
+    //flex: 1,
+    flexDirection: "row",
+    //width: 150
   },
   buttonView:{
+    //flex: 1,
+    flexDirection: "column",
+    //width: 150
+  },
+  sortView:{
+    //flex: 1,
+    flexDirection: "column",
+    width: 255
+  },
+  sortAltView:{
+    //flex: 1,
     flexDirection: "row",
-    width: 150
+    //width: 150
   }
 });
 

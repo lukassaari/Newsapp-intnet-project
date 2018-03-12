@@ -6,8 +6,34 @@ from sqlalchemy.orm import Session
 import pymysql #DBAPI connector
 import requests
 from werkzeug.security import generate_password_hash
-import RssReader
+import RssReaderCision
+import RssReaderDI
 import datetime
+
+# Fetches news from all RSS and adds them to the database
+def addNews():
+    newsCision = rssReaderCision.getNews()  # Fetches news from Cision
+    if newsCision:  # If not empty
+        for id in newsCision:  # Adds news to the database
+            print("Adding ", id)
+            print(newsCision[id])
+            session.add(Articles(id=id, commentCount=0, upvoteCount=0, readCount=0, title=newsCision[id]["title"],
+                                 content=newsCision[id]["content"], sourcee=rssReaderCision.source, pubTime=newsCision[id]["published"]))
+        session.commit()  # Commit adds to the database
+
+    newsDI = rssReaderDI.getNews()  # Fetches news from DI
+    if newsDI:  # If not empty
+        for id in newsDI:  # Adds news to the database
+            print("Adding ", id)
+            print(newsDI[id])
+            session.add(Articles(id=id, commentCount=0, upvoteCount=0, readCount=0, title=newsDI[id]["title"],
+                                 content=newsDI[id]["content"], sourcee=rssReaderDI.source, pubTime=newsDI[id]["published"]))
+        session.commit()  # Commit adds to the database
+
+# Sets the curr user id
+def setUser(userId, username):
+    app.currUserId = userId
+    app.username = username
 
 app = Flask(__name__)
 
@@ -28,27 +54,26 @@ session = Session(engine)  # Used for db-queries
 app.currUserId = 1
 app.username = "l"
 
-# Creates the RSS-reader
-#lastId = session.query(Articles())
-lastArticle = session.query(Articles).order_by(Articles.pubTime.desc()).first()  # Gets the last published article in the database
-if lastArticle != None:
-    lastId = lastArticle.id  # The id of the latest article
+# Creates the RSS-reader for Cision
+# Gets the last published article in the database for Cision
+lastArticleCision = session.query(Articles).filter(Articles.sourcee == "Cision").order_by(Articles.pubTime.desc()).first()
+if lastArticleCision != None:
+    lastIdCision = lastArticleCision.id  # The id of the latest article
 else:  # If database is empty a value needs to be assigned to prevent errors
-    lastId = 0
-rssReader = RssReader.RssReader("Cision", "http://news.cision.com/se/ListItems?format=rss", lastId)
-news = rssReader.getNews()  # Fetches news
-if news:  # If not empty
-    for id in news:  # Adds news to the database
-        print("Adding ", id)
-        print(news[id])
-        session.add(Articles(id=id, commentCount=0, upvoteCount=0, readCount=0, title=news[id]["title"],
-                             content=news[id]["content"], sourcee=rssReader.source, pubTime=news[id]["published"]))
-    session.commit()  # Commit adds to the database
+    lastIdCision = 0
+rssReaderCision = RssReaderCision.RssReaderCision("Cision", "http://news.cision.com/se/ListItems?format=rss", lastIdCision)
 
-# Sets the curr user id
-def setUser(userId, username):
-    app.currUserId = userId
-    app.username = username
+# Creates the RSS-reader for DI
+# Gets the last published article in the database for Cision
+lastArticleDI = session.query(Articles).filter(Articles.sourcee == "DI").order_by(Articles.pubTime.desc()).first()
+if lastArticleDI != None:
+    lastIdDI = lastArticleDI.id  # The id of the latest article
+else:  # If database is empty a value needs to be assigned to prevent errors
+    lastIdDI = 0
+rssReaderDI = RssReaderDI.RssReaderDI("DI", "https://www.di.se/rss", lastIdDI)
+
+# Adds all new articles
+addNews()
 
 # Routes to start page
 @app.route("/", methods = ['GET', 'POST'])

@@ -3,7 +3,7 @@ from time import mktime
 from datetime import datetime
 
 # Reading and returning a dict of all new articles from: http://news.cision.com/se/ListItems?format=rss
-class RssReader:
+class RssReaderCision:
 
     # source: Name of the news source
     # url: The RSS-feed to read

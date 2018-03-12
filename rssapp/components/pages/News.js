@@ -55,7 +55,7 @@ class News extends Component {
     })
   }
 
-  // Sorts the newsfeed by the parameter "type"
+  // Sorts the newsfeed by the specified parameter "type"
   sortNews(articles, type){
     sorted = articles.sort(function(a,b){  // Sorting the array
       if (type === "upvote"){  // Sorting by upvotes
@@ -85,7 +85,7 @@ class News extends Component {
       <ListItem
         title={rowData.title}
         subtitle={"Publicerad: " + rowData.pubTime + "\nUpvotes: " + rowData.upvoteCount
-                  + " Kommentarer: " + rowData.commentCount}
+                  + " Kommentarer: " + rowData.commentCount + " Källa: " + rowData.source}
         subtitleNumberOfLines = {2}  // Subtitle is given two lines of space
         titleStyle={{color: 'white'}}
         subtitleStyle={{color: 'white'}}

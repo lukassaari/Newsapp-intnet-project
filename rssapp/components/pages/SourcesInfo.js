@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { ScrollView, StyleSheet } from "react-native";
+import { ScrollView, StyleSheet, Image } from "react-native";
 import { List, ListItem } from 'react-native-elements';
 
 class SourcesInfo extends Component {
@@ -11,8 +11,7 @@ class SourcesInfo extends Component {
 
   render(){
     sourcesInfo = this.props.navigation.state.params["sources"]
-    console.log(sourcesInfo)
-
+    images = [require('../images/cision_logo.png'), require('../images/DI_logo.png')]
     return(
       //<Text>Test</Text>
 
@@ -20,15 +19,28 @@ class SourcesInfo extends Component {
         <List style={styles.listContainer}>
         {
           sourcesInfo.map((source, i) => (
+            // if (source.title === "Cision"){
+            //   image=require('../images/cision_logo.png')
+            // } else {
+            //   image=require('../images/DI_logo.png')
+            // }
             <ListItem
+              //<Image resizeMode="contain" style={styles.logo} source={require('../images/logo-dark-bg.png')} />
+              roundAvatar
+
               key={i}
               title={source.title}
               subtitle={"Upvotes: " + source.upvoteCount + "\nKommentarer: " + source.commentCount + "\nLäsningar: " + source.publicizedCount}
               subtitleNumberOfLines = {3}  // Subtitle is given three lines of space
-              titleStyle={{color: 'white'}}
-              subtitleStyle={{color: 'white'}}
+              titleStyle={{color: 'white', fontSize: 24}}
+              subtitleStyle={{color: 'white', fontSize: 16}}
               containerStyle={{backgroundColor: '#2c3e50'}}
-              hideChevron={true}  // Removes the chevron
+              hideChevron={true}  // Removes the chevronss
+              avatar={images[i]}
+              avatarStyle={{width: 100, height:100}}
+              avatarContainerStyle={{width: 100, height:100}}
+              avatarOverlayContainerStyle={{width: 100, height:100}}
+
             />
           ))
         }
@@ -46,6 +58,11 @@ const styles = StyleSheet.create({
   listContainer:{
     //backgroundColor: '#2c3e50',
     marginBottom: 20,
+  },
+  logo: {
+      position: 'absolute',
+      width: 100,
+      height: 50
   }
 });
 

@@ -59,3 +59,4 @@ COLLATE utf8_general_ci;
 insert into users values (null, 'e', 'emilmar@kth.se', 0, 0, 'e');
 insert into users values (null, '1', 'lsaari@kth.se', 0, 0, '2');
 insert into sources values ('Cision', 0, 0, 0, 0);
+insert into sources values ('DI', 0, 0, 0, 0);

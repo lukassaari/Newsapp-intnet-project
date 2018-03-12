@@ -10,7 +10,7 @@ import datetime
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'secret!'
 app.config['DEBUG'] = True # same function as argument in run
-socketio = SocketIO(app, ping_timeout=30, ping_interval=10) # modify ping to not upset RN 
+socketio = SocketIO(app, ping_timeout=30, ping_interval=10) # modify ping to not upset RN
 
 # Connects to database
 conn_string = "mysql+pymysql://test:pass@localhost:3306/emilmar?charset=utf8"
@@ -51,12 +51,14 @@ def handle_get_comments(message):
 def handle_add_comment(message):
 	commentText = message["commentText"]
 	articleId = message["articleId"]
+	source = message["source"]
 
 	# Inserts the comment into the database
 	session.add(Comments(uid=app.currUserId, pubTime=datetime.datetime.now(), upvoteCount=0, content=commentText, username=app.currUserId,
                          article=articleId))
 
 	# Increments the comment count of the article and the user
+	session.query(Sources).filter(Sources.title == source).update({"commentCount" : Sources.commentCount + 1})
 	session.query(Articles).filter(Articles.id == articleId).update({"commentCount" : Articles.commentCount + 1})
 	session.query(Users).filter(Users.id == app.currUserId).update({"commentCount" : Users.commentCount + 1})
 	session.commit()

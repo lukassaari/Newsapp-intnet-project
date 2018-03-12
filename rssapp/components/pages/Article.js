@@ -38,8 +38,9 @@ class Article extends Component {
     // Calls to the backend (USING SOCKETS) to comment to database
     commentSocket = () => {
       const {id} = this.props.navigation.state.params  // The id of the article
+      const {source} = this.props.navigation.state.params  // Source of the article
       const {commentText} = this.state;  // The text of the comment
-      this.socket.emit('add_comment', {articleId: id, commentText: commentText});
+      this.socket.emit('add_comment', {articleId: id, commentText: commentText, source: source});
       this._textInput.setNativeProps({text: ""});  // Clears the textInput field
     }
 

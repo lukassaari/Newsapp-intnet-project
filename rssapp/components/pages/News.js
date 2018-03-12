@@ -85,14 +85,14 @@ class News extends Component {
       <ListItem
         title={rowData.title}
         subtitle={"Publicerad: " + rowData.pubTime + "\nUpvotes: " + rowData.upvoteCount
-                  + " Kommentarer: " + rowData.commentCount + " Källa: " + rowData.source}
+                  + " || Kommentarer: " + rowData.commentCount + " || Källa: " + rowData.source}
         subtitleNumberOfLines = {2}  // Subtitle is given two lines of space
         titleStyle={{color: 'white'}}
         subtitleStyle={{color: 'white'}}
         containerStyle={{backgroundColor: '#2c3e50'}}
 
         // When the article is pressed, move the user to the article specific page and display the article
-        onPress={() => this.props.navigation.navigate("Article", {title: rowData.title, content: rowData.content, id: rowData.id})}
+        onPress={() => this.props.navigation.navigate("Article", {title: rowData.title, content: rowData.content, id: rowData.id, source: rowData.source})}
       />
     );
   }

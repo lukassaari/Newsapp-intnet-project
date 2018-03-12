@@ -12,23 +12,28 @@ import datetime
 
 # Fetches news from all RSS and adds them to the database
 def addNews():
+    counter = 0  # How many new articles that are found
     newsCision = rssReaderCision.getNews()  # Fetches news from Cision
     if newsCision:  # If not empty
         for id in newsCision:  # Adds news to the database
             print("Adding ", id)
             print(newsCision[id])
+            counter += 1
             session.add(Articles(id=id, commentCount=0, upvoteCount=0, readCount=0, title=newsCision[id]["title"],
                                  content=newsCision[id]["content"], sourcee=rssReaderCision.source, pubTime=newsCision[id]["published"]))
-        session.commit()  # Commit adds to the database
+    session.query(Sources).filter(Sources.title == "Cision").update({"publicizedCount": Sources.publicizedCount + counter})
 
+    counter = 0
     newsDI = rssReaderDI.getNews()  # Fetches news from DI
     if newsDI:  # If not empty
         for id in newsDI:  # Adds news to the database
             print("Adding ", id)
             print(newsDI[id])
+            counter += 1
             session.add(Articles(id=id, commentCount=0, upvoteCount=0, readCount=0, title=newsDI[id]["title"],
                                  content=newsDI[id]["content"], sourcee=rssReaderDI.source, pubTime=newsDI[id]["published"]))
-        session.commit()  # Commit adds to the database
+    session.query(Sources).filter(Sources.title == "DI").update({"publicizedCount": Sources.publicizedCount + counter})
+    session.commit()
 
 # Sets the curr user id
 def setUser(userId, username):
@@ -105,6 +110,8 @@ def login():
 # Routes to the news page
 @app.route("/news", methods=["GET"])
 def news():
+    addNews()  # Adds new articles
+
     newsList = []  # List of news articles to pass to the news page
     query = session.query(Articles).order_by(Articles.pubTime.desc()).limit(20)  # 20 latest news stories
     news = query.all()
@@ -123,8 +130,8 @@ def upvote():
         articleId = payload["articleId"]
 
         # Increments the upvote count of the article and the user by 1
-        session.query(Articles).filter(Articles.id == articleId).update({"upvoteCount" : Articles.upvoteCount + 1})
-        session.query(Users).filter(Users.id == app.currUserId).update({"upvoteCount" : Users.upvoteCount + 1})
+        session.query(Articles).filter(Articles.id == articleId).update({"upvoteCount": Articles.upvoteCount + 1})
+        session.query(Users).filter(Users.id == app.currUserId).update({"upvoteCount": Users.upvoteCount + 1})
         session.commit()
 
         return "ok"
@@ -153,7 +160,6 @@ def comment():
     except Exception as e:
         print("Fel i /comment: ", e)
         abort(401)
-
 
 # Fetches historical comments for a specific article
 @app.route("/getComments", methods=["GET"])

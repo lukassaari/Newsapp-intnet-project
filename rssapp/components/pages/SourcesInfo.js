@@ -20,8 +20,10 @@ class SourcesInfo extends Component {
             <ListItem
               key={i}
               title={source.title}
-              subtitle={"Upvotes: " + source.upvoteCount + "\nKommentarer: " + source.commentCount + "\nLäsningar: " + source.publicizedCount}
-              subtitleNumberOfLines = {3}  // Subtitle is given three lines of space
+              subtitle={"Upvotes: " + source.upvoteCount +
+                "\nLäsningar: " + source.readCount + "\nKommentarer: " +
+                source.commentCount + "\nPubliceringar: " + source.publicizedCount}
+              subtitleNumberOfLines = {4}  // Subtitle is given three lines of space
               titleStyle={{color: 'white', fontSize: 24}}
               subtitleStyle={{color: 'white', fontSize: 16}}
               containerStyle={{backgroundColor: '#2c3e50'}}

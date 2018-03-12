@@ -11,23 +11,13 @@ class SourcesInfo extends Component {
 
   render(){
     sourcesInfo = this.props.navigation.state.params["sources"]
-    images = [require('../images/cision_logo.png'), require('../images/DI_logo.png')]
+    images = [require('../images/cision_logo.png'), require('../images/DI_logo.png')]  // Logos for news sources
     return(
-      //<Text>Test</Text>
-
       <ScrollView style={styles.scrollContainer}>
         <List style={styles.listContainer}>
         {
           sourcesInfo.map((source, i) => (
-            // if (source.title === "Cision"){
-            //   image=require('../images/cision_logo.png')
-            // } else {
-            //   image=require('../images/DI_logo.png')
-            // }
             <ListItem
-              //<Image resizeMode="contain" style={styles.logo} source={require('../images/logo-dark-bg.png')} />
-              roundAvatar
-
               key={i}
               title={source.title}
               subtitle={"Upvotes: " + source.upvoteCount + "\nKommentarer: " + source.commentCount + "\nLäsningar: " + source.publicizedCount}
@@ -36,11 +26,11 @@ class SourcesInfo extends Component {
               subtitleStyle={{color: 'white', fontSize: 16}}
               containerStyle={{backgroundColor: '#2c3e50'}}
               hideChevron={true}  // Removes the chevronss
+              roundAvatar
               avatar={images[i]}
               avatarStyle={{width: 100, height:100}}
               avatarContainerStyle={{width: 100, height:100}}
               avatarOverlayContainerStyle={{width: 100, height:100}}
-
             />
           ))
         }

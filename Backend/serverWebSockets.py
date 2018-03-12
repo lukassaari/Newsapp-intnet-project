@@ -26,7 +26,7 @@ Articles = Base.classes.articles
 session = Session(engine)  # Used for db-queries
 
 # Variables for keeping track of user
-app.currUserId = 1
+app.currUserId = 1  # UPPDATERAS ALDRIG BEHÖVER LÖSAS
 app.username = "l"
 
 # Handle a connect

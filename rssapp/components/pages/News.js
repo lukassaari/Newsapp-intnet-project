@@ -1,8 +1,11 @@
 // Template from https://react-native-training.github.io/react-native-elements/docs/0.19.0/lists.html#listitem-implemented-with-custom-view-for-subtitle
 import React, { Component } from 'react';
-import { ScrollView, StyleSheet, TouchableOpacity, Text, View } from "react-native";
+import { ScrollView, StyleSheet, TouchableOpacity, Text, View, ListView } from "react-native";
 import { List, ListItem } from 'react-native-elements';
 import { NavigationActions } from 'react-navigation';
+
+// Data source used for listing articles in the newsfeed
+let ds = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 } );
 
 class News extends Component {
 
@@ -48,14 +51,60 @@ class News extends Component {
     })
     .then((response) => { // Parse the response and then move to next page
         sources = JSON.parse(response._bodyText)["sourcesInfo"]
-        console.log(sources)
         this.props.navigation.navigate("SourcesInfo", {"sources": sources})
     })
   }
 
+  // Sorts the newsfeed by the parameter "type"
+  sortNews(articles, type){
+    sorted = articles.sort(function(a,b){  // Sorting the array
+      if (type === "upvote"){  // Sorting by upvotes
+        return b.upvoteCount < a.upvoteCount ? -1
+             : b.upvoteCount > a.upvoteCount ? 1
+             : 0
+      } else if (type === "comment") {  // Sorting by comments
+        return b.commentCount < a.commentCount ? -1
+             : b.commentCount > a.commentCount ? 1
+             : 0
+      } else if (type === "time"){  // Sorting by publication time
+        return b.pubTime < a.pubTime ? -1
+             : b.pubTime > a.pubTime ? 1
+             : 0
+      } else {
+        console.log("Fel i sortNews(), ingen giltig typ hittades")
+      }
+    })
+    this.setState({  // Updats data source with the sorted array
+      dataSource: ds.cloneWithRows(sorted)
+    })
+  }
+
+  // Renders all the news articles
+  _renderRow(rowData){
+    return (
+      <ListItem
+        title={rowData.title}
+        subtitle={"Publicerad: " + rowData.pubTime + "\nUpvotes: " + rowData.upvoteCount
+                  + " Kommentarer: " + rowData.commentCount}
+        subtitleNumberOfLines = {2}  // Subtitle is given two lines of space
+        titleStyle={{color: 'white'}}
+        subtitleStyle={{color: 'white'}}
+        containerStyle={{backgroundColor: '#2c3e50'}}
+
+        // When the article is pressed, move the user to the article specific page and display the article
+        onPress={() => this.props.navigation.navigate("Article", {title: rowData.title, content: rowData.content, id: rowData.id})}
+      />
+    );
+  }
+
+  constructor(props){
+    super(props);
+    articles = JSON.parse(this.props.navigation.state.params.news._bodyInit)["articles"];  // Array of articles stored in dicts
+    this.state = {dataSource: ds.cloneWithRows(articles)};
+  }
+
   render(){
     const{navigate} = this.props.navigation;
-    articles = JSON.parse(this.props.navigation.state.params.news._bodyInit)["articles"];  // Array of articles stored in dicts
     return(
       <ScrollView style={styles.scrollContainer}>
         <View style={styles.topMenuView}>
@@ -70,37 +119,23 @@ class News extends Component {
           <View style={styles.sortView}>
             <Text style={styles.buttonText}>Sortera efter:</Text>
             <View style={styles.sortAltView}>
-              <TouchableOpacity style={styles.sortButton}>
+              <TouchableOpacity style={styles.sortButton} onPress = {() => {this.sortNews(articles, "time")}}>
                 <Text style={styles.buttonText}>Senast</Text>
               </TouchableOpacity>
-              <TouchableOpacity style={styles.sortButton}>
+              <TouchableOpacity style={styles.sortButton} onPress = {() => {this.sortNews(articles, "upvote")}}>
                 <Text style={styles.buttonText}>Upvotes</Text>
               </TouchableOpacity>
-              <TouchableOpacity style={styles.sortButton}>
+              <TouchableOpacity style={styles.sortButton} onPress = {() => {this.sortNews(articles, "comment")}}>
                 <Text style={styles.buttonText}>Kommentarer</Text>
               </TouchableOpacity>
             </View>
           </View>
         </View>
         <List style={styles.listContainer}>
-        {
-          // Iterates over the articles and displays them
-          articles.map((article, i) => (
-            <ListItem
-              key={i}
-              title={article.title}
-              subtitle={"Publicerad: " + article.pubTime + "\nUpvotes: " + article.upvoteCount
-                        + " Kommentarer: " + article.commentCount}
-              subtitleNumberOfLines = {2}  // Subtitle is given two lines of space
-              titleStyle={{color: 'white'}}
-              subtitleStyle={{color: 'white'}}
-              containerStyle={{backgroundColor: '#2c3e50'}}
-
-              // When the article is pressed, move the user to the article specific page and display the article
-              onPress={() => navigate("Article", {title: article.title, content: article.content, id: article.id})}
-            />
-          ))
-        }
+          <ListView
+            dataSource = {this.state.dataSource}  // Fills the data source with the articles
+            renderRow={this._renderRow.bind(this)}  // Renders the articles
+          />
         </List>
       </ScrollView>
     );

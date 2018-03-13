@@ -183,6 +183,24 @@ def handle_add_comment(message):
     commentList = model.retrievComments(articleId)
     emit('comments', commentList, broadcast=True) # Tell all users to update their commentview
 
+# Upvotes a comment
+@socketio.on("upvoteComment")
+def handleUpvoteComment(message):
+    commentId = message["commentId"]
+    commentUid = message["uid"]
+    articleId = message["articleId"]
+
+    # Increments upvoteGivenCount for the user performing the upvote, upvoteReceivedCount for the user that submitted the comment,
+    #   and the upvoteCount for the comment
+    model.session.query(model.Users).filter(model.Users.id == model.currUserId).update({"upvoteGivenCount" : model.Users.upvoteGivenCount + 1})
+    model.session.query(model.Users).filter(model.Users.id == commentUid).update({"upvoteReceivedCount" : model.Users.upvoteReceivedCount + 1})
+    model.session.query(model.Comments).filter(model.Comments.id == commentId).update({"upvoteCount" : model.Comments.upvoteCount + 1})
+    model.session.commit()
+
+    commentList = model.retrievComments(articleId)
+    emit('comments', commentList, broadcast=True) # Tell all users to update their commentview
+
+
 # Check if user is in database
 # Returns true if user exists
 @socketio.on('check_db')

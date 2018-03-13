@@ -84,6 +84,6 @@ class Model:
         if comments != None:  # Only wants to do this if any comments exist
             for comment in comments:
                 commentList.append({"commentText": comment.content, "upvoteCount": comment.upvoteCount, "pubTime": comment.pubTime.__str__(),
-                                    "username": comment.username, "id": comment.id})
+                                    "username": comment.username, "id": comment.id, "uid": comment.uid, "article": comment.article})
         self.session.commit() # Commit to get the latest
         return commentList

@@ -44,9 +44,13 @@ class Article extends Component {
       this._textInput.setNativeProps({text: ""});  // Clears the textInput field
     }
 
+    // Upvotes a comment through sockets
+    upvoteComment(commentId, uid, articleId){
+      this.socket.emit("upvoteComment", {commentId: commentId, uid: uid, articleId: articleId})
+    }
 
     // Calls the backend to perform the logic associated with upvoting an article
-    upvote = () => {
+    upvoteArticle = () => {
       const {id} = this.props.navigation.state.params  // The id of the article
       const {source} = this.props.navigation.state.params  // The source of the article
 
@@ -78,7 +82,7 @@ class Article extends Component {
     super(props);
     this.state = {
       commentText: '', // New comment text box
-      comments: [{username: 'placeholder', commenText: 'pass', pubTime: '33', upvoteCount: '5'}] // Will hold all comments on this article
+      comments: [{username: 'placeholder', commentText: 'pass', pubTime: '33', upvoteCount: '5'}] // Will hold all comments on this article
     };
     this.id = this.props.navigation.state.params.id;  // The id of the article
 
@@ -132,7 +136,7 @@ class Article extends Component {
           <TouchableOpacity style={styles.commentButton} onPress = {this.commentSocket}>
             <Text style={styles.buttonText}>Submit Comment</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.upvoteButton} onPress = {this.upvote}>
+          <TouchableOpacity style={styles.upvoteButton} onPress = {this.upvoteArticle}>
             <Text style={styles.buttonText}>Upvote</Text>
           </TouchableOpacity>
         </View>
@@ -167,7 +171,7 @@ class Article extends Component {
                     size={40}
                     color={'#00b300'}
                     underlayColor={'#009933'}
-                    onPress={() => console.log('Pressed !')}
+                    onPress={() => {this.upvoteComment(item.id, item.uid, item.article)}}  // ADD SOCKET FUNCTION TO UPDATE DATABASE AND UI
                   />
                 }
               />

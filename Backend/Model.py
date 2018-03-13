@@ -68,3 +68,22 @@ class Model:
     def setUser(self, userId, username):
         self.currUserId = userId
         self.username = username
+
+    # Check if a username already exists in the database
+    def checkUsernameValidity(self, user):
+        query = self.session.query(self.Users).filter(self.Users.username == user)
+        if not query.all():  # If list is empty, return false because no user was found
+            return False
+        return True
+
+    # Retrieves comments for a specified article
+    def retrievComments(self,article_id):
+        query = self.session.query(self.Comments).filter(self.Comments.article == article_id).order_by(self.Comments.pubTime.desc())
+        comments = query.all()
+        commentList = []
+        if comments != None:  # Only wants to do this if any comments exist
+            for comment in comments:
+                commentList.append({"commentText": comment.content, "upvoteCount": comment.upvoteCount, "pubTime": comment.pubTime.__str__(),
+                                    "username": comment.username, "id": comment.id})
+        self.session.commit() # Commit to get the latest
+        return commentList

@@ -3,12 +3,19 @@ import json
 from werkzeug.security import generate_password_hash
 import datetime
 import Model
+from flask_socketio import SocketIO # pip install flask-socketio
+from flask_socketio import send, emit # pip install eventlet
 
 # Creates the Flask app
 app = Flask(__name__)
+app.config['SECRET_KEY'] = 'secret!'
+app.config['DEBUG'] = True # same function as argument in run
 
 # Creates the model that contains RSS readers to update news articles as well as the database connection and database models
 model = Model.Model()
+
+# Creates the socket connection
+socketio = SocketIO(app, ping_timeout=30, ping_interval=10) # modify ping to not upset RN
 
 # Routes to start page
 @app.route("/", methods = ['GET', 'POST'])
@@ -134,5 +141,72 @@ def getSourcesInfo():
 
     return sourcesInfoJson
 
+# Handle a connect
+@socketio.on('connect')
+def handle_connect():
+    print('Client connected to server')
+
+# Handle disconnect
+@socketio.on('disconnect')
+def handle_disconnect():
+    print('Client disconnected')
+
+# Client requests comments for a specific id
+@socketio.on('get_comments')
+def handle_get_comments(message):
+    article_id = message # The message is simply an ID
+    commentList = model.retrievComments(article_id) # Call subroutine to fetch comments
+    emit('comments', commentList)
+
+# Client wants to add a comment
+@socketio.on('add_comment')
+def handle_add_comment(message):
+    commentText = message["commentText"]
+    articleId = message["articleId"]
+    source = message["source"]
+
+    # Inserts the comment into the database
+    model.session.add(model.Comments(uid=model.currUserId, pubTime=datetime.datetime.now(), upvoteCount=0,
+                                     content=commentText, username=model.currUserId, article=articleId))
+
+    # Increments the comment count of the article and the user
+    model.session.query(model.Sources).filter(model.Sources.title == source).update({"commentCount" : model.Sources.commentCount + 1})
+    model.session.query(model.Articles).filter(model.Articles.id == articleId).update({"commentCount" : model.Articles.commentCount + 1})
+    model.session.query(model.Users).filter(model.Users.id == model.currUserId).update({"commentCount" : model.Users.commentCount + 1})
+    model.session.commit()
+    commentList = model.retrievComments(articleId)
+    emit('comments', commentList, broadcast=True) # Tell all users to update their commentview
+
+# Check if user is in database
+# Returns true if user exists
+@socketio.on('check_db')
+def handle_check_db(message):
+    if model.checkUsernameValidity(message['user']):
+        send({'status': True})
+    else:
+        send({'status': False})
+
+# Add a new account to the database
+@socketio.on('create_account')
+def handle_create_account(message):
+    print("Creating account")
+    username = message['user']
+    password = message['pass']
+    email = message['email']
+    model.session.add(model.Users(id=None, username=username, email=email, commentCount=0, upvoteCount=0, passw=password))
+    try:
+        model.session.commit()
+        emit('add_user', "success")
+    except Exception:
+        emit('add_user', "error occurred")
+
+# Handle general messages
+@socketio.on('message')
+def handle_message(message):
+    print("this is a general message")
+    print(message)
+
 if __name__ == "__main__":
-    app.run(debug=True)
+    socketio.run(app, port=5000)
+    #app.run(debug=True)
+    #socketio.run(app, port=5000)

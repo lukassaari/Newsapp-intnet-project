@@ -81,7 +81,7 @@ class Article extends Component {
     this.id = this.props.navigation.state.params.id;  // The id of the article
 
     // Create a new persistant socket connection with the server
-    this.socket = io('http://10.0.3.2:5001', {
+    this.socket = io('http://10.0.3.2:5000', {
         transports: ['websocket'],
         pingTimeout: 30000,
         pingInterval: 10000

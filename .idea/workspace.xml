@@ -2,11 +2,15 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="737ceeed-575f-4d93-8035-c18ff299d4c5" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Backend/Model.py" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Backend/appClassTest.py" afterPath="" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/Backend/serverRouting.py" afterPath="$PROJECT_DIR$/Backend/Controller.py" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/Backend/serverWebSockets.py" afterPath="$PROJECT_DIR$/Backend/Old/serverWebSockets.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/rssapp/react-native-elements-app" afterPath="$PROJECT_DIR$/rssapp/react-native-elements-app" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Backend/serverRouting.py" afterPath="$PROJECT_DIR$/Backend/serverRouting.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Backend/Model.py" afterPath="$PROJECT_DIR$/Backend/Model.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/rssapp/components/pages/Article.js" afterPath="$PROJECT_DIR$/rssapp/components/pages/Article.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/rssapp/components/pages/CreateAccount.js" afterPath="$PROJECT_DIR$/rssapp/components/pages/CreateAccount.js" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -20,7 +24,7 @@
   </component>
   <component name="ExecutionTargetManager" SELECTED_TARGET="default_target" />
   <component name="FileEditorManager">
-    <splitter split-orientation="horizontal" split-proportion="0.50768286">
+    <splitter split-orientation="horizontal" split-proportion="0.5961893">
       <split-first>
         <leaf>
           <file leaf-file-name="App.test.js" pinned="false" current-in-tab="false">
@@ -33,11 +37,11 @@
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="serverRouting.py" pinned="false" current-in-tab="true">
-            <entry file="file://$PROJECT_DIR$/Backend/serverRouting.py">
+          <file leaf-file-name="Controller.py" pinned="false" current-in-tab="true">
+            <entry file="file://$PROJECT_DIR$/Backend/Controller.py">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="42">
-                  <caret line="18" column="24" lean-forward="true" selection-start-line="18" selection-start-column="24" selection-end-line="18" selection-end-column="24" />
+                <state relative-caret-position="966">
+                  <caret line="46" column="25" lean-forward="true" selection-start-line="46" selection-start-column="25" selection-end-line="46" selection-end-column="25" />
                   <folding>
                     <element signature="e#0#65#0" expanded="true" />
                   </folding>
@@ -46,10 +50,10 @@
             </entry>
           </file>
           <file leaf-file-name="serverWebSockets.py" pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/Backend/serverWebSockets.py">
+            <entry file="file://$PROJECT_DIR$/Backend/Old/serverWebSockets.py">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="105">
-                  <caret line="28" column="53" lean-forward="false" selection-start-line="28" selection-start-column="53" selection-end-line="28" selection-end-column="53" />
+                <state relative-caret-position="126">
+                  <caret line="31" column="0" lean-forward="false" selection-start-line="31" selection-start-column="0" selection-end-line="114" selection-end-column="22" />
                   <folding>
                     <element signature="e#0#49#0" expanded="true" />
                   </folding>
@@ -88,8 +92,8 @@
           <file leaf-file-name="Model.py" pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/Backend/Model.py">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="1008">
-                  <caret line="64" column="18" lean-forward="true" selection-start-line="64" selection-start-column="18" selection-end-line="64" selection-end-column="18" />
+                <state relative-caret-position="186">
+                  <caret line="73" column="58" lean-forward="false" selection-start-line="73" selection-start-column="58" selection-end-line="73" selection-end-column="58" />
                   <folding>
                     <element signature="e#0#17#0" expanded="true" />
                   </folding>
@@ -125,6 +129,8 @@
       <find>cision2844802</find>
       <find>source</find>
       <find>/upvote</find>
+      <find>check</find>
+      <find>retrieve_</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -145,8 +151,8 @@
         <option value="$PROJECT_DIR$/Backend/RssReaderDI.py" />
         <option value="$PROJECT_DIR$/Backend/RssReaderCision.py" />
         <option value="$PROJECT_DIR$/Backend/serverWebSockets.py" />
-        <option value="$PROJECT_DIR$/Backend/serverRouting.py" />
         <option value="$PROJECT_DIR$/Backend/Model.py" />
+        <option value="$PROJECT_DIR$/Backend/serverRouting.py" />
       </list>
     </option>
   </component>
@@ -251,6 +257,24 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="emilmar-project" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="emilmar-project" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Backend" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Old" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
         </subPane>
       </pane>
       <pane id="Scope" />
@@ -261,7 +285,12 @@
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="settings.editor.selected.configurable" value="preferences.editor" />
   </component>
-  <component name="RunManager" selected="Python.RssReaderDI">
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\lukas\Dropbox\KTH\Årskurs 4\Internetprogrammering\emilmar-project\Backend\Old" />
+    </key>
+  </component>
+  <component name="RunManager" selected="Python.Controller">
     <configuration default="false" name="appPy (1)" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -279,23 +308,6 @@
       <option name="SHOW_COMMAND_LINE" value="false" />
       <method />
     </configuration>
-    <configuration default="false" name="RssReader" type="PythonConfigurationType" factoryName="Python" temporary="true">
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/Backend" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <module name="emilmar-project" />
-      <option name="SCRIPT_NAME" value="C:\Users\lukas\Dropbox\KTH\Årskurs 4\Internetprogrammering\emilmar-project\Backend\RssReaderCision.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <method />
-    </configuration>
     <configuration default="false" name="serverRouting" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -308,7 +320,7 @@
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <module name="emilmar-project" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/Backend/serverRouting.py" />
+      <option name="SCRIPT_NAME" value="C:\Users\lukas\Dropbox\KTH\Årskurs 4\Internetprogrammering\emilmar-project\Backend\Controller.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <method />
@@ -325,7 +337,7 @@
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <module name="emilmar-project" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/Backend/serverWebSockets.py" />
+      <option name="SCRIPT_NAME" value="C:\Users\lukas\Dropbox\KTH\Årskurs 4\Internetprogrammering\emilmar-project\Backend\Old\serverWebSockets.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <method />
@@ -343,6 +355,23 @@
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <module name="emilmar-project" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/Backend/RssReaderDI.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <method />
+    </configuration>
+    <configuration default="false" name="Controller" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/Backend" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <module name="emilmar-project" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/Backend/Controller.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <method />
@@ -483,18 +512,18 @@
     </configuration>
     <list size="5">
       <item index="0" class="java.lang.String" itemvalue="Python.appPy (1)" />
-      <item index="1" class="java.lang.String" itemvalue="Python.RssReader" />
-      <item index="2" class="java.lang.String" itemvalue="Python.serverRouting" />
-      <item index="3" class="java.lang.String" itemvalue="Python.serverWebSockets" />
-      <item index="4" class="java.lang.String" itemvalue="Python.RssReaderDI" />
+      <item index="1" class="java.lang.String" itemvalue="Python.serverRouting" />
+      <item index="2" class="java.lang.String" itemvalue="Python.serverWebSockets" />
+      <item index="3" class="java.lang.String" itemvalue="Python.RssReaderDI" />
+      <item index="4" class="java.lang.String" itemvalue="Python.Controller" />
     </list>
     <recent_temporary>
       <list size="5">
-        <item index="0" class="java.lang.String" itemvalue="Python.serverRouting" />
-        <item index="1" class="java.lang.String" itemvalue="Python.serverWebSockets" />
-        <item index="2" class="java.lang.String" itemvalue="Python.RssReaderDI" />
-        <item index="3" class="java.lang.String" itemvalue="Python.appPy (1)" />
-        <item index="4" class="java.lang.String" itemvalue="Python.RssReader" />
+        <item index="0" class="java.lang.String" itemvalue="Python.Controller" />
+        <item index="1" class="java.lang.String" itemvalue="Python.serverRouting" />
+        <item index="2" class="java.lang.String" itemvalue="Python.serverWebSockets" />
+        <item index="3" class="java.lang.String" itemvalue="Python.RssReaderDI" />
+        <item index="4" class="java.lang.String" itemvalue="Python.appPy (1)" />
       </list>
     </recent_temporary>
   </component>
@@ -535,7 +564,7 @@
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32936978" sideWeight="0.5" order="-1" side_tool="true" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
       <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.23543401" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.2449465" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="true" content_ui="tabs" />
@@ -626,16 +655,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Backend/appClassTest.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="234">
-          <caret line="96" column="31" lean-forward="false" selection-start-line="96" selection-start-column="31" selection-end-line="96" selection-end-column="31" />
-          <folding>
-            <element signature="e#0#65#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/Backend/appPy.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-377">
@@ -660,30 +679,12 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/rssapp/App.test.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="210">
-          <caret line="10" column="0" lean-forward="false" selection-start-line="10" selection-start-column="0" selection-end-line="10" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/Backend/RssReaderDI.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="803">
           <caret line="40" column="21" lean-forward="false" selection-start-line="40" selection-start-column="21" selection-end-line="40" selection-end-column="21" />
           <folding>
             <element signature="e#0#17#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Backend/serverWebSockets.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="105">
-          <caret line="28" column="53" lean-forward="false" selection-start-line="28" selection-start-column="53" selection-end-line="28" selection-end-column="53" />
-          <folding>
-            <element signature="e#0#49#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -698,20 +699,46 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/rssapp/App.test.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="210">
+          <caret line="10" column="0" lean-forward="false" selection-start-line="10" selection-start-column="0" selection-end-line="10" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Backend/Old/serverWebSockets.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="126">
+          <caret line="31" column="0" lean-forward="false" selection-start-line="31" selection-start-column="0" selection-end-line="114" selection-end-column="22" />
+          <folding>
+            <element signature="e#0#49#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/Backend/Model.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1008">
-          <caret line="64" column="18" lean-forward="true" selection-start-line="64" selection-start-column="18" selection-end-line="64" selection-end-column="18" />
+        <state relative-caret-position="186">
+          <caret line="73" column="58" lean-forward="false" selection-start-line="73" selection-start-column="58" selection-end-line="73" selection-end-column="58" />
           <folding>
             <element signature="e#0#17#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Backend/serverRouting.py">
+    <entry file="file://$PROJECT_DIR$/Backend/appClassTest.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="42">
-          <caret line="18" column="24" lean-forward="true" selection-start-line="18" selection-start-column="24" selection-end-line="18" selection-end-column="24" />
+        <state relative-caret-position="55">
+          <caret line="96" column="31" lean-forward="false" selection-start-line="96" selection-start-column="31" selection-end-line="96" selection-end-column="31" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Backend/Controller.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="966">
+          <caret line="46" column="25" lean-forward="true" selection-start-line="46" selection-start-column="25" selection-end-line="46" selection-end-column="25" />
           <folding>
             <element signature="e#0#65#0" expanded="true" />
           </folding>

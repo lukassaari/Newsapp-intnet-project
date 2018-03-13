@@ -32,7 +32,7 @@ app.username = "l"
 # Handle a connect
 @socketio.on('connect')
 def handle_connect():
-    print('Client connected to server')
+	print('Client connected to server')
 
 # Handle disconnect
 @socketio.on('disconnect')

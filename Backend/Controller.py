@@ -78,31 +78,6 @@ def upvote():
         print("Fel i /upvote: ", e)
         abort(401)
 
-'''
-# Not used atm? Uses socket instead
-# Submits a comment
-@app.route("/comment", methods=["POST"])
-def comment():
-    try:
-        payload = request.get_json()
-        commentText = payload["commentText"]
-        articleId = payload["articleId"]
-
-        # Inserts the comment into the database
-        model.session.add(model.Comments(uid=model.currUserId, pubTime=datetime.datetime.now(), upvoteCount=0, content=commentText, username=model.currUserId,
-                             article=articleId))
-
-        # Increments the comment count of the article and the user
-        model.session.query(model.Articles).filter(model.Articles.id == articleId).update({"commentCount" : model.Articles.commentCount + 1})
-        model.session.query(model.Users).filter(model.Users.id == model.currUserId).update({"commentCount" : model.Users.commentCount + 1})
-        model.session.commit()
-
-        return "ok"
-    except Exception as e:
-        print("Fel i /comment: ", e)
-        abort(401)
-'''
-
 # Fetches historical comments for a specific article
 @app.route("/getComments", methods=["GET"])
 def getComments():
@@ -212,17 +187,19 @@ def handle_check_db(message):
 # Add a new account to the database
 @socketio.on('create_account')
 def handle_create_account(message):
-    print("Creating account")
     username = message['user']
     password = message['pass']
     email = message['email']
+    if model.checkUsernameValidity(username): # In case client checks have not been properly done and user is in db
+        emit('add_user', {'status': False}) 
+        return
     model.session.add(model.Users(id=None, username=username, email=email, commentCount=0, upvoteGivenCount=0,
                                   upvoteReceivedCount=0, passw=password))
     try:
-        model.session.commit()
-        emit('add_user', "success")
+        model.session.commit() # Add user to database and update the engine view
+        emit('add_user', {'status': True})
     except Exception:
-        emit('add_user', "error occurred")
+        emit('add_user', {'status': False})
 
 # Handle general messages
 @socketio.on('message')

@@ -46,21 +46,18 @@ class CreateAccount extends Component {
 		})
 
 		this.socket.on('add_user', (response) => {
-			// Handle response as positive or negative
-			console.log(response);
+			if (response['status']) { // Success
+				alert('User successfully added');
+			} else { // Fail
+				alert('Failed to add user');
+			}
 		})
 
-    // NEVER USED RIGHT NOW???????????????????????????????????????????????
-		// On connect error
-    this.socket.on('connect_error', (err) => {
-      	console.log(err)
-    })
-
-    // NEVER USED RIGHT NOW???????????????????????????????????????????????
-    // If server disconnects socket
-    this.socket.on('disconnect', () => {
-    	console.log('Disconnected from server');
-    })
+	    // NEVER USED RIGHT NOW? Good for debug
+			// On connect error
+	    this.socket.on('connect_error', (err) => {
+	      	console.log(err)
+	    })
 
 	    // Disconnect socket when leaving screen
 		const didBlurSubscription = this.props.navigation.addListener(

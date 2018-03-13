@@ -200,7 +200,6 @@ def handleUpvoteComment(message):
     commentList = model.retrievComments(articleId)
     emit('comments', commentList, broadcast=True) # Tell all users to update their commentview
 
-
 # Check if user is in database
 # Returns true if user exists
 @socketio.on('check_db')

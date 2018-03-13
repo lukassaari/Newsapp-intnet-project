@@ -3,10 +3,8 @@
   <component name="ChangeListManager">
     <list default="true" id="737ceeed-575f-4d93-8035-c18ff299d4c5" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/rssapp/react-native-elements-app" afterPath="$PROJECT_DIR$/rssapp/react-native-elements-app" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Backend/Controller.py" afterPath="$PROJECT_DIR$/Backend/Controller.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Backend/Model.py" afterPath="$PROJECT_DIR$/Backend/Model.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/rssapp/components/pages/Article.js" afterPath="$PROJECT_DIR$/rssapp/components/pages/Article.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/rssapp/components/pages/News.js" afterPath="$PROJECT_DIR$/rssapp/components/pages/News.js" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -36,8 +34,8 @@
           <file leaf-file-name="Controller.py" pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/Backend/Controller.py">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="107">
-                  <caret line="185" column="19" lean-forward="true" selection-start-line="185" selection-start-column="19" selection-end-line="185" selection-end-column="19" />
+                <state relative-caret-position="196">
+                  <caret line="152" column="39" lean-forward="true" selection-start-line="152" selection-start-column="39" selection-end-line="152" selection-end-column="39" />
                   <folding>
                     <element signature="e#0#65#0" expanded="true" />
                   </folding>
@@ -88,7 +86,7 @@
           <file leaf-file-name="Model.py" pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/Backend/Model.py">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="433">
+                <state relative-caret-position="469">
                   <caret line="87" column="56" lean-forward="true" selection-start-line="87" selection-start-column="56" selection-end-line="87" selection-end-column="56" />
                   <folding>
                     <element signature="e#0#17#0" expanded="true" />
@@ -153,8 +151,8 @@
         <option value="$PROJECT_DIR$/Backend/RssReaderCision.py" />
         <option value="$PROJECT_DIR$/Backend/serverWebSockets.py" />
         <option value="$PROJECT_DIR$/Backend/serverRouting.py" />
-        <option value="$PROJECT_DIR$/Backend/Controller.py" />
         <option value="$PROJECT_DIR$/Backend/Model.py" />
+        <option value="$PROJECT_DIR$/Backend/Controller.py" />
       </list>
     </option>
   </component>
@@ -558,7 +556,7 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-11" y="-11" width="1942" height="1042" extended-state="6" />
+    <frame x="-11" y="-11" width="1942" height="1042" extended-state="7" />
     <editor active="true" />
     <layout>
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.13687003" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
@@ -566,7 +564,7 @@
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32936978" sideWeight="0.5" order="-1" side_tool="true" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
       <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.30915576" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.38644472" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="true" content_ui="tabs" />
@@ -729,7 +727,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/Backend/Model.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="433">
+        <state relative-caret-position="469">
           <caret line="87" column="56" lean-forward="true" selection-start-line="87" selection-start-column="56" selection-end-line="87" selection-end-column="56" />
           <folding>
             <element signature="e#0#17#0" expanded="true" />
@@ -739,8 +737,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/Backend/Controller.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="107">
-          <caret line="185" column="19" lean-forward="true" selection-start-line="185" selection-start-column="19" selection-end-line="185" selection-end-column="19" />
+        <state relative-caret-position="196">
+          <caret line="152" column="39" lean-forward="true" selection-start-line="152" selection-start-column="39" selection-end-line="152" selection-end-column="39" />
           <folding>
             <element signature="e#0#65#0" expanded="true" />
           </folding>

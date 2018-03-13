@@ -1,6 +1,6 @@
 // Template from https://react-native-training.github.io/react-native-elements/docs/0.19.0/lists.html#listitem-implemented-with-custom-view-for-subtitle
 import React, { Component } from 'react';
-import { ScrollView, StyleSheet, TouchableOpacity, Text, View, ListView } from "react-native";
+import { ScrollView, StyleSheet, TouchableOpacity, Text, View, ListView, RefreshControl } from "react-native";
 import { List, ListItem } from 'react-native-elements';
 import { NavigationActions } from 'react-navigation';
 
@@ -99,10 +99,28 @@ class News extends Component {
     );
   }
 
+  // Refreshes the page by looking for new articles to fetch
+  _onRefresh() {
+    console.log("REFRESHING2")
+    this.setState({refreshing: true});
+    console.log("REFRESHING1")
+    console.log("REFRESHING").then(() => {
+      this.setState({refreshing: false});
+    })
+    console.log("REFRESHING3")
+
+    //fetchData().then(() => {
+    //this.setState({refreshing: false});
+    //});
+  }
+
   constructor(props){
     super(props);
     articles = JSON.parse(this.props.navigation.state.params.news._bodyInit)["articles"];  // Array of articles stored in dicts
-    this.state = {dataSource: ds.cloneWithRows(articles)};
+    this.state = {
+      dataSource: ds.cloneWithRows(articles),
+      refreshing: false,
+    };
   }
 
   render(){
@@ -137,6 +155,12 @@ class News extends Component {
           <ListView
             dataSource = {this.state.dataSource}  // Fills the data source with the articles
             renderRow={this._renderRow.bind(this)}  // Renders the articles
+            refreshControl={  // Refreshes the page onn pull-down
+              <RefreshControl
+                refreshing={this.state.refreshing}
+                onRefresh={this._onRefresh.bind(this)}
+              />
+            }
           />
         </List>
       </ScrollView>

@@ -51,6 +51,7 @@ class Model:
     # Adds news from all RSS readers
     def addNewsAll(self):
         while True:  # Loops once every five minutes
+            print("Kör addNewsAll()")
             try:
                 self.addNewsSpecific(self.rssReaderCision, "Cision")  # Fetches news from Cision
                 self.addNewsSpecific(self.rssReaderDI, "DI")  # Fetches news from DI

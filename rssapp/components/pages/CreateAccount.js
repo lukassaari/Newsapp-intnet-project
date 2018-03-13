@@ -27,7 +27,7 @@ class CreateAccount extends Component {
   			pingInterval: 10000
 		});
 
-    	// Listener that fires on connect
+  	// Listener that fires on connect
 		this.socket.on('connect', () => {
 			console.log("Connected to socket");
 		})
@@ -50,15 +50,17 @@ class CreateAccount extends Component {
 			console.log(response);
 		})
 
+    // NEVER USED RIGHT NOW???????????????????????????????????????????????
 		// On connect error
-	    this.socket.on('connect_error', (err) => {
-	      	console.log(err)
-	    })
+    this.socket.on('connect_error', (err) => {
+      	console.log(err)
+    })
 
-	    // If server disconnects socket
-	    this.socket.on('disconnect', () => {
-	    	console.log('Disconnected from server');
-	    })
+    // NEVER USED RIGHT NOW???????????????????????????????????????????????
+    // If server disconnects socket
+    this.socket.on('disconnect', () => {
+    	console.log('Disconnected from server');
+    })
 
 	    // Disconnect socket when leaving screen
 		const didBlurSubscription = this.props.navigation.addListener(

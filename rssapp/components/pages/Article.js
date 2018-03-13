@@ -157,22 +157,23 @@ class Article extends Component {
             keyExtractor={item => item.pubTime}
             renderItem={({item }) => (
               <ListItem
-                title={item.username + ": " + item.commentText}
-                subtitle={"Vid tid: " + item.pubTime + "\nUpvotes: " + item.upvoteCount}
+                title={item.username + ":\n" + item.commentText}
+                titleNumberOfLines = {10}
+                subtitle={"Tid: " + item.pubTime + "\nUpvotes: " + item.upvoteCount}
                 subtitleNumberOfLines = {2}  // Subtitle is given two lines of space
                 titleStyle={{color: 'white'}}
                 subtitleStyle={{color: 'white'}}
                 containerStyle={{backgroundColor: '#2c3e50'}}
                 rightIcon={
-                  <Icon
-                    // Icon library: https://oblador.github.io/react-native-vector-icons/
-                    name={"arrow-with-circle-up"}
-                    type={"entypo"}
-                    size={40}
-                    color={'#00b300'}
-                    underlayColor={'#009933'}
-                    onPress={() => {this.upvoteComment(item.id, item.uid, item.article)}}  // ADD SOCKET FUNCTION TO UPDATE DATABASE AND UI
-                  />
+                  <TouchableOpacity style={styles.iconButton} onPress={() => {this.upvoteComment(item.id, item.uid, item.article)}}>
+                    <Icon
+                      // Icon library: https://oblador.github.io/react-native-vector-icons/
+                      name={"thumbs-up"}
+                      type={"entypo"}
+                      size={40}
+                      color={'white'}
+                    />
+                  </TouchableOpacity>
                 }
               />
             )}
@@ -232,6 +233,14 @@ const styles = StyleSheet.create({
   listContainer:{
     //backgroundColor: '#2c3e50',
     marginBottom: 20
+  },
+  iconButton:{
+      backgroundColor: 'transparent',
+      marginLeft: 5,
+      width: 40,
+      marginBottom: 5,
+      height: 40,
+      marginTop: 5
   }
 });
 

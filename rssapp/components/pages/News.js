@@ -1,7 +1,7 @@
 // Template from https://react-native-training.github.io/react-native-elements/docs/0.19.0/lists.html#listitem-implemented-with-custom-view-for-subtitle
 import React, { Component } from 'react';
 import { ScrollView, StyleSheet, TouchableOpacity, Text, View, ListView, RefreshControl } from "react-native";
-import { List, ListItem } from 'react-native-elements';
+import { List, ListItem, Icon } from 'react-native-elements';
 import { NavigationActions } from 'react-navigation';
 
 // Data source used for listing articles in the newsfeed
@@ -100,15 +100,15 @@ class News extends Component {
   }
 
   // Refreshes the page by looking for new articles to fetch
+  // DOESNT WORK, NEVER TRIGGERS
   _onRefresh() {
     console.log("REFRESHING2")
-    this.setState({refreshing: true});
+    //this.setState({refreshing: true});
     console.log("REFRESHING1")
-    console.log("REFRESHING").then(() => {
-      this.setState({refreshing: false});
-    })
+    //console.log("REFRESHING").then(() => {
+    //  this.setState({refreshing: false});
+    //})
     console.log("REFRESHING3")
-
     //fetchData().then(() => {
     //this.setState({refreshing: false});
     //});
@@ -126,57 +126,68 @@ class News extends Component {
   render(){
     const{navigate} = this.props.navigation;
     return(
-      <ScrollView style={styles.scrollContainer}>
-        <View style={styles.topMenuView}>
-          <View style={styles.buttonView}>
-            <TouchableOpacity style={styles.profileButton} onPress = {this.profile}>
-              <Text style={styles.buttonText}>Profil</Text>
+      <View style={styles.menu}>
+      <View style={styles.topMenuView}>
+        <View style={styles.buttonView}>
+          <TouchableOpacity style={styles.iconButton} onPress = {this.profile}>
+            <Icon
+              name={"user"}
+              type={"entypo"}
+              size={37}
+              color={'white'}
+            />
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.iconButton} onPress = {this.sources}>
+            <Icon
+              name={"bar-graph"}
+              type={"entypo"}
+              size={40}
+              color={'white'}
+            />
+          </TouchableOpacity>
+        </View>
+        <View style={styles.sortView}>
+          <Text style={styles.buttonText}>Sortera efter:</Text>
+          <View style={styles.sortAltView}>
+            <TouchableOpacity style={styles.sortButton} onPress = {() => {this.sortNews(articles, "time")}}>
+              <Text style={styles.buttonText}>Senast</Text>
             </TouchableOpacity>
-            <TouchableOpacity style={styles.profileButton} onPress = {this.sources}>
-              <Text style={styles.buttonText}>Källstatistik</Text>
+            <TouchableOpacity style={styles.sortButton} onPress = {() => {this.sortNews(articles, "upvote")}}>
+              <Text style={styles.buttonText}>Upvotes</Text>
             </TouchableOpacity>
-          </View>
-          <View style={styles.sortView}>
-            <Text style={styles.buttonText}>Sortera efter:</Text>
-            <View style={styles.sortAltView}>
-              <TouchableOpacity style={styles.sortButton} onPress = {() => {this.sortNews(articles, "time")}}>
-                <Text style={styles.buttonText}>Senast</Text>
-              </TouchableOpacity>
-              <TouchableOpacity style={styles.sortButton} onPress = {() => {this.sortNews(articles, "upvote")}}>
-                <Text style={styles.buttonText}>Upvotes</Text>
-              </TouchableOpacity>
-              <TouchableOpacity style={styles.sortButton} onPress = {() => {this.sortNews(articles, "comment")}}>
-                <Text style={styles.buttonText}>Kommentarer</Text>
-              </TouchableOpacity>
-            </View>
+            <TouchableOpacity style={styles.largerSortButton} onPress = {() => {this.sortNews(articles, "comment")}}>
+              <Text style={styles.buttonText}>Kommentarer</Text>
+            </TouchableOpacity>
           </View>
         </View>
-        <List style={styles.listContainer}>
-          <ListView
-            dataSource = {this.state.dataSource}  // Fills the data source with the articles
-            renderRow={this._renderRow.bind(this)}  // Renders the articles
-            refreshControl={  // Refreshes the page onn pull-down
-              <RefreshControl
-                refreshing={this.state.refreshing}
-                onRefresh={this._onRefresh.bind(this)}
-              />
-            }
-          />
-        </List>
+      </View>
+      <ScrollView>
+        <View style={styles.scrollContainer}>
+          <List style={styles.listContainer}>
+            <ListView
+              dataSource = {this.state.dataSource}  // Fills the data source with the articles
+              renderRow={this._renderRow.bind(this)}  // Renders the articles
+            />
+          </List>
+        </View>
       </ScrollView>
+      </View>
     );
   }
 }
 
 const styles = StyleSheet.create({
+  menu:{
+    backgroundColor: '#19334d',
+  },
   scrollContainer:{
-    //paddingVertical: 20,
-    backgroundColor: '#2c3e50'
+    backgroundColor: '#2c3e50',
+    marginTop: -20,  // Removes whitespace above the top article
+    marginBottom: 50  // Just enough to ensure bottom article is showed
   },
   listContainer:{
-    //backgroundColor: '#2c3e50',
-    //marginBottom: 100,
-    //marginTop: 100
+    marginTop: 5,
+    paddingVertical: 5,
   },
   buttonText:{
       color: '#fff',
@@ -185,43 +196,46 @@ const styles = StyleSheet.create({
   },
   profileButton:{
       backgroundColor: '#2980b6',
-      //padding: 5,
-      //paddingVertical: 15,
-      //marginLeft: 5,
       marginRight: 5,
-      width: 90,
+      width: 40,
       marginBottom: 5,
-      height: 20
+      height: 40
+  },
+  iconButton:{
+      backgroundColor: 'transparent',
+      marginLeft: 5,
+      width: 40,
+      marginBottom: 5,
+      height: 40,
+      marginTop: 5
   },
   sortButton:{
       backgroundColor: '#2980b6',
-      //padding: 5,
-      //paddingVertical: 15,
       marginLeft: 5,
-      //marginRight: 5,
       width: 80,
       marginBottom: 5,
       height: 20
   },
+  largerSortButton:{
+      backgroundColor: '#2980b6',
+      marginLeft: 5,
+      width: 90,
+      marginBottom: 5,
+      height: 20
+  },
   topMenuView:{
-    //flex: 1,
     flexDirection: "row",
-    //width: 150
   },
   buttonView:{
-    //flex: 1,
-    flexDirection: "column",
-    //width: 150
+    flexDirection: "row",
   },
   sortView:{
-    //flex: 1,
     flexDirection: "column",
-    width: 255
+    width: 255,
+    marginTop: 5
   },
   sortAltView:{
-    //flex: 1,
     flexDirection: "row",
-    //width: 150
   }
 });
 

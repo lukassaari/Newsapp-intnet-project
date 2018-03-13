@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Text, View, StyleSheet, Image } from "react-native";
+import { Text, View, StyleSheet, ImageBackground } from "react-native";
 import { Icon } from 'react-native-elements';
 
 class UserProfile extends Component {
@@ -19,14 +19,30 @@ class UserProfile extends Component {
     return(
       <View style={styles.container}>
         <View style={styles.topPart}>
-          <Image source={require('../images/Dark_blue_background_squares.png')} style={styles.backgroundImage} />
+          <ImageBackground source={require('../images/Dark_blue_background_squares.png')} style={styles.backgroundImage}>
+            <View style={styles.topContainer}>
+              <Icon
+                style={{textAlign: "center"}}  // NOT CENTERED!!!!!!!!
+                type={"font-awesome"}
+                name={"user-secret"}
+                size={80}
+                color={'white'}
+                underlayColor={"green"}  // No effect!!!!
+              />
+              <Text style={styles.titleText}>
+                {username}
+              </Text>
+            </View>
+          </ImageBackground>
         </View>
-        <Text style={styles.contentText}>
-          {"\n\n"}Email: {email}
-          {"\n\n"}Upvotes mottagna: {upvoteReceivedCount}
-          {"\n\n"}Upvotes givna: {upvoteGivenCount}
-          {"\n\n"}Kommentarer: {commentCount}
-        </Text>
+        <View style={styles.contentContainer}>
+          <Text style={styles.contentText}>
+            {"\n\n"}Email: {email}
+            {"\n\n"}Upvotes mottagna: {upvoteReceivedCount}
+            {"\n\n"}Upvotes givna: {upvoteGivenCount}
+            {"\n\n"}Kommentarer: {commentCount}
+          </Text>
+        </View>
       </View>
     )
   }
@@ -39,20 +55,24 @@ const styles = StyleSheet.create({
   },
   topPart:{
     backgroundColor: '#2980b6',
-    paddingVertical: 20,
-    height: 100
-    //marginTop: 20
+    height: 150,
+  },
+  topContainer:{
+    paddingVertical: 20
   },
   backgroundImage:{
     flex: 1,
-    resizeMode: 'cover', // or 'stretch'
+    width: null,
+    height: null,
   },
   titleText:{
     fontSize: 28,
     color: "white",
-    //padding: 10,
     textAlign: "center",
     fontWeight: "bold"
+  },
+  contentContainer:{
+    marginTop: -20
   },
   contentText:{
     fontSize: 16,

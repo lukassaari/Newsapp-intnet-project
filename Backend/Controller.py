@@ -65,10 +65,12 @@ def upvote():
     try:
         payload = request.get_json()  # convert to JSON (only works with application/json header set)
         articleId = payload["articleId"]
+        source = payload["source"]
 
-        # Increments the upvote count of the article and the user by 1
+        # Increments the upvote count of the source, article, and user by 1
+        model.session.query(model.Sources).filter(model.Sources.title == source).update({"upvoteCount": model.Sources.upvoteCount + 1})
         model.session.query(model.Articles).filter(model.Articles.id == articleId).update({"upvoteCount": model.Articles.upvoteCount + 1})
-        model.session.query(model.Users).filter(model.Users.id == model.currUserId).update({"upvoteCount": model.Users.upvoteCount + 1})
+        model.session.query(model.Users).filter(model.Users.id == model.currUserId).update({"upvoteGivenCount": model.Users.upvoteGivenCount + 1})
         model.session.commit()
 
         return "ok"
@@ -76,6 +78,8 @@ def upvote():
         print("Fel i /upvote: ", e)
         abort(401)
 
+'''
+# Not used atm? Uses socket instead
 # Submits a comment
 @app.route("/comment", methods=["POST"])
 def comment():
@@ -97,6 +101,7 @@ def comment():
     except Exception as e:
         print("Fel i /comment: ", e)
         abort(401)
+'''
 
 # Fetches historical comments for a specific article
 @app.route("/getComments", methods=["GET"])
@@ -122,7 +127,8 @@ def getUserInfo():
     query = model.session.query(model.Users).filter(model.Users.id == model.currUserId)
     userInfo = query.one()
     userInfoDict = {"id": userInfo.id, "username": userInfo.username, "email": userInfo.email,
-                    "commentCount": userInfo.commentCount, "upvoteCount": userInfo.upvoteCount}
+                    "commentCount": userInfo.commentCount, "upvoteGivenCount": userInfo.upvoteGivenCount,
+                    "upvoteReceivedCount": userInfo.upvoteReceivedCount}
     userInfoJson = jsonify({"userInfo": userInfoDict})
 
     return userInfoJson
@@ -167,7 +173,7 @@ def handle_add_comment(message):
 
     # Inserts the comment into the database
     model.session.add(model.Comments(uid=model.currUserId, pubTime=datetime.datetime.now(), upvoteCount=0,
-                                     content=commentText, username=model.currUserId, article=articleId))
+                                     content=commentText, username=model.username, article=articleId))
 
     # Increments the comment count of the article and the user
     model.session.query(model.Sources).filter(model.Sources.title == source).update({"commentCount" : model.Sources.commentCount + 1})
@@ -193,7 +199,8 @@ def handle_create_account(message):
     username = message['user']
     password = message['pass']
     email = message['email']
-    model.session.add(model.Users(id=None, username=username, email=email, commentCount=0, upvoteCount=0, passw=password))
+    model.session.add(model.Users(id=None, username=username, email=email, commentCount=0, upvoteGivenCount=0,
+                                  upvoteReceivedCount=0, passw=password))
     try:
         model.session.commit()
         emit('add_user', "success")

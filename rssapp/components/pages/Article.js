@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Text, ScrollView, StyleSheet, TouchableOpacity, View, TextInput, FlatList } from "react-native";
 import { NavigationActions } from 'react-navigation';
 import io from 'socket.io-client';
-import { List, ListItem } from 'react-native-elements';
+import { List, ListItem, Icon } from 'react-native-elements';
 /*
 *   Describes the view for a single article
 *   An article has a text and comments that can be read
@@ -48,6 +48,7 @@ class Article extends Component {
     // Calls the backend to perform the logic associated with upvoting an article
     upvote = () => {
       const {id} = this.props.navigation.state.params  // The id of the article
+      const {source} = this.props.navigation.state.params  // The source of the article
 
       fetch("http://10.0.3.2:5000/upvote", {
           method: "post",
@@ -56,7 +57,8 @@ class Article extends Component {
               'Content-Type': 'application/json',
           },
           body: JSON.stringify({
-            articleId: id
+            articleId: id,
+            source: source
           })
       })
     }
@@ -116,6 +118,7 @@ class Article extends Component {
     // Gets the title and content that are sent as parameters
     titleText = this.props.navigation.state.params.title
     contentText = this.props.navigation.state.params.content
+    upvoteIcon = require('../images/upvote_icon.png')
 
     return(
       <ScrollView style={styles.container}>
@@ -156,6 +159,17 @@ class Article extends Component {
                 titleStyle={{color: 'white'}}
                 subtitleStyle={{color: 'white'}}
                 containerStyle={{backgroundColor: '#2c3e50'}}
+                rightIcon={
+                  <Icon
+                    // Icon library: https://oblador.github.io/react-native-vector-icons/
+                    name={"arrow-with-circle-up"}
+                    type={"entypo"}
+                    size={40}
+                    color={'#00b300'}
+                    underlayColor={'#009933'}
+                    onPress={() => console.log('Pressed !')}
+                  />
+                }
               />
             )}
           />

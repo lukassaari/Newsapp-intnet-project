@@ -9,10 +9,10 @@ class UserProfile extends Component {
   };
 
   render(){
-    console.log(this.props.navigation.state.params)
     username = this.props.navigation.state.params.username
     email = this.props.navigation.state.params.email
-    upvoteCount = this.props.navigation.state.params.upvoteCount
+    upvoteGivenCount = this.props.navigation.state.params.upvoteGivenCount
+    upvoteReceivedCount = this.props.navigation.state.params.upvoteReceivedCount
     commentCount = this.props.navigation.state.params.commentCount
 
     return(
@@ -21,8 +21,9 @@ class UserProfile extends Component {
           {username}
           <Text style={styles.contentText}>
             {"\n\n"}Email: {email}
+            {"\n\n"}Upvotes mottagna: {upvoteReceivedCount}
+            {"\n\n"}Upvotes givna: {upvoteGivenCount}
             {"\n\n"}Kommentarer: {commentCount}
-            {"\n\n"}Upvotes: {upvoteCount}
           </Text>
         </Text>
       </View>

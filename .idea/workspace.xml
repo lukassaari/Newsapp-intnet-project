@@ -2,15 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="737ceeed-575f-4d93-8035-c18ff299d4c5" name="Default" comment="">
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Backend/appClassTest.py" afterPath="" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/Backend/serverRouting.py" afterPath="$PROJECT_DIR$/Backend/Controller.py" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/Backend/serverWebSockets.py" afterPath="$PROJECT_DIR$/Backend/Old/serverWebSockets.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/rssapp/react-native-elements-app" afterPath="$PROJECT_DIR$/rssapp/react-native-elements-app" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Backend/Model.py" afterPath="$PROJECT_DIR$/Backend/Model.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Backend/Controller.py" afterPath="$PROJECT_DIR$/Backend/Controller.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/rssapp/components/pages/Article.js" afterPath="$PROJECT_DIR$/rssapp/components/pages/Article.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/rssapp/components/pages/CreateAccount.js" afterPath="$PROJECT_DIR$/rssapp/components/pages/CreateAccount.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/rssapp/components/pages/UserProfile.js" afterPath="$PROJECT_DIR$/rssapp/components/pages/UserProfile.js" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -24,7 +19,7 @@
   </component>
   <component name="ExecutionTargetManager" SELECTED_TARGET="default_target" />
   <component name="FileEditorManager">
-    <splitter split-orientation="horizontal" split-proportion="0.5961893">
+    <splitter split-orientation="horizontal" split-proportion="0.72587585">
       <split-first>
         <leaf>
           <file leaf-file-name="App.test.js" pinned="false" current-in-tab="false">
@@ -40,8 +35,8 @@
           <file leaf-file-name="Controller.py" pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/Backend/Controller.py">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="966">
-                  <caret line="46" column="25" lean-forward="true" selection-start-line="46" selection-start-column="25" selection-end-line="46" selection-end-column="25" />
+                <state relative-caret-position="440">
+                  <caret line="187" column="24" lean-forward="true" selection-start-line="187" selection-start-column="24" selection-end-line="187" selection-end-column="24" />
                   <folding>
                     <element signature="e#0#65#0" expanded="true" />
                   </folding>
@@ -92,8 +87,8 @@
           <file leaf-file-name="Model.py" pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/Backend/Model.py">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="186">
-                  <caret line="73" column="58" lean-forward="false" selection-start-line="73" selection-start-column="58" selection-end-line="73" selection-end-column="58" />
+                <state relative-caret-position="357">
+                  <caret line="17" column="5" lean-forward="true" selection-start-line="17" selection-start-column="5" selection-end-line="17" selection-end-column="5" />
                   <folding>
                     <element signature="e#0#17#0" expanded="true" />
                   </folding>
@@ -131,6 +126,7 @@
       <find>/upvote</find>
       <find>check</find>
       <find>retrieve_</find>
+      <find>curruserid</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -153,6 +149,7 @@
         <option value="$PROJECT_DIR$/Backend/serverWebSockets.py" />
         <option value="$PROJECT_DIR$/Backend/Model.py" />
         <option value="$PROJECT_DIR$/Backend/serverRouting.py" />
+        <option value="$PROJECT_DIR$/Backend/Controller.py" />
       </list>
     </option>
   </component>
@@ -717,16 +714,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Backend/Model.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="186">
-          <caret line="73" column="58" lean-forward="false" selection-start-line="73" selection-start-column="58" selection-end-line="73" selection-end-column="58" />
-          <folding>
-            <element signature="e#0#17#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/Backend/appClassTest.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="55">
@@ -735,10 +722,20 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/Backend/Model.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="357">
+          <caret line="17" column="5" lean-forward="true" selection-start-line="17" selection-start-column="5" selection-end-line="17" selection-end-column="5" />
+          <folding>
+            <element signature="e#0#17#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/Backend/Controller.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="966">
-          <caret line="46" column="25" lean-forward="true" selection-start-line="46" selection-start-column="25" selection-end-line="46" selection-end-column="25" />
+        <state relative-caret-position="440">
+          <caret line="187" column="24" lean-forward="true" selection-start-line="187" selection-start-column="24" selection-end-line="187" selection-end-column="24" />
           <folding>
             <element signature="e#0#65#0" expanded="true" />
           </folding>

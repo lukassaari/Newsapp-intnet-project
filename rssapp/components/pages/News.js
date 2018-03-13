@@ -30,10 +30,12 @@ class News extends Component {
         username = userInfo.username
         email = userInfo.email
         commentCount = userInfo.commentCount
-        upvoteCount = userInfo.upvoteCount
+        upvoteGivenCount = userInfo.upvoteGivenCount
+        upvoteReceivedCount = userInfo.upvoteReceivedCount
 
         this.props.navigation.navigate("UserProfile", {"username": username,
-          "email": email, "upvoteCount": upvoteCount, "commentCount": commentCount}
+          "email": email, "upvoteGivenCount": upvoteGivenCount,
+          "upvoteReceivedCount": upvoteReceivedCount, "commentCount": commentCount}
         )
     })
   }

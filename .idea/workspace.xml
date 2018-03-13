@@ -4,7 +4,6 @@
     <list default="true" id="737ceeed-575f-4d93-8035-c18ff299d4c5" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/rssapp/react-native-elements-app" afterPath="$PROJECT_DIR$/rssapp/react-native-elements-app" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Backend/Model.py" afterPath="$PROJECT_DIR$/Backend/Model.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/rssapp/components/pages/Article.js" afterPath="$PROJECT_DIR$/rssapp/components/pages/Article.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/rssapp/components/pages/News.js" afterPath="$PROJECT_DIR$/rssapp/components/pages/News.js" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -35,8 +34,8 @@
           <file leaf-file-name="Controller.py" pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/Backend/Controller.py">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="196">
-                  <caret line="152" column="39" lean-forward="true" selection-start-line="152" selection-start-column="39" selection-end-line="152" selection-end-column="39" />
+                <state relative-caret-position="4914">
+                  <caret line="234" column="24" lean-forward="true" selection-start-line="234" selection-start-column="24" selection-end-line="234" selection-end-column="24" />
                   <folding>
                     <element signature="e#0#65#0" expanded="true" />
                   </folding>
@@ -87,8 +86,8 @@
           <file leaf-file-name="Model.py" pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/Backend/Model.py">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="483">
-                  <caret line="35" column="0" lean-forward="false" selection-start-line="35" selection-start-column="0" selection-end-line="35" selection-end-column="0" />
+                <state relative-caret-position="210">
+                  <caret line="31" column="35" lean-forward="false" selection-start-line="31" selection-start-column="35" selection-end-line="31" selection-end-column="35" />
                   <folding>
                     <element signature="e#0#17#0" expanded="true" />
                   </folding>
@@ -131,6 +130,7 @@
       <find>commenttext</find>
       <find>/getcomment</find>
       <find>comment</find>
+      <find>addnewsall</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -565,7 +565,7 @@
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32936978" sideWeight="0.5" order="-1" side_tool="true" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
       <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.19500594" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.41141498" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="true" content_ui="tabs" />
@@ -728,8 +728,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/Backend/Controller.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="196">
-          <caret line="152" column="39" lean-forward="true" selection-start-line="152" selection-start-column="39" selection-end-line="152" selection-end-column="39" />
+        <state relative-caret-position="4914">
+          <caret line="234" column="24" lean-forward="true" selection-start-line="234" selection-start-column="24" selection-end-line="234" selection-end-column="24" />
           <folding>
             <element signature="e#0#65#0" expanded="true" />
           </folding>
@@ -738,8 +738,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/Backend/Model.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="483">
-          <caret line="35" column="0" lean-forward="false" selection-start-line="35" selection-start-column="0" selection-end-line="35" selection-end-column="0" />
+        <state relative-caret-position="210">
+          <caret line="31" column="35" lean-forward="false" selection-start-line="31" selection-start-column="35" selection-end-line="31" selection-end-column="35" />
           <folding>
             <element signature="e#0#17#0" expanded="true" />
           </folding>

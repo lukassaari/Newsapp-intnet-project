@@ -4,6 +4,7 @@ import RssReaderDI
 from sqlalchemy.ext.automap import automap_base
 from sqlalchemy.orm import Session
 import threading
+import time
 
 class Model:
 
@@ -30,8 +31,9 @@ class Model:
         self.rssReaderCision = self.createRssReader("Cision", "http://news.cision.com/se/ListItems?format=rss")
         self.rssReaderDI = self.createRssReader("DI", "https://www.di.se/rss")
 
-        # Adds all new articles
-        self.addNewsAll()
+        # Creates a thread that fetches news once every five minutes
+        self.updateNewsThread = threading.Thread(target=self.addNewsAll)
+        self.updateNewsThread.start()
 
     # Creates a RSS reader for the specified source and url
     def createRssReader(self, source, url):
@@ -48,9 +50,11 @@ class Model:
 
     # Adds news from all RSS readers
     def addNewsAll(self):
-        self.addNewsSpecific(self.rssReaderCision, "Cision")  # Fetches news from Cision
-        self.addNewsSpecific(self.rssReaderDI, "DI")  # Fetches news from DI
-        self.session.commit()  # Commits to database
+        while True:  # Loops once every five minutes
+            self.addNewsSpecific(self.rssReaderCision, "Cision")  # Fetches news from Cision
+            self.addNewsSpecific(self.rssReaderDI, "DI")  # Fetches news from DI
+            self.session.commit()  # Commits to database
+            time.sleep(300)
 
     # Fetches news from a specific RSS reader and source
     def addNewsSpecific(self, rssReader, source):

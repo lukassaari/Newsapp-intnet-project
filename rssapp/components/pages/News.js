@@ -147,7 +147,7 @@ class News extends Component {
           </TouchableOpacity>
         </View>
         <View style={styles.sortView}>
-          <Text style={styles.buttonText}>Sortera efter:</Text>
+          <Text style={styles.buttonText}>   Sortera efter:</Text>
           <View style={styles.sortAltView}>
             <TouchableOpacity style={styles.sortButton} onPress = {() => {this.sortNews(articles, "time")}}>
               <Text style={styles.buttonText}>Senast</Text>

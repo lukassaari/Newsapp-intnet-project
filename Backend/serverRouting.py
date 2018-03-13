@@ -1,84 +1,14 @@
 from flask import Flask, request, render_template, abort, jsonify
-import sqlalchemy
 import json
-from sqlalchemy.ext.automap import automap_base
-from sqlalchemy.orm import Session
-import pymysql #DBAPI connector
-import requests
 from werkzeug.security import generate_password_hash
-import RssReaderCision
-import RssReaderDI
 import datetime
+import Model
 
-# Fetches news from all RSS and adds them to the database
-def addNews():
-    counter = 0  # How many new articles that are found
-    newsCision = rssReaderCision.getNews()  # Fetches news from Cision
-    if newsCision:  # If not empty
-        for id in newsCision:  # Adds news to the database
-            print("Adding ", id)
-            print(newsCision[id])
-            counter += 1
-            session.add(Articles(id=id, commentCount=0, upvoteCount=0, readCount=0, title=newsCision[id]["title"],
-                                 content=newsCision[id]["content"], sourcee=rssReaderCision.source, pubTime=newsCision[id]["published"]))
-    session.query(Sources).filter(Sources.title == "Cision").update({"publicizedCount": Sources.publicizedCount + counter})
-
-    counter = 0
-    newsDI = rssReaderDI.getNews()  # Fetches news from DI
-    if newsDI:  # If not empty
-        for id in newsDI:  # Adds news to the database
-            print("Adding ", id)
-            print(newsDI[id])
-            counter += 1
-            session.add(Articles(id=id, commentCount=0, upvoteCount=0, readCount=0, title=newsDI[id]["title"],
-                                 content=newsDI[id]["content"], sourcee=rssReaderDI.source, pubTime=newsDI[id]["published"]))
-    session.query(Sources).filter(Sources.title == "DI").update({"publicizedCount": Sources.publicizedCount + counter})
-    session.commit()
-
-# Sets the curr user id
-def setUser(userId, username):
-    app.currUserId = userId
-    app.username = username
-
+# Creates the Flask app
 app = Flask(__name__)
 
-# Connects to database
-conn_string = "mysql+pymysql://test:pass@localhost:3306/emilmar?charset=utf8"
-engine = sqlalchemy.create_engine(conn_string)
-
-# Creates models from the database
-Base = automap_base()
-Base.prepare(engine, reflect=True)
-Users = Base.classes.users
-Sources = Base.classes.sources
-Comments = Base.classes.comments
-Articles = Base.classes.articles
-session = Session(engine)  # Used for db-queries
-
-# Variables for keeping track of user
-app.currUserId = 1
-app.username = "l"
-
-# Creates the RSS-reader for Cision
-# Gets the last published article in the database for Cision
-lastArticleCision = session.query(Articles).filter(Articles.sourcee == "Cision").order_by(Articles.pubTime.desc()).first()
-if lastArticleCision != None:
-    lastIdCision = lastArticleCision.id  # The id of the latest article
-else:  # If database is empty a value needs to be assigned to prevent errors
-    lastIdCision = 0
-rssReaderCision = RssReaderCision.RssReaderCision("Cision", "http://news.cision.com/se/ListItems?format=rss", lastIdCision)
-
-# Creates the RSS-reader for DI
-# Gets the last published article in the database for Cision
-lastArticleDI = session.query(Articles).filter(Articles.sourcee == "DI").order_by(Articles.pubTime.desc()).first()
-if lastArticleDI != None:
-    lastIdDI = lastArticleDI.id  # The id of the latest article
-else:  # If database is empty a value needs to be assigned to prevent errors
-    lastIdDI = 0
-rssReaderDI = RssReaderDI.RssReaderDI("DI", "https://www.di.se/rss", lastIdDI)
-
-# Adds all new articles
-addNews()
+# Creates the model that contains RSS readers to update news articles as well as the database connection and database models
+model = Model.Model()
 
 # Routes to start page
 @app.route("/", methods = ['GET', 'POST'])
@@ -95,10 +25,10 @@ def login():
     name = payload["user"]
     password = payload["pass"]
     hash_pass = generate_password_hash(password) # SHA256 hashing (not used)
-    query = session.query(Users).filter(Users.username == name, Users.passw == password)
+    query = model.session.query(model.Users).filter(model.Users.username == name, model.Users.passw == password)
     try:
         results = query.one() # Make call to DB
-        setUser(results.id, name)  # Raises AttributeError if not found. Updates user id
+        model.setUser(results.id, name)  # Raises AttributeError if not found. Updates user id
         return "ok"
     except AttributeError as e:
         print("AttributeError i /login: ", e)
@@ -110,10 +40,10 @@ def login():
 # Routes to the news page
 @app.route("/news", methods=["GET"])
 def news():
-    addNews()  # Adds new articles
+    # addNews()  # Adds new articles
 
     newsList = []  # List of news articles to pass to the news page
-    query = session.query(Articles).order_by(Articles.pubTime.desc()).limit(20)  # 20 latest news stories
+    query = model.session.query(model.Articles).order_by(model.Articles.pubTime.desc()).limit(20)  # 20 latest news stories
     news = query.all()
     for article in news:  # Adds all news articles to the list
         newsList.append({"commentCount": article.commentCount, "upvoteCount": article.upvoteCount,
@@ -130,9 +60,9 @@ def upvote():
         articleId = payload["articleId"]
 
         # Increments the upvote count of the article and the user by 1
-        session.query(Articles).filter(Articles.id == articleId).update({"upvoteCount": Articles.upvoteCount + 1})
-        session.query(Users).filter(Users.id == app.currUserId).update({"upvoteCount": Users.upvoteCount + 1})
-        session.commit()
+        model.session.query(model.Articles).filter(model.Articles.id == articleId).update({"upvoteCount": model.Articles.upvoteCount + 1})
+        model.session.query(model.Users).filter(model.Users.id == model.currUserId).update({"upvoteCount": model.Users.upvoteCount + 1})
+        model.session.commit()
 
         return "ok"
     except Exception as e:
@@ -148,13 +78,13 @@ def comment():
         articleId = payload["articleId"]
 
         # Inserts the comment into the database
-        session.add(Comments(uid=app.currUserId, pubTime=datetime.datetime.now(), upvoteCount=0, content=commentText, username=app.currUserId,
+        model.session.add(model.Comments(uid=model.currUserId, pubTime=datetime.datetime.now(), upvoteCount=0, content=commentText, username=model.currUserId,
                              article=articleId))
 
         # Increments the comment count of the article and the user
-        session.query(Articles).filter(Articles.id == articleId).update({"commentCount" : Articles.commentCount + 1})
-        session.query(Users).filter(Users.id == app.currUserId).update({"commentCount" : Users.commentCount + 1})
-        session.commit()
+        model.session.query(model.Articles).filter(model.Articles.id == articleId).update({"commentCount" : model.Articles.commentCount + 1})
+        model.session.query(model.Users).filter(model.Users.id == model.currUserId).update({"commentCount" : model.Users.commentCount + 1})
+        model.session.commit()
 
         return "ok"
     except Exception as e:
@@ -168,7 +98,7 @@ def getComments():
     payload = request.get_json()
     print(payload)
     articleId = payload["articleId"]
-    query = session.query(Comments).filter(Comments.article == articleId) # .order_by(Comments.pubTime.desc())
+    query = model.session.query(model.Comments).filter(model.Comments.article == articleId) # .order_by(Comments.pubTime.desc())
     print(query)
     comments = query.all()
     commentList = []
@@ -182,7 +112,7 @@ def getComments():
 # Get user info for the user profile page
 @app.route("/getUserInfo", methods=["GET"])
 def getUserInfo():
-    query = session.query(Users).filter(Users.id == app.currUserId)
+    query = model.session.query(model.Users).filter(model.Users.id == model.currUserId)
     userInfo = query.one()
     userInfoDict = {"id": userInfo.id, "username": userInfo.username, "email": userInfo.email,
                     "commentCount": userInfo.commentCount, "upvoteCount": userInfo.upvoteCount}
@@ -193,7 +123,7 @@ def getUserInfo():
 # Get info about all sources
 @app.route("/getSourcesInfo", methods=["GET"])
 def getSourcesInfo():
-    query = session.query(Sources)
+    query = model.session.query(model.Sources)
     sourcesInfo = query.all()
     sourcesInfoList = []
     if sourcesInfo != None:

@@ -5,6 +5,9 @@
       <option name="ignoredIdentifiers">
         <list>
           <option value="RssReader" />
+          <option value="RssReaderCision" />
+          <option value="RssReaderDI" />
+          <option value="Model" />
         </list>
       </option>
     </inspection_tool>

@@ -68,7 +68,7 @@ const styles = StyleSheet.create({
   titleText:{
     fontSize: 28,
     color: "white",
-    //textAlign: "center",
+    textAlign: "center",
     fontWeight: "bold"
   },
   contentContainer:{

@@ -51,9 +51,12 @@ class Model:
     # Adds news from all RSS readers
     def addNewsAll(self):
         while True:  # Loops once every five minutes
-            self.addNewsSpecific(self.rssReaderCision, "Cision")  # Fetches news from Cision
-            self.addNewsSpecific(self.rssReaderDI, "DI")  # Fetches news from DI
-            self.session.commit()  # Commits to database
+            try:
+                self.addNewsSpecific(self.rssReaderCision, "Cision")  # Fetches news from Cision
+                self.addNewsSpecific(self.rssReaderDI, "DI")  # Fetches news from DI
+                self.session.commit()  # Commits to database
+            except Exception as e:
+                print("Fel i addNewsAll(): ", e)
             time.sleep(300)
 
     # Fetches news from a specific RSS reader and source

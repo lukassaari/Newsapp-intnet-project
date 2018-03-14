@@ -22,3 +22,72 @@ A news app that reads the RSS feeds of different news sources and displays the f
   - Article.js: Displays the whole news article, gives options to comment and upvote it, and to read and upvote comments other users have made
   - UserProfile.js: Displays the username and statistics about their usage of the app
   - SourcesInfo.js: Displays the news sources that news are fetched from, and statistics about their frequency and popularity in the app
+
+## Installation
+
+Software has only been tested on a Windows 10 installation. Clone the repo.
+
+#### 1. npm version downgrade and installing dependancies for npm
+
+npm is assumed to be installed, otherwise go to [npm](https://www.npmjs.com/get-npm) to install it.
+
+React-native requires npm version 4, so run the following command to install the required version.
+
+```bash
+$ npm install -g npm@4
+```
+
+With the correct npm version, navigate to `/rssapp`.
+
+In the terminal, run the following command to install all dependancies
+
+```bash
+$ npm install
+```
+
+
+#### 2. Setting up the mobile phone / emulator
+
+To run the react-native project, you first need to set up a device that can run it. Because of limititations by Apple not allowing `http` an android phone or android emulator is needed. If an Android phone is available, download the Expo app to it.
+
+If an emulator is to be used instead, download e.g. [genymotion](https://www.genymotion.com/fun-zone/), install it and then add a new virtual device (we suggest Google Nexus 5, Android 5.1.0, 1920x1080). Start the virtual device.
+
+#### 3. Prepare the database
+
+*A MySQL installation is assumed*. Navigate to `\Backend` and execute `dbTables.sql` in either MySQL-cli or workbench to load the neccessary tables. 
+
+#### 4. Starting the server
+
+Navigate to `/Backend` and run
+
+```bash
+$ pip install -r requirements
+```
+
+```bash
+$ py Controller.py
+```
+
+The server will start by loading in the articles to the database and then listen to port 5000 for incoming connections.
+
+#### 5. Running the software
+
+Ensure you have a running emulator of an Android phone. Navigate to `/rssapp`.
+
+```bash
+$ npm start
+```
+
+Wait for a barcode to be displayed. Then do one of 5.1 or 5.2.
+
+##### 5.1 Using a phone
+
+Start the expo app and scan the barcode that is displayed in the terminal running the application
+
+##### 5.2 Using an emulator
+
+Press `a` in the terminal and the emulator will load the react-native app.
+
+#### 6. Play around
+
+Create your own account details or use the pre-existing username: 'e', password: 'e' to enter the app and start playing around.

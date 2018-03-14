@@ -9,7 +9,7 @@ from flask_socketio import send, emit # pip install eventlet
 # Creates the Flask app
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'secret!'
-app.config['DEBUG'] = True # same function as argument in run
+#app.config['DEBUG'] = True # same function as argument in run
 
 # Creates the model that contains RSS readers to update news articles as well as the database connection and database models
 model = Model.Model()

@@ -114,9 +114,10 @@ class News extends Component {
         console.log("Fel i sortNews(), ingen giltig typ hittades")
       }
     })
+    sorted = JSON.parse(JSON.stringify(sorted)) // This has to be done because the object is seen is as the same on the surface
     this.setState({  // Updats data source with the sorted array
       dataSource: sorted
-    })
+    });
   }
 
   constructor(props){
@@ -154,13 +155,13 @@ class News extends Component {
         <View style={styles.sortView}>
           <Text style={styles.buttonText}>   Sortera efter:</Text>
           <View style={styles.sortAltView}>
-            <TouchableOpacity style={styles.sortButton} onPress = {() => {this.sortNews(articles, "time")}}>
+            <TouchableOpacity style={styles.sortButton} onPress = {() => {this.sortNews(this.state.dataSource, "time")}}>
               <Text style={styles.buttonText}>Senast</Text>
             </TouchableOpacity>
-            <TouchableOpacity style={styles.sortButton} onPress = {() => {this.sortNews(articles, "upvote")}}>
+            <TouchableOpacity style={styles.sortButton} onPress = {() => {this.sortNews(this.state.dataSource, "upvote")}}>
               <Text style={styles.buttonText}>Upvotes</Text>
             </TouchableOpacity>
-            <TouchableOpacity style={styles.largerSortButton} onPress = {() => {this.sortNews(articles, "comment")}}>
+            <TouchableOpacity style={styles.largerSortButton} onPress = {() => {this.sortNews(this.state.dataSource, "comment")}}>
               <Text style={styles.buttonText}>Kommentarer</Text>
             </TouchableOpacity>
           </View>
@@ -168,11 +169,11 @@ class News extends Component {
       </View>
       <ScrollView>
         <View style={styles.scrollContainer}>
-          <List style={styles.listContainer}>
+          <List style={styles.listContainer} id="theList">
             <FlatList
               extraData={this.state.dataSource} // This is the object it watches, if it is recognized as changed the listview will update
               data={this.state.dataSource}
-              keyExtractor={item => item.pubTime}
+              keyExtractor={item => item.id}
               renderItem={({item }) => (
                 <ListItem
                   title={item.title}

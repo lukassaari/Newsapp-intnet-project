@@ -1,7 +1,7 @@
 # intnet18-projekt
 A news app that reads the RSS feeds of different news sources and displays the fetched news stories to the user. The user is able to upvote articles, comment articles, and read the comments other users have made. News stories can be sorted according to time, number of upvotes, or number of comments. Statistics over the frequency and popularity of the used news sources is also tracked and can be displayed in the app.
 
-| Login screen  | Article | Article Screen |
+| Login screen  | Newsfeed screen | Article Screen |
 | ------------- | ------------- | -------------- |
 | <img src="https://gits-15.sys.kth.se/intnet18/emilmar-project/blob/master/ProjectScreenshots/Login.PNG" width="300"> | <img src="https://gits-15.sys.kth.se/intnet18/emilmar-project/blob/master/ProjectScreenshots/Newsfeed.PNG" width="300">  | <img src="https://gits-15.sys.kth.se/intnet18/emilmar-project/blob/master/ProjectScreenshots/Article.PNG" width="300">|
 

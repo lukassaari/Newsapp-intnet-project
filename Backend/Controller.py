@@ -176,7 +176,6 @@ def handleUpvoteComment(message):
 # Returns true if user exists
 @socketio.on('check_db', namespace='/create-account')
 def handle_check_db(message):
-    print('check_Db happened')
     if model.checkUsernameValidity(message['user']):
         send({'status': True})
     else:

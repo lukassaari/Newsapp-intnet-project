@@ -5,6 +5,7 @@
 
 # dependencies
 /node_modules
+/__pycache__
 
 # misc
 .env.local

@@ -119,14 +119,17 @@ def getSourcesInfo():
 
     return sourcesInfoJson
 
-# Update read count for given article, can be extended
-@app.route("/articles/<id>/read-count", methods=["PUT"])
-def updateReadCount(id):
+# Update read count for given article and its source
+@app.route("/articles/<articleID>/read-count", methods=["PUT"])
+def updateReadCount(articleID):
     try:
-        model.session.query(model.Articles).filter(model.Articles.id == id).update({"readCount" : model.Articles.readCount + 1}) # Increase readcount
+        model.session.query(model.Articles).filter(model.Articles.id == articleID).update({"readCount" : model.Articles.readCount + 1}) # Increase readcount
+        sourceID = model.session.query(model.Articles).filter(model.Articles.id == articleID).one().sourcee
+        model.session.query(model.Sources).filter(model.Sources.title == sourceID).update({"readCount" : model.Sources.readCount + 1}) # Increase readcount for source
         model.session.commit()
         return "Ok"
-    except Exception: # In unable to find ID; return 404 not found
+    except Exception as e: # In unable to find ID; return 404 not found
+        print("Error when increasing read count: ", e)
         abort(404)
 
 

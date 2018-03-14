@@ -1,6 +1,7 @@
 use emilmar; # Byt till eget användarnamn
 
 # Om det finns en tidigare databas
+drop trigger if exists readCount;
 drop table if exists comments cascade;
 drop table if exists articles cascade;
 drop table if exists sources cascade;

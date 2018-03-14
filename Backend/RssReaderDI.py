@@ -1,4 +1,5 @@
 import feedparser
+from hashlib import md5
 from time import mktime
 from datetime import datetime
 
@@ -20,7 +21,7 @@ class RssReaderDI:
         try:
             self.feed = feedparser.parse(self.url)
             for article in self.feed.entries:
-                id = article["id"]
+                id = md5(article["id"].encode("utf-8")).hexdigest() # Create a hex digest which is URL safe of the article URL.
                 if id == self.latestNewsId:  # Reached a news article that's already in the database
                     break
                 articles[id] = {}

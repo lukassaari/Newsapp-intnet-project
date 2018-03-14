@@ -85,9 +85,7 @@ class News extends Component {
 
   // Tells the server the user selected an article so its viewcount gets updated
   updateReadCount = (id) => {
-    console.log('yo');
     // Calls the backend with article id in its route
-    console.log("articles/" + id + "/read-count");
     fetch("http://10.0.3.2:5000/articles/" + id + "/read-count", {
         method: "put",
         headers:{

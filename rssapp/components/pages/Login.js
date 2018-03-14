@@ -24,7 +24,7 @@ class Login extends Component {
         },
     })
     .then((response) => { // Parse the response and then move to next page
-      const resetAction = NavigationActions.reset({
+      const resetAction = NavigationActions.reset({ // Function to navigate to next page and remove view stack (thus disabling back button)
         index: 0,
         actions: [
           NavigationActions.navigate({routeName: targetRoute, params: {news: response}}),

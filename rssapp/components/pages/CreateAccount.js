@@ -3,7 +3,12 @@ import { View, Text, Image, StyleSheet,KeyboardAvoidingView, StatusBar, Touchabl
 import { NavigationActions } from 'react-navigation';
 import io from 'socket.io-client';
 
-// create a component
+/*
+* 	The create account class shows a UI with text fields to add relevant userinformation
+*	It keeps a socket session with the server to dynamically give feedback on username
+*	Whenever a username letter is changed, it fires a legibility check event to the server
+*	To piggybank on the connection, the create user command is also on the Websocket traffic.
+*/
 class CreateAccount extends Component {
 
   	static navigationOptions = {
@@ -27,13 +32,8 @@ class CreateAccount extends Component {
   			pingInterval: 10000
 		});
 
-  	// Listener that fires on connect
-		this.socket.on('connect', () => {
-			console.log("Connected to socket");
-		})
-
-		// Message if user is in database or not
-		// True means user is in database
+		// Message if user is in database or not, true => user is in database
+		// Changes the colour of the username field depending on the result
 		this.socket.on('message', (response) => {
 			let status = response['status']; // Extract response payload
 			if (status == true) { // User exists in database
@@ -45,16 +45,19 @@ class CreateAccount extends Component {
 			}
 		})
 
+		// Server response after trying to add user to database
+		// Displays a temporary label to the user with information about the outcome
 		this.socket.on('add_user', (response) => {
 			if (response['status']) { // Success
+				// Add nice label
 				alert('User successfully added');
 			} else { // Fail
+				// Add evil label
 				alert('Failed to add user');
 			}
 		})
 
-	    // NEVER USED RIGHT NOW? Good for debug
-			// On connect error
+		// On connect error
 	    this.socket.on('connect_error', (err) => {
 	      	console.log(err)
 	    })

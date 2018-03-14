@@ -48,7 +48,6 @@ def login():
 @app.route("/news", methods=["GET"])
 def news():
     # addNews()  # Adds new articles
-
     newsList = []  # List of news articles to pass to the news page
     query = model.session.query(model.Articles).order_by(model.Articles.pubTime.desc()).limit(20)  # 20 latest news stories
     news = query.all()
@@ -57,6 +56,7 @@ def news():
                          "readCount": article.readCount, "title": article.title, "content": article.content,
                          "source": article.sourcee, "pubTime": article.pubTime, "id": article.id})
     newsListJson = jsonify({'articles': newsList})
+    model.session.commit() # Make sure it is up to date
     return newsListJson
 
 # Upvotes a specified article

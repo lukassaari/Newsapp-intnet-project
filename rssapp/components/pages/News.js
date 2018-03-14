@@ -14,6 +14,34 @@ class News extends Component {
     title: 'Newsfeed'
   };
 
+  componentDidMount() {
+    // Add listener to willFocus to refresh data when user navigates here
+    // Fetches new article data from the server and updates view
+    const didBlurSubscription = this.props.navigation.addListener(
+      'willFocus', payload => {
+        // Fetch new data
+        fetch("http://10.0.3.2:5000/news", {
+            method: "get",
+            headers:{
+                'Accept': 'text/html, application/json',
+                'Content-Type': 'application/json',
+            },
+        })
+        .then((response) => {
+          console.log(response);
+          newData = JSON.parse(response);
+          this.setState({
+            dataSource: ds.cloneWithRows(newData)
+          });
+        })
+      }
+    );
+  }
+
+  componentWillUnmount() {
+    didBlurSubscription.remove();
+  }
+
   // Fetches user profile data and goes to the user profile page
   profile = () => {
 
@@ -33,6 +61,7 @@ class News extends Component {
         upvoteGivenCount = userInfo.upvoteGivenCount
         upvoteReceivedCount = userInfo.upvoteReceivedCount
 
+        // Navigates with the data as payload
         this.props.navigation.navigate("UserProfile", {"username": username,
           "email": email, "upvoteGivenCount": upvoteGivenCount,
           "upvoteReceivedCount": upvoteReceivedCount, "commentCount": commentCount}
@@ -166,6 +195,7 @@ class News extends Component {
           <List style={styles.listContainer}>
             <ListView
               dataSource = {this.state.dataSource}  // Fills the data source with the articles
+              extraData={this.state.dataSource}
               renderRow={this._renderRow.bind(this)}  // Renders the articles
             />
           </List>

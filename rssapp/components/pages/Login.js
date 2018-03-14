@@ -72,7 +72,7 @@ class Login extends Component {
     return (
     <KeyboardAvoidingView behavior="padding" style={styles.container}>
       <View style={styles.loginContainer}>
-        <Image resizeMode="contain" style={styles.logo} source={require('../images/logo-dark-bg.png')} />
+        <Image resizeMode="contain" style={styles.logo} source={require('../images/company_logo.png')} />
       </View>
       <View>
         <View style={styles.containerInner}>

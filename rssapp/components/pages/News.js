@@ -1,11 +1,8 @@
 // Template from https://react-native-training.github.io/react-native-elements/docs/0.19.0/lists.html#listitem-implemented-with-custom-view-for-subtitle
 import React, { Component } from 'react';
-import { ScrollView, StyleSheet, TouchableOpacity, Text, View, ListView, RefreshControl } from "react-native";
+import { ScrollView, StyleSheet, TouchableOpacity, Text, View, RefreshControl, FlatList } from "react-native";
 import { List, ListItem, Icon } from 'react-native-elements';
 import { NavigationActions } from 'react-navigation';
-
-// Data source used for listing articles in the newsfeed
-let ds = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 } );
 
 class News extends Component {
 
@@ -28,15 +25,15 @@ class News extends Component {
             },
         })
         .then((response) => {
-          console.log(response);
-          newData = JSON.parse(response);
+          newData = JSON.parse(response._bodyText)['articles']; // Parse response body to JSON then extract articles key
           this.setState({
-            dataSource: ds.cloneWithRows(newData)
+            dataSource: newData
           });
         })
       }
     );
   }
+
 
   componentWillUnmount() {
     didBlurSubscription.remove();
@@ -86,6 +83,7 @@ class News extends Component {
     })
   }
 
+
   // Sorts the newsfeed by the specified parameter "type"
   sortNews(articles, type){
     sorted = articles.sort(function(a,b){  // Sorting the array
@@ -106,48 +104,15 @@ class News extends Component {
       }
     })
     this.setState({  // Updats data source with the sorted array
-      dataSource: ds.cloneWithRows(sorted)
+      dataSource: sorted
     })
-  }
-
-  // Renders all the news articles
-  _renderRow(rowData){
-    return (
-      <ListItem
-        title={rowData.title}
-        subtitle={"Publicerad: " + rowData.pubTime + "\nUpvotes: " + rowData.upvoteCount
-                  + " || Kommentarer: " + rowData.commentCount + " || Källa: " + rowData.source}
-        subtitleNumberOfLines = {2}  // Subtitle is given two lines of space
-        titleStyle={{color: 'white'}}
-        subtitleStyle={{color: 'white'}}
-        containerStyle={{backgroundColor: '#2c3e50'}}
-
-        // When the article is pressed, move the user to the article specific page and display the article
-        onPress={() => this.props.navigation.navigate("Article", {title: rowData.title, content: rowData.content, id: rowData.id, source: rowData.source})}
-      />
-    );
-  }
-
-  // Refreshes the page by looking for new articles to fetch
-  // DOESNT WORK, NEVER TRIGGERS
-  _onRefresh() {
-    console.log("REFRESHING2")
-    //this.setState({refreshing: true});
-    console.log("REFRESHING1")
-    //console.log("REFRESHING").then(() => {
-    //  this.setState({refreshing: false});
-    //})
-    console.log("REFRESHING3")
-    //fetchData().then(() => {
-    //this.setState({refreshing: false});
-    //});
   }
 
   constructor(props){
     super(props);
     articles = JSON.parse(this.props.navigation.state.params.news._bodyInit)["articles"];  // Array of articles stored in dicts
     this.state = {
-      dataSource: ds.cloneWithRows(articles),
+      dataSource: articles,
       refreshing: false,
     };
   }
@@ -193,10 +158,24 @@ class News extends Component {
       <ScrollView>
         <View style={styles.scrollContainer}>
           <List style={styles.listContainer}>
-            <ListView
-              dataSource = {this.state.dataSource}  // Fills the data source with the articles
-              extraData={this.state.dataSource}
-              renderRow={this._renderRow.bind(this)}  // Renders the articles
+            <FlatList
+              extraData={this.state.dataSource} // This is the object it watches, if it is recognized as changed the listview will update
+              data={this.state.dataSource}
+              keyExtractor={item => item.pubTime}
+              renderItem={({item }) => (
+                <ListItem
+                  title={item.title}
+                  subtitle={"Publicerad: " + item.pubTime + "\nUpvotes: " + item.upvoteCount
+                            + " || Kommentarer: " + item.commentCount + " || Källa: " + item.source}
+                  subtitleNumberOfLines = {2}  // Subtitle is given two lines of space
+                  titleStyle={{color: 'white'}}
+                  subtitleStyle={{color: 'white'}}
+                  containerStyle={{backgroundColor: '#2c3e50'}}
+
+                  // When the article is pressed, move the user to the article specific page and display the article
+                  onPress={() => this.props.navigation.navigate("Article", {title: item.title, content: item.content, id: item.id, source: item.source})}
+                />
+              )}
             />
           </List>
         </View>

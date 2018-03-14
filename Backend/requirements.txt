@@ -1,0 +1,7 @@
+Flask_SocketIO==2.9.6
+feedparser==5.2.1
+Flask==0.12.2
+SQLAlchemy==1.2.4
+eventlet==0.22.1
+pymysql==0.8.0
+pyOpenSSL==17.5.0

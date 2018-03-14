@@ -26,7 +26,7 @@ class CreateAccount extends Component {
  			userready: false // Bool for username originality
   		};
 
-    	this.socket = io('http://10.0.3.2:5000', { // According to some SO thread.
+    	this.socket = io('http://10.0.3.2:5000/create-account', { // According to some SO thread.
   			transports: ['websocket'],
   			pingTimeout: 30000,
   			pingInterval: 10000

@@ -82,12 +82,12 @@ class Article extends Component {
     super(props);
     this.state = {
       commentText: '', // New comment text box
-      comments: [{username: 'placeholder', commentText: 'pass', pubTime: '33', upvoteCount: '5'}] // Will hold all comments on this article
+      comments: [{username: 'placeholder', commentText: 'pass', pubTime: 'placeholder', upvoteCount: 'placeholder'}] // Will hold all comments on this article
     };
     this.id = this.props.navigation.state.params.id;  // The id of the article
 
     // Create a new persistant socket connection with the server
-    this.socket = io('http://10.0.3.2:5000', {
+    this.socket = io('http://10.0.3.2:5000/article', {
         transports: ['websocket'],
         pingTimeout: 30000,
         pingInterval: 10000

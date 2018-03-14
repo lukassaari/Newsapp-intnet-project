@@ -78,15 +78,12 @@ def upvote():
         print("Fel i /upvote: ", e)
         abort(401)
 
-# Fetches historical comments for a specific article
+# LEGACY:: Fetches historical comments for a specific article
 @app.route("/getComments", methods=["GET"])
 def getComments():
-    print("test")
     payload = request.get_json()
-    print(payload)
     articleId = payload["articleId"]
     query = model.session.query(model.Comments).filter(model.Comments.article == articleId) # .order_by(Comments.pubTime.desc())
-    print(query)
     comments = query.all()
     commentList = []
     if comments != None:  # Only wants to do this if any comments exist
@@ -122,7 +119,7 @@ def getSourcesInfo():
 
     return sourcesInfoJson
 
-# Handle a connect
+# Handle a connect to websocket
 @socketio.on('connect')
 def handle_connect():
     print('Client connected to server')
@@ -133,14 +130,14 @@ def handle_disconnect():
     print('Client disconnected')
 
 # Client requests comments for a specific id
-@socketio.on('get_comments')
+@socketio.on('get_comments', namespace='/article')
 def handle_get_comments(message):
     article_id = message # The message is simply an ID
     commentList = model.retrievComments(article_id) # Call subroutine to fetch comments
     emit('comments', commentList)
 
 # Client wants to add a comment
-@socketio.on('add_comment')
+@socketio.on('add_comment', namespace='/article')
 def handle_add_comment(message):
     commentText = message["commentText"]
     articleId = message["articleId"]
@@ -159,7 +156,7 @@ def handle_add_comment(message):
     emit('comments', commentList, broadcast=True) # Tell all users to update their commentview
 
 # Upvotes a comment
-@socketio.on("upvoteComment")
+@socketio.on("upvoteComment", namespace='/article')
 def handleUpvoteComment(message):
     commentId = message["commentId"]
     commentUid = message["uid"]
@@ -177,15 +174,16 @@ def handleUpvoteComment(message):
 
 # Check if user is in database
 # Returns true if user exists
-@socketio.on('check_db')
+@socketio.on('check_db', namespace='/create-account')
 def handle_check_db(message):
+    print('check_Db happened')
     if model.checkUsernameValidity(message['user']):
         send({'status': True})
     else:
         send({'status': False})
 
 # Add a new account to the database
-@socketio.on('create_account')
+@socketio.on('create_account', namespace='/create-account')
 def handle_create_account(message):
     username = message['user']
     password = message['pass']
@@ -204,7 +202,7 @@ def handle_create_account(message):
 # Handle general messages
 @socketio.on('message')
 def handle_message(message):
-    print("this is a general message")
+    print("This is a general message")
     print(message)
 
 if __name__ == "__main__":

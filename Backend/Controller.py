@@ -209,5 +209,3 @@ def handle_message(message):
 
 if __name__ == "__main__":
     socketio.run(app, port=5000)
-    #app.run(debug=True)
-    #socketio.run(app, port=5000)

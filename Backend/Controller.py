@@ -119,6 +119,17 @@ def getSourcesInfo():
 
     return sourcesInfoJson
 
+# Update read count for given article, can be extended
+@app.route("/articles/<id>/read-count", methods=["PUT"])
+def updateReadCount(id):
+    try:
+        model.session.query(model.Articles).filter(model.Articles.id == id).update({"readCount" : model.Articles.readCount + 1}) # Increase readcount
+        model.session.commit()
+        return "Ok"
+    except Exception: # In unable to find ID; return 404 not found
+        abort(404)
+
+
 # Handle a connect to websocket
 @socketio.on('connect')
 def handle_connect():

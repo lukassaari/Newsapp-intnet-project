@@ -83,6 +83,19 @@ class News extends Component {
     })
   }
 
+  // Tells the server the user selected an article so its viewcount gets updated
+  updateReadCount = (id) => {
+    console.log('yo');
+    // Calls the backend with article id in its route
+    console.log("articles/" + id + "/read-count");
+    fetch("http://10.0.3.2:5000/articles/" + id + "/read-count", {
+        method: "put",
+        headers:{
+            'Accept': 'text/html, application/json',
+            'Content-Type': 'application/json',
+        }
+    })
+  }
 
   // Sorts the newsfeed by the specified parameter "type"
   sortNews(articles, type){
@@ -173,7 +186,9 @@ class News extends Component {
                   containerStyle={{backgroundColor: '#2c3e50'}}
 
                   // When the article is pressed, move the user to the article specific page and display the article
-                  onPress={() => this.props.navigation.navigate("Article", {title: item.title, content: item.content, id: item.id, source: item.source})}
+                  onPress={() => {
+                    {this.updateReadCount(item.id)};
+                    this.props.navigation.navigate("Article", {title: item.title, content: item.content, id: item.id, source: item.source})}}
                 />
               )}
             />

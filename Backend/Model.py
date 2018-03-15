@@ -31,7 +31,7 @@ class Model:
         self.rssReaderCision = self.createRssReader("Cision", "http://news.cision.com/se/ListItems?format=rss")
         self.rssReaderDI = self.createRssReader("DI", "https://www.di.se/rss")
 
-        # Creates a thread that fetches news once every five minutes
+        # Creates a thread that fetches news once every ten minutes
         self.updateNewsThread = threading.Thread(target=self.addNewsAll)
         self.updateNewsThread.start()
 
@@ -50,7 +50,7 @@ class Model:
 
     # Adds news from all RSS readers
     def addNewsAll(self):
-        while True:  # Loops once every five minutes
+        while True:  # Loops once every ten minutes
             print("Kör addNewsAll()")
             try:
                 self.addNewsSpecific(self.rssReaderCision, "Cision")  # Fetches news from Cision
@@ -58,7 +58,7 @@ class Model:
                 self.session.commit()  # Commits to database
             except Exception as e:
                 print("Fel i addNewsAll(): ", e)
-            time.sleep(300)
+            time.sleep(600)
 
     # Fetches news from a specific RSS reader and source
     def addNewsSpecific(self, rssReader, source):

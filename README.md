@@ -14,8 +14,8 @@ A news app that reads the RSS feeds of different news sources and displays the f
   - dbTables.sql: Creates the tables of the database and inserts two initial users as well as the used news sources
 
 
-## Frontend (React Native) 
-#### - Images used are stored in components/images and pages to be rendered are stored in components/pages. Description of the pages:
+## Frontend (React Native)
+#### Images used are stored in components/images and pages to be rendered are stored in components/pages. Description of the pages:
   - Login.js: Gives the user the options to either create a new account or login using an existing account
   - CreateAccount.js: For creating a new account, checks to make sure the username is unique
   - News.js: Displays a list of news titles that are clickable to move to a page displaying the whole story, presents options to go to the profile page and the source statistics page, and options to sort news stories by time, number of upvotes, or number of comments
@@ -54,7 +54,7 @@ If an emulator is to be used instead, download e.g. [genymotion](https://www.gen
 
 #### 3. Prepare the database
 
-*A MySQL installation is assumed*. Navigate to `\Backend` and execute `dbTables.sql` in either MySQL-cli or workbench to load the neccessary tables. 
+*A MySQL installation is assumed*. Navigate to `\Backend` and execute `dbTables.sql` in either MySQL-cli or workbench to load the neccessary tables.
 
 #### 4. Starting the server
 

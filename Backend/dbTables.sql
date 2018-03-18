@@ -25,7 +25,7 @@ email varchar(255),
 commentCount int,
 upvoteGivenCount int,
 upvoteReceivedCount int,
-passw char(128)
+passw varchar(128)
 )
 CHARACTER SET utf8
 COLLATE utf8_general_ci;
@@ -58,7 +58,7 @@ FOREIGN KEY (article) references articles(id)
 CHARACTER SET utf8
 COLLATE utf8_general_ci;
 
-insert into users values (null, 'e', 'emilmar@kth.se', 0, 0, 0, '3F79BB7B435B05321651DAEFD374CDC681DC06FAA65E374E38337B88CA046DEA');
-insert into users values (null, '1', 'lsaari@kth.se', 0, 0, 0, 'D4735E3A265E16EEE03F59718B9B5D03019C07D8B6C51F90DA3A666EEC13AB35');
+insert into users values (null, 'e', 'emilmar@kth.se', 0, 0, 0, '$2b$12$MAyUN4rtBVZtAkUmpQjU7eeil9eZrWZdwPQWqCh10fwh/Rq59Gffa');
+insert into users values (null, '1', 'lsaari@kth.se', 0, 0, 0, '$2b$12$2S3jwnSBwL9FEiNqyzKsye6n7BWanOs4k3s.pKzjN80BRnsSHK3uS');
 insert into sources values ('Cision', 0, 0, 0, 0);
 insert into sources values ('DI', 0, 0, 0, 0);

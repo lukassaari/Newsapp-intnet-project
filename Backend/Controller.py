@@ -2,7 +2,8 @@ from flask import Flask, request, render_template, abort, jsonify
 import json
 import datetime
 import Model
-import hashlib
+import bcrypt
+import sys
 from flask_socketio import SocketIO # pip install flask-socketio
 from flask_socketio import send, emit # pip install eventlet
 
@@ -26,23 +27,27 @@ def index():
     return json_response
 
 # Attemps to perform a login
+# Password is retrieved from the database and then compared using a built in bcrypt function
 @app.route("/login", methods=['GET', 'POST'])
 def login():
     payload = request.get_json() # convert to JSON (only works with application/json header set)
     name = payload["user"]
     password = payload["pass"]
-    hash_pass = hashlib.sha256(password.encode("utf-8")).hexdigest() # SHA256 hashing 
-    query = model.session.query(model.Users).filter(model.Users.username == name, model.Users.passw == hash_pass)
+    query = model.session.query(model.Users).filter(model.Users.username == name)
     try:
         results = query.one() # Make call to DB
-        model.setUser(results.id, name)  # Raises AttributeError if not found. Updates user id
-        return "ok"
+        stored_password_hash = results.passw
+        if bcrypt.checkpw(password.encode("utf-8"), stored_password_hash.encode("utf-8")):
+            model.setUser(results.id, name)  # Raises AttributeError if not found. Updates user id
+            return "ok"
+        else:
+            abort(401)
     except AttributeError as e:
         print("AttributeError i /login: ", e)
         abort(401) # Unauthorized if user data was not found
     except Exception as e: # Unable to import correct exception, so catch all is used for sqlalchemy errors
         print("Fel i /login: ", e)
-        abort(401) # Unauthorized if
+        abort(401) # Unauthorized
 
 # Routes to the news page
 @app.route("/news", methods=["GET"])
@@ -202,11 +207,13 @@ def handle_check_db(message):
         send({'status': False})
 
 # Add a new account to the database
+# Account passwords are secured using the bcrypt hashing algorithm with salt added.
+# The salt is incorporated into the hash and thus need not be stored separately
 @socketio.on('create_account', namespace='/create-account')
 def handle_create_account(message):
     username = message['user']
     password = message['pass']
-    password = hashlib.sha256(password.encode("utf-8")).hexdigest() # SHA256 hashing
+    password = bcrypt.hashpw(password.encode("utf-8"), bcrypt.gensalt()) # SHA256 hashing
     email = message['email']
     if model.checkUsernameValidity(username): # In case client checks have not been properly done and user is in db
         emit('add_user', {'status': False}) 

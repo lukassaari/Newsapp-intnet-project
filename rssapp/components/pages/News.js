@@ -87,7 +87,7 @@ class News extends Component {
   updateReadCount = (id) => {
     // Calls the backend with article id in its route
     fetch("http://10.0.3.2:5000/articles/" + id + "/read-count", {
-        method: "put",
+        method: "patch", // Patch is used because it is updating the value, see https://en.wikipedia.org/wiki/Representational_state_transfer#Relationship_between_URL_and_HTTP_methods
         headers:{
             'Accept': 'text/html, application/json',
             'Content-Type': 'application/json',

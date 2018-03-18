@@ -54,8 +54,8 @@ class Article extends Component {
       const {id} = this.props.navigation.state.params  // The id of the article
       const {source} = this.props.navigation.state.params  // The source of the article
 
-      fetch("http://10.0.3.2:5000/upvote", {
-          method: "post",
+      fetch("http://10.0.3.2:5000/articles/" + id + "/upvote", {
+          method: "patch",
           headers:{
               'Accept': 'text/html, application/json',
               'Content-Type': 'application/json',
@@ -72,9 +72,16 @@ class Article extends Component {
     this.socket.emit('get_comments', this.id);
   }
 
-  // Routine to update state property with latest comments (this also updates the listview)
-  refreshView = (response) => {
+  // Add all comments to the view
+  addAllComments = (response) => {
     let comments = response;
+    this.setState({comments});
+  }
+
+  // Add a single comment to the view
+  addComment = (response) => {
+    let comments = JSON.parse(JSON.stringify(this.state.comments)) // This has to be done because the object is seen is as the same on the surface
+    comments.unshift(response); // Add to first in array
     this.setState({comments}); // Add comments to the state
   }
 
@@ -99,9 +106,14 @@ class Article extends Component {
       {this.refreshComments()};
     })
 
-    // Server sends a list of comments
-    this.socket.on('comments', (response) => {
-        {this.refreshView(response)};
+    // Server sends a new comment
+    this.socket.on('new_comment', (response) => {
+        {this.addComment(response)};
+    })
+
+    // Server sends all comments
+    this.socket.on("all_comments", (response) => {
+        {this.addAllComments(response)};
     })
 
     // On connect error

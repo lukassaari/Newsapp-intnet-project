@@ -59,25 +59,6 @@ def news():
     model.session.commit() # Make sure it is up to date
     return newsListJson
 
-# Upvotes a specified article
-@app.route("/upvote", methods=["POST"])
-def upvote():
-    try:
-        payload = request.get_json()  # convert to JSON (only works with application/json header set)
-        articleId = payload["articleId"]
-        source = payload["source"]
-
-        # Increments the upvote count of the source, article, and user by 1
-        model.session.query(model.Sources).filter(model.Sources.title == source).update({"upvoteCount": model.Sources.upvoteCount + 1})
-        model.session.query(model.Articles).filter(model.Articles.id == articleId).update({"upvoteCount": model.Articles.upvoteCount + 1})
-        model.session.query(model.Users).filter(model.Users.id == model.currUserId).update({"upvoteGivenCount": model.Users.upvoteGivenCount + 1})
-        model.session.commit()
-
-        return "ok"
-    except Exception as e:
-        print("Fel i /upvote: ", e)
-        abort(401)
-
 # LEGACY:: Fetches historical comments for a specific article
 @app.route("/getComments", methods=["GET"])
 def getComments():
@@ -120,7 +101,7 @@ def getSourcesInfo():
     return sourcesInfoJson
 
 # Update read count for given article and its source
-@app.route("/articles/<articleID>/read-count", methods=["PUT"])
+@app.route("/articles/<articleID>/read-count", methods=["PATCH"])
 def updateReadCount(articleID):
     try:
         model.session.query(model.Articles).filter(model.Articles.id == articleID).update({"readCount" : model.Articles.readCount + 1}) # Increase readcount
@@ -132,6 +113,23 @@ def updateReadCount(articleID):
         print("Error when increasing read count: ", e)
         abort(404)
 
+# Upvotes a specified article
+@app.route("/articles/<articleID>/upvote", methods=["PATCH"])
+def upvote(articleID):
+    try:
+        payload = request.get_json()  # convert to JSON (only works with application/json header set)
+        source = payload["source"]
+
+        # Increments the upvote count of the source, article, and user by 1
+        model.session.query(model.Sources).filter(model.Sources.title == source).update({"upvoteCount": model.Sources.upvoteCount + 1})
+        model.session.query(model.Articles).filter(model.Articles.id == articleID).update({"upvoteCount": model.Articles.upvoteCount + 1})
+        model.session.query(model.Users).filter(model.Users.id == model.currUserId).update({"upvoteGivenCount": model.Users.upvoteGivenCount + 1})
+        model.session.commit()
+
+        return "ok"
+    except Exception as e:
+        print("Fel i /upvote: ", e)
+        abort(401)
 
 # Handle a connect to websocket
 @socketio.on('connect')
@@ -148,7 +146,7 @@ def handle_disconnect():
 def handle_get_comments(message):
     article_id = message # The message is simply an ID
     commentList = model.retrievComments(article_id) # Call subroutine to fetch comments
-    emit('comments', commentList)
+    emit('all_comments', commentList)
 
 # Client wants to add a comment
 @socketio.on('add_comment', namespace='/article')
@@ -158,7 +156,8 @@ def handle_add_comment(message):
     source = message["source"]
 
     # Inserts the comment into the database
-    model.session.add(model.Comments(uid=model.currUserId, pubTime=datetime.datetime.now(), upvoteCount=0,
+    time_added = datetime.datetime.now() # will be unique per user
+    model.session.add(model.Comments(uid=model.currUserId, pubTime=time_added, upvoteCount=0,
                                      content=commentText, username=model.username, article=articleId))
 
     # Increments the comment count of the article and the user
@@ -166,8 +165,13 @@ def handle_add_comment(message):
     model.session.query(model.Articles).filter(model.Articles.id == articleId).update({"commentCount" : model.Articles.commentCount + 1})
     model.session.query(model.Users).filter(model.Users.id == model.currUserId).update({"commentCount" : model.Users.commentCount + 1})
     model.session.commit()
-    commentList = model.retrievComments(articleId)
-    emit('comments', commentList, broadcast=True) # Tell all users to update their commentview
+    latest_comment = model.session.query(model.Comments).filter(
+        model.Comments.article == articleId,
+        model.Comments.username == model.username).order_by(model.Comments.pubTime.desc()).first()
+
+    new_comment = {"commentText": latest_comment.content, "upvoteCount": latest_comment.upvoteCount, "pubTime": latest_comment.pubTime.__str__(),
+                                    "username": latest_comment.username, "id": latest_comment.id, "uid": latest_comment.uid, "article": latest_comment.article}
+    emit('new_comment', new_comment, broadcast=True) # Tell all users to update their commentview (in current namespace)
 
 # Upvotes a comment
 @socketio.on("upvoteComment", namespace='/article')

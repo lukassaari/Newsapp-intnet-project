@@ -46,7 +46,7 @@ class Article extends Component {
 
     // Upvotes a comment through sockets
     upvoteComment(commentId, uid, articleId){
-      this.socket.emit("upvoteComment", {commentId: commentId, uid: uid, articleId: articleId})
+      this.socket.emit("upvote_comment", {commentId: commentId, uid: uid, articleId: articleId})
     }
 
     // Calls the backend to perform the logic associated with upvoting an article
@@ -85,6 +85,18 @@ class Article extends Component {
     this.setState({comments}); // Add comments to the state
   }
 
+  modifyComment = (response) => {
+    let comments = JSON.parse(JSON.stringify(this.state.comments)) // Copy and mutate the object
+    // Find the comment that got changed and update it
+    for (var i = 0; i < comments.length; i++) {
+      if (comments[i].id === response.id) {
+        comments[i] = response;
+      }
+    }
+    this.setState({comments}); // Add comments to the state
+  }
+
+
   constructor(props) {
     super(props);
     this.state = {
@@ -114,6 +126,11 @@ class Article extends Component {
     // Server sends all comments
     this.socket.on("all_comments", (response) => {
         {this.addAllComments(response)};
+    })
+
+    // Server sends a change in comments
+    this.socket.on("comment_changed", (response) => {
+      {this.modifyComment(response)};
     })
 
     // On connect error

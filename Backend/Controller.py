@@ -174,7 +174,7 @@ def handle_add_comment(message):
     emit('new_comment', new_comment, broadcast=True) # Tell all users to update their commentview (in current namespace)
 
 # Upvotes a comment
-@socketio.on("upvoteComment", namespace='/article')
+@socketio.on("upvote_comment", namespace='/article')
 def handleUpvoteComment(message):
     commentId = message["commentId"]
     commentUid = message["uid"]
@@ -187,8 +187,10 @@ def handleUpvoteComment(message):
     model.session.query(model.Comments).filter(model.Comments.id == commentId).update({"upvoteCount" : model.Comments.upvoteCount + 1})
     model.session.commit()
 
-    commentList = model.retrievComments(articleId)
-    emit('comments', commentList, broadcast=True) # Tell all users to update their commentview
+    upvoted_comment = model.session.query(model.Comments).filter(model.Comments.id == commentId).one()
+    upvoted_comment_dict = {"commentText": upvoted_comment.content, "upvoteCount": upvoted_comment.upvoteCount, "pubTime": upvoted_comment.pubTime.__str__(),
+                                    "username": upvoted_comment.username, "id": upvoted_comment.id, "uid": upvoted_comment.uid, "article": upvoted_comment.article}
+    emit('comment_changed', upvoted_comment_dict, broadcast=True) # Tell all users to update their commentview
 
 # Check if user is in database
 # Returns true if user exists

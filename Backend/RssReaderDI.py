@@ -33,7 +33,7 @@ class RssReaderDI:
                 articles[id]["link"] = article["links"][0]["href"]
                 articles[id]["content"] = article["summary"]
                 articles[id]["published"] = article["published_parsed"]
-            self.latestNewsId = self.feed.entries[0]["id"]  # Updates the latest read article
+            self.latestNewsId = md5(self.feed.entries[0]["id"].encode("utf-8")).hexdigest()  # Updates the latest read article
             return articles
         except Exception as e:
             print("Fel vid hämtning av nyheter: ", e)

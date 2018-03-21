@@ -3,7 +3,7 @@ A news app that reads the RSS feeds of different news sources and displays the f
 
 | Login screen  | Newsfeed screen | Article Screen |
 | ------------- | ------------- | -------------- |
-| <img src="https://gits-15.sys.kth.se/intnet18/emilmar-project/blob/master/ProjectScreenshots/Login.PNG" width="300"> | <img src="https://gits-15.sys.kth.se/intnet18/emilmar-project/blob/master/ProjectScreenshots/Newsfeed.PNG" width="300">  | <img src="https://gits-15.sys.kth.se/intnet18/emilmar-project/blob/master/ProjectScreenshots/Article.PNG" width="300">|
+| <img src="https://github.com/lukassaari/Newsapp-intnet-project/blob/master/ProjectScreenshots/Login.PNG" width="300"> | <img src="https://github.com/lukassaari/Newsapp-intnet-project/blob/master/ProjectScreenshots/Newsfeed.PNG" width="300">  | <img src="https://github.com/lukassaari/Newsapp-intnet-project/blob/master/ProjectScreenshots/Article.PNG" width="300">|
 
 
 ## Backend (Python with Flask):
